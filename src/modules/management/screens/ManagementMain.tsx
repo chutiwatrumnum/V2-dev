@@ -263,7 +263,7 @@ const ManagementMain = () => {
           />
         </div>
         <MediumActionButton
-          disabled={accessibility?.team_team_management.allowAdd ? false : true}
+          disabled={accessibility?.team_team_management?.allowAdd ? false : true}
           className="managementExportBtn"
           message="Add new"
           onClick={onCreate}

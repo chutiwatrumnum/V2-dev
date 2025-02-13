@@ -6,7 +6,6 @@ import {
   ManagementAddDataType,
 } from "../../../../stores/interfaces/Management";
 import { paramsData } from "./paramsAPI";
-import { encryptStorage } from "../../../../utils/encryptStorage";
 import { message } from "antd";
 const getDataManagement = async (params: conditionPage) => {
   let url: string = `/mcst/list?`;
@@ -15,13 +14,11 @@ const getDataManagement = async (params: conditionPage) => {
     url = url + resultparams.paramsstr;
     console.log("url:", url);
   }
-  const token = await encryptStorage.getItem("accessToken");
-  if (token) {
     try {
       const result = await axios.get(url);
       if (result.status === 200) {
-        // console.log(result);
-        const dataManagement = result.data.result.rows;
+        console.log(result.data.result.userList);
+        const dataManagement = result.data.result.userList.rows;
         const arrayDataManagement: ManagementDataType[] = [];
         dataManagement.map((e: any) => {
           const dataMSCT: ManagementDataType = {
@@ -40,7 +37,7 @@ const getDataManagement = async (params: conditionPage) => {
           arrayDataManagement.push(dataMSCT);
         });
         return {
-          total: result.data.result.total,
+          total: result.data.result.userList.total,
           status: true,
           data: arrayDataManagement,
         };
@@ -51,50 +48,39 @@ const getDataManagement = async (params: conditionPage) => {
     } catch (err) {
       console.error("err:", err);
     }
-  } else {
-    console.log("====================================");
-    console.log("token undefilend.....");
-    console.log("====================================");
-  }
+
 };
 const getdataRole = async () => {
-  const token = await encryptStorage.getItem("accessToken");
-  if (token) {
-    try {
-      const data = await axios.get("/mcst/add-juristic/master-data");
-      if (data.status === 200) {
-        const roleList = data.data.result.role;
-        let arrayRole: roleDetail[] = [];
-        roleList.map((e: any) => {
-          const role: roleDetail = {
-            label: e.name,
-            value: e.id,
-          };
-          arrayRole.push(role);
-        });
-        if (arrayRole.length > 0) {
-          return {
-            status: true,
-            data: arrayRole,
-          };
-        } else {
-          return {
-            status: false,
-            data: null,
-          };
-        }
+  try {
+    const data = await axios.get("/mcst/add-juristic/master-data");
+    if (data.status === 200) {
+      const roleList = data.data.result.role;
+      let arrayRole: roleDetail[] = [];
+      roleList.map((e: any) => {
+        const role: roleDetail = {
+          label: e.name,
+          value: e.id,
+        };
+        arrayRole.push(role);
+      });
+      if (arrayRole.length > 0) {
+        return {
+          status: true,
+          data: arrayRole,
+        };
+      } else {
+        return {
+          status: false,
+          data: null,
+        };
       }
-    } catch (error) {
-      console.error(error);
-      return {
-        status: false,
-        data: null,
-      };
     }
-  } else {
-    console.log("====================================");
-    console.log("token undefilend.....");
-    console.log("====================================");
+  } catch (error) {
+    console.error(error);
+    return {
+      status: false,
+      data: null,
+    };
   }
 };
 const deleteManagementId = async (id: string) => {
