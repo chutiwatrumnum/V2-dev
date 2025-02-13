@@ -4,55 +4,58 @@ import {
   Ibooking,
   conditionPage,
   dataItem,
-} from "../../../../stores/interfaces/Facilities";
-import { paramsData } from "./paramsAPI";
+} from "../../../../stores/interface/Facilities";
+import { paramsdata } from "./paramsAPI";
 import { encryptStorage } from "../../../../utils/encryptStorage";
+import { statusSuccess } from "../../../../constant/status_code";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 
 const getdataFacilitieslist = async (params: conditionPage) => {
   let url: string = `facilities/booking-log?`;
-  const resultparams = await paramsData(params);
+  const resultparams = await paramsdata(params);
   if (resultparams.status) {
     url = url + resultparams.paramsstr;
-    console.log("url:", url);
+    // console.log("url:", url);
   }
   const token = await encryptStorage.getItem("accessToken");
   if (token) {
     try {
       const result = await axios.get(url);
-      if (result.status >= 400) {
+
+      if (result.status < 400) {
+        const AllDataFacilies = result.data.result.bookingLog.rows;
+        // console.log(AllDataFacilies);
+        let data: DataType[] = [];
+        await AllDataFacilies.map((e: any, i: number) => {
+          let userdata: DataType = {
+            key: e.id,
+            refBooking: e.refBooking,
+            purpose: e.purpose,
+            joiningDate: e.joinAt ? dayjs(e.joinAt).format("DD/MM/YYYY") : "-",
+            unitNo: e.unit.unitNo,
+            status: e.status,
+            createdAt: dayjs(e.createdAt).format("DD/MM/YYYY"),
+            startEndTime: `${e.startTime}-${e.endTime}`,
+            bookedBy: e.bookingUser,
+            approve: e.approve,
+            reject: e.reject,
+            juristicConfirm: e.juristicConfirm,
+          };
+          data.push(userdata);
+          // console.log(data);
+        });
+
+        return {
+          total: result.data.result.bookingLog.total,
+          status: true,
+          dataValue: data,
+        };
+      } else {
         console.error("status code:", result.status);
         console.error("data error:", result.data);
       }
-      // console.log("data facilitie:",result.data.result.bookingLog);
-      const AllDataFacilies = result.data.result.bookingLog.rows;
-      let data: DataType[] = [];
-      AllDataFacilies.map((e: any, i: number) => {
-        let userdata: DataType = {
-          key: e.id,
-          refBooking: e.refBooking,
-          purpose: e.purpose,
-          joiningDate: e.joinAt ? dayjs(e.joinAt).format("DD/MM/YYYY") : "-",
-          blockNo: e.unit[0].block[0].blockNo,
-          unitNo: e.unit[0].unitNo,
-          status: e.status,
-          createdAt: dayjs(e.createdAt).format("DD/MM/YYYY"),
-          startEndTime: `${e.startTime}-${e.endTime}`,
-          bookedBy: e.bookingUser,
-          approve: e.approve,
-          reject: e.reject,
-          juristicConfirm: e.juristicConfirm,
-        };
-        data.push(userdata);
-      });
-
-      return {
-        total: result.data.result.bookingLog.total,
-        status: true,
-        dataValue: data,
-      };
     } catch (err) {
       console.error("err:", err);
     }
@@ -91,18 +94,20 @@ const dowloadFacilities = async (id: number | null) => {
 
 const deleteFacilitieId = async (id: number) => {
   try {
-    const resultDelete = await axios.delete(`facilities/booking-log/${id}`);
+    const resultDelete = await axios.put(`facilities/booking-log/cancel/${id}`);
+    console.log(resultDelete);
 
-    if (resultDelete.status >= 400) {
+    if (resultDelete.status === statusSuccess) {
+      return {
+        status: true,
+      };
+    } else {
       console.warn("delete", resultDelete);
 
       return {
         status: false,
       };
     }
-    return {
-      status: true,
-    };
   } catch (err) {
     console.error(err);
 
@@ -115,16 +120,17 @@ const deleteFacilitieId = async (id: number) => {
 const ApprovedId = async (data: any) => {
   try {
     const resultPending = await axios.put(`facilities/booking-log`, data);
-    if (resultPending.status >= 400) {
+    if (resultPending.status === statusSuccess) {
+      return {
+        status: true,
+      };
+    } else {
       console.warn("approve", resultPending);
 
       return {
         status: false,
       };
     }
-    return {
-      status: true,
-    };
   } catch (err) {
     console.error(err);
 
@@ -137,35 +143,37 @@ const ApprovedId = async (data: any) => {
 const getFacilitiesList = async () => {
   try {
     const facilitie = await axios.get("facilities/list");
+    // console.log(facilitie);
 
-    if (facilitie.status >= 400) {
+    if (facilitie.status === statusSuccess) {
+      let arrData: dataItem[] = [];
+      facilitie.data.result.map((e: any) => {
+        let data: dataItem = {
+          value: e.id,
+          label: e.name,
+          imageId: e.imageUrl,
+          validDateNumber: e.maxDayCanBook,
+        };
+        arrData.push(data);
+      });
+      return {
+        status: true,
+        data: arrData,
+        firstId: arrData[0].value,
+      };
+    } else {
       return {
         status: false,
         data: null,
-        fristId: null,
+        firstId: null,
       };
     }
-    let data: dataItem;
-    let arrData: dataItem[] = [];
-    facilitie.data.result.map((e: any) => {
-      let data: dataItem = {
-        value: e.id,
-        label: e.name,
-        imageId: e.imageId,
-      };
-      arrData.push(data);
-    });
-    return {
-      status: true,
-      data: arrData,
-      fristId: arrData[0].value,
-    };
   } catch (err) {
     console.error(err);
     return {
       status: false,
       data: null,
-      fristId: null,
+      firstId: null,
     };
   }
 };
@@ -175,40 +183,15 @@ const getFacilitiesBymonth = async (param: any) => {
     const facilitie = await axios.get(
       `/facilities/by-month?facilitiesId=${param?.facilitiesId}&sortBy=${param?.sortBy}`
     );
-    if (facilitie.status < 400 && facilitie.data.result.booking !== undefined) {
-      let data: Ibooking;
-      let arrData: Ibooking[] = [];
-      facilitie.data.result.booking.map((e: any) => {
-        const datehour = dayjs(e?.startTime, "h:mm A").format("H");
-        let data: Ibooking = {
-          unit: e.unit,
-          bookingBy: e.bookingBy,
-          contactNo: e.contactNo,
-        };
-        if (datehour === "16") {
-          arrData[1] = data;
-        } else if (datehour === "9") {
-          arrData[0] = data;
-        }
-      });
-      return {
-        status: true,
-        data: arrData,
-      };
-    } else {
-      return {
-        status: false,
-        data: null,
-        fristId: null,
-      };
+    // console.log("getFacilitiesBymonth => ", facilitie.data.result);
+
+    if (facilitie.status >= 400) {
+      console.error(facilitie);
+      return false;
     }
+    return facilitie.data.result;
   } catch (err) {
-    console.error(err);
-    return {
-      status: false,
-      data: null,
-      fristId: null,
-    };
+    console.error("CATCH => ", err);
   }
 };
 export {

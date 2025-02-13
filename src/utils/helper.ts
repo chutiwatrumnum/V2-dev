@@ -20,8 +20,8 @@ export const ConvertDate = (date = "") => {
     }
     dataSend = {
       date: dateTz.format("YYYY-MM-DD"),
-      dateTime: dateTz.format("YYYY-MM-DD HH:mm"),
-      time: dateTz.format("HH:mm"),
+      dateTime: dateTz.format("YYYY-MM-DD hh:mm A"),
+      time: dateTz.format("hh:mm A"),
       dateTimeUTC: dateTz.utc().format(),
       localTime: tzGuess,
     };

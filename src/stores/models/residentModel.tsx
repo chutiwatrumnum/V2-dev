@@ -1,25 +1,20 @@
 import { createModel } from "@rematch/core";
-import {
-  residentType,
-  conditionPage,
-  rejectRequest,
-} from "../interfaces/ResidentInformation";
+import { residentType, conditionPage, rejectRequest } from '../interface/Resident';
 import { RootModel } from "./index";
-import { getdataresidentlist } from "../../modules/userManagement/service/api/ResidentServiceAPI";
-const filterDataInit: conditionPage = {
+import { getdataresidentlist } from "../../modules/residentInformation/service/api/ResidentServiceAPI";
+const filterDataInit:conditionPage={
   perPage: 0,
   curPage: 0,
   verifyByJuristic: false,
-  reject: false,
-  isActive: false,
-};
+  reject:false
+}
 export const resident = createModel<RootModel>()({
   state: {
     tableData: [],
     loading: false,
     total: 0,
     residentMaxLength: 0,
-    filterData: filterDataInit,
+    filterData:filterDataInit
   } as residentType,
   reducers: {
     updateloadingDataState: (state, payload) => ({
@@ -47,9 +42,8 @@ export const resident = createModel<RootModel>()({
     async getTableData(payload: conditionPage) {
       dispatch.resident.updateloadingDataState(true);
       const data: any = await getdataresidentlist(payload);
-
       if (data?.status) {
-        dispatch.resident.updateTableDataState(data.dataValue);
+        dispatch.resident.updateTableDataState(data.datavlaue);
         dispatch.resident.updatetotalgDataState(data.total);
         dispatch.resident.updateloadingDataState(false);
       } else {

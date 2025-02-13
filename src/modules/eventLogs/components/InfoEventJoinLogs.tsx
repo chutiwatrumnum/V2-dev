@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { Modal, Row, Col } from "antd";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { dataEventJoinLogsByIDType } from '../../../stores/interfaces/EventLog';
+import { dataEventJoinLogsByIDType } from '../../../stores/interface/EventLog';
 
 const rowStyle: object = {
   paddingTop: 2,

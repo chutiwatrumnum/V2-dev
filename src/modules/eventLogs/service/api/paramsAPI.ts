@@ -1,4 +1,4 @@
-import { conditionPage } from '../../../../stores/interfaces/EventLog'
+import { conditionPage } from '../../../../stores/interface/EventLog'
 export const paramsdata = async (condition: conditionPage) => {
   
     let datastr: string = `perPage=${condition.perPage}&curPage=${condition.curPage}`;

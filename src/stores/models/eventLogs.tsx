@@ -1,5 +1,5 @@
 import { createModel } from "@rematch/core";
-import { eventLogType, conditionPage } from "../interfaces/EventLog";
+import { eventLogType, conditionPage } from "../interface/EventLog";
 import { RootModel } from "./index";
 import { getDataEventJoinLogList,getDataEventLogList } from "../../modules/eventLogs/service/api/EventLogsServiceAPI";
 const filterDataInit: conditionPage = {

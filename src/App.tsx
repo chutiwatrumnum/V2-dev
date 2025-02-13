@@ -1,8 +1,9 @@
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { Navigate, Route, Routes, BrowserRouter } from "react-router-dom";
 import { encryptStorage } from "./utils/encryptStorage";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "./stores";
+import { Spin } from "antd";
 
 import "antd/dist/reset.css";
 import "./App.css";
@@ -12,52 +13,56 @@ import UnauthorizedLayout from "./navigation/UnauthorizedLayout";
 import AuthorizedLayout from "./navigation/AuthorizedLayout";
 
 // authorize routes
-import SummaryDashboard from "./modules/summary/screens/Summary";
-import Announcement from "./modules/announcement/screens/Announcement";
-import Emergency from "./modules/emergency/screens/Emergency";
-import NearbyService from "./modules/nearbyService/screens/NearbyService";
-import ServiceDashboard from "./modules/serviceCenter/screens/ServiceDashboard";
-import ServiceCenterLists from "./modules/serviceCenter/screens/ServiceCenterLists";
-import ServiceChat from "./modules/serviceCenter/screens/ServiceChat";
+import AnnouncementMain from "./modules/announcement/screen/AnnouncementMain";
 
-import PeopleCountingMain from "./modules/peopleCounting/screens/PeopleCountingMain";
-import ManagementMain from "./modules/management/screens/ManagementMain";
-import ResidentInformationMain from "./modules/userManagement/screens/ResidentInformationMain";
-import ResidentSignUp from "./modules/userManagement/screens/ResidentSignUp";
+import FacilitiesLogs from "./modules/facilities/components/HeaderFacilitiesLogs";
+import ReserveFacility from "./modules/facilities/screen/ReserveFacility";
+import OurFacilities from "./modules/facilities/screen/OurFacilities";
 
-import ReservedFacilities from "./modules/facilities/screen/ReservedFacilities";
-import ReservationList from "./modules/facilities/screen/ReservationList";
+import ManagementMain from "./modules/management/screen/ManagementMain";
+
+import VisitorManagementLog from "./modules/vistorManagement/screen/VisitorManagementLog";
+
+import ResidentSignUp from "./modules/residentInformation/screen/ResidentSignUp";
+import ResidentInformation from "./modules/residentInformation/screen/ResidentInformationMain";
+
+import PublicFolder from "./modules/documentForms/screen/PublicFolder";
+import PersonalFolder from "./modules/documentForms/screen/PersonalFolder";
 
 import EventLogs from "./modules/eventLogs/screen/EventLogs";
 import EventJoinLogs from "./modules/eventLogs/screen/EventJoinLogs";
 
-import ChangePassword from "./modules/setting/screens/ChangePassword";
-import Profile from "./modules/setting/screens/Profile";
-import AdminManagement from "./modules/setting/screens/AdminManagement";
+// import DeliveryLogs from "./modules/deliveryLogs/screen/deliveryLogs";
+import BuildingCalendar from "./modules/buildingCalendar/screen/BuildingCalendar";
+import BuildingActivities from "./modules/building_activities/screen/BuildingActivities";
+import EventView from "./modules/monitoring/screen/EventView";
+import Summary from "./modules/monitoring/screen/Summary";
 
-import AreaControl from "./modules/powerManagement/screens/AreaControl";
-import DeviceControl from "./modules/powerManagement/screens/DeviceControl";
-
-import ChatRoomScreen from "./modules/chat/screens/ChatRoomScreen";
+// import PeopleCounting from "./modules/facilities/screen/PeopleCounting";
 
 // unauthorize routes
 import SignInScreen from "./modules/main/SignInScreen";
 import RecoveryScreen from "./modules/main/RecoveryScreen";
 import ResetPassword from "./modules/main/ResetPassword";
-import SuccessResetScreen from "./modules/main/SuccessResetScreen";
-import HistoryVisitor from "./modules/HistoryVisitor/screens/historyVisitor";
-import CheckInVisitor from "./modules/HistoryVisitor/screens/checkInVisitor";
-import CheckOutVisitor from "./modules/HistoryVisitor/screens/checkOutVisitor";
+import ResetLandingScreen from "./modules/main/ResetLandingScreen";
+
+// tv slide show
+// import TVSlideShow from "./modules/tv/screens/TVSlideShow";
+
 // components
+import SuccessModal from "./components/common/SuccessModal";
+import ConfirmModal from "./components/common/ConfirmModal";
 
 function App() {
   const dispatch = useDispatch<Dispatch>();
   const { isAuth } = useSelector((state: RootState) => state.userAuth);
+  const { loading } = useSelector((state: RootState) => state.common);
 
   useLayoutEffect(() => {
     (async () => {
       try {
         // Check Access token
+        dispatch.common.updateLoading(true);
         const accessToken = await encryptStorage.getItem("accessToken");
         if (
           accessToken === null ||
@@ -68,79 +73,98 @@ function App() {
         // Check Refresh token
         const resReToken = await dispatch.userAuth.refreshTokenNew();
         if (!resReToken) throw "accessToken expired";
-        await dispatch.common.getRoleAccessToken();
+        // Token pass
         await dispatch.common.getUnitOptions();
+        await dispatch.common.getMasterData();
+        await dispatch.userAuth.refreshUserDataEffects();
+        await dispatch.common.getRoleAccessToken();
         dispatch.userAuth.updateAuthState(true);
+        dispatch.common.updateLoading(false);
         return true;
       } catch (e) {
         dispatch.userAuth.updateAuthState(false);
+        dispatch.common.updateLoading(false);
         return false;
       }
     })();
-  }, []);
+  }, [isAuth]);
 
   return (
     <BrowserRouter>
-      <Routes>
-        {/* unauthorized_route */}
-        <Route element={<UnauthorizedLayout />}>
-          <Route index path="/auth" element={<SignInScreen />} />
-          <Route path="/recovery" element={<RecoveryScreen />} />
-          <Route path="/forgot-password/:token" element={<ResetPassword />} />
-          <Route path="/success-reset" element={<SuccessResetScreen />} />
-        </Route>
-        {/* authorized_route */}
-        <Route path="dashboard" element={<AuthorizedLayout />}>
-          <Route index path="summary" element={<SummaryDashboard />} />
-          {/* Facility */}
-          <Route path="reservedFacilities" element={<ReservedFacilities />} />
-          <Route path="reservationList" element={<ReservationList />} />
-          <Route path="peopleCounting" element={<PeopleCountingMain />} />
-          {/* Fixing report */}
-          <Route path="serviceCenterMessages" element={<SummaryDashboard />} />
-          <Route path="emergencyContact" element={<SummaryDashboard />} />
-          {/* Building progress */}
-          <Route
-            path="buildingProgressDashboard"
-            element={<SummaryDashboard />}
-          />
-          <Route path="checkInVisitor" element={<CheckInVisitor />} />
-          <Route path="checkOutVisitor" element={<CheckOutVisitor />} />
-          <Route path="historyVisitor" element={<HistoryVisitor />} />
-          <Route path="managementMain" element={<ManagementMain />} />
-          <Route
-            path="residentInformation"
-            element={<ResidentInformationMain />}
-          />
-          <Route path="residentSignUp" element={<ResidentSignUp />} />
-          <Route path="parcelAlert" element={<SummaryDashboard />} />
-          <Route path="announcement" element={<Announcement />} />
-          <Route path="emergencyCall" element={<Emergency />} />
-          <Route path="serviceDashboard" element={<ServiceDashboard />} />
-          <Route path="serviceCenterLists" element={<ServiceCenterLists />} />
-          <Route path="serviceChat" element={<ServiceChat />} />
-          <Route path="nearbyService" element={<NearbyService />} />
-          <Route path="payment" element={<SummaryDashboard />} />
-          <Route path="chatRoom" element={<ChatRoomScreen />} />
-          <Route path="smartMailbox" element={<SummaryDashboard />} />
-          <Route path="securityCenter" element={<SummaryDashboard />} />
-          {/* User management */}
-          <Route path="residentManagement" element={<SummaryDashboard />} />
-          <Route path="registration" element={<SummaryDashboard />} />
-          <Route path="roomManagement" element={<SummaryDashboard />} />
-          {/* Setting */}
-          <Route path="profile" element={<Profile />} />
-          <Route path="changePassword" element={<ChangePassword />} />
-          <Route path="adminManagement" element={<AdminManagement />} />
-          {/* Device control */}
-          <Route path="areaControl" element={<AreaControl />} />
-          <Route path="deviceControl" element={<DeviceControl />} />
-          {/* Event-logs */}
-          <Route path="event-logs" element={<EventLogs />} />
-          <Route path="event-joining-logs" element={<EventJoinLogs />} />
-        </Route>
-        <Route path="*" element={<Navigate to="/auth" />} />
-      </Routes>
+      {loading ? (
+        <div
+          style={{
+            display: "flex",
+            flex: 1,
+            height: "100vh",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+          }}
+        >
+          <Spin size="large" />
+          {/* <p style={{ marginTop: 10 }}>Loading...</p> */}
+        </div>
+      ) : (
+        <Routes>
+          {/* unauthorized_route */}
+          <Route element={<UnauthorizedLayout />}>
+            <Route index path="/auth" element={<SignInScreen />} />
+            <Route index path="/recovery" element={<RecoveryScreen />} />
+            <Route
+              index
+              path="/forgot-password/:token"
+              element={<ResetPassword />}
+            />
+            <Route
+              index
+              path="/landing-screen"
+              element={<ResetLandingScreen />}
+            />
+          </Route>
+          {/* authorized_route */}
+          <Route path="dashboard" element={<AuthorizedLayout />}>
+            <Route index path="summary" element={<Summary />} />
+            <Route path="management" element={<ManagementMain />} />
+
+            <Route
+              path="facilities-booking-logs"
+              element={<FacilitiesLogs />}
+            />
+            <Route path="reserve-facility" element={<ReserveFacility />} />
+            <Route path="our-facilities" element={<OurFacilities />} />
+            <Route
+              path="visitor-management-log"
+              element={<VisitorManagementLog />}
+            />
+            <Route path="announcement" element={<AnnouncementMain />} />
+            <Route
+              index
+              path="resident-information"
+              element={<ResidentInformation />}
+            />
+            <Route path="resident-sign-up" element={<ResidentSignUp />} />
+            <Route path="public-folder" element={<PublicFolder />} />
+            <Route path="personal-folder" element={<PersonalFolder />} />
+            <Route path="event-logs" element={<EventLogs />} />
+            <Route path="event-joining-logs" element={<EventJoinLogs />} />
+            <Route path="building-calendar" element={<BuildingCalendar />} />
+            {/* <Route path="delivery-logs" element={<DeliveryLogs />} />  */}
+            <Route
+              path="building-activities"
+              element={<BuildingActivities />}
+            />
+            <Route path="event-view" element={<EventView />} />
+            {/* <Route path="people-counting" element={<PeopleCounting />} /> */}
+          </Route>
+          <Route path="*" element={<Navigate to="/auth" />} />
+          {/* <Route path="tv-podcast" element={<TVSlideShow />} /> */}
+        </Routes>
+      )}
+
+      <SuccessModal />
+      <ConfirmModal />
     </BrowserRouter>
   );
 }

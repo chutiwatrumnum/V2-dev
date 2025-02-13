@@ -1,0 +1,30 @@
+.titleSelectContainer {
+    background-color: #D3D3D3;
+    height: 40px;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding-left: 15px;
+}
+
+.categorySelectorContainer {
+    background-color: #EFEDED;
+    padding-left: 15px;
+    justify-content: space-evenly;
+}
+
+.checkboxContainer {
+    padding: 5px;
+}
+
+.checkbox {
+    padding: 5px;
+    border-radius: 5px;
+    margin-inline-start: 0 !important;
+}
+
+.listDateCellContainer {
+    list-style-type: none;
+    padding-left: 0;
+}

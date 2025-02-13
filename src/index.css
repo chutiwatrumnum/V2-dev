@@ -1,7 +1,7 @@
-@import url(https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap);
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
 :root {
-  font-family: "Kanit";
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   font-size: 14px;
@@ -12,7 +12,7 @@
   -webkit-text-size-adjust: 100%;
 
   /* fonts */
-  /* --font-Prompt: Prompt; */
+  --font-inter: Inter;
 
   /* fonts weight */
   --font-bold: 700;
@@ -31,51 +31,26 @@
   --font-size-base: 16px;
 
   /* Colors */
-  --primary-color: #D6AA68;
-  --secondary-color: #000000;
-  --tertiary-color: #7B6038;
-  --quaternary-color: #b2d5ff;
-  --orangeTransColor: #f07520;
-  --login-color: #ffffff;
-  --BG-Table-color: rgba(255, 255, 255, 0.3);
+  --primary-color: #b58d54;
+  --secondary-color: #f2baaa;
+  --login-color: #413a39;
+  --BG-Table-color: rgba(254, 231, 226, 0.4);
   --white-color: #ffffff;
   --whiteTrans-color: rgba(255, 255, 255, 0.8);
-  --black-color: #161616;
-  --gray-color: #9f9c9b;
-  --lightGray-color: #f3f3f3;
-  --cardBG-color: rgb(255, 255, 255);
-  --defaultIcon-color: #ffffff;
+  --black-color: #403d38;
+  --gray-color: #bfbfbf;
+  --cardBG-color: #fee7e2;
 
   /* Semantic Colors */
-  --danger-color: #ad1b1b;
+  --danger-color: #ad1b20;
   --warning-color: #fac63b;
   --success-color: #63a164;
 
   /* Typography and iconography Colors */
-  --mainText-color: var(--black-color);
-  --menuText-color: var(--black-color);
-  --menuTextActive-color: var(--white-color);
-  --subMenuTextActive-color: var(--white-color);
-  --subMenuText-color: var(var(--secondary-color));
-  --successText-color: var(var(--success-color));
-  --dangerText-color: var(var(--danger-color));
-  /* Bg colors */
-  --mainBg-color: var(--white-color);
-  --menuBg-color: var(--black-color);
-  --menuBgActive-color: var(--primary-color);
-  --subMenuBg-color: var(--white-color);
-  --subMenuBgActive-color: var(--black-color);
-
-  /* Button colors */
-  --mainBtn-color: var(--primary-color);
-  --cancelBtn-color: var(--white-color);
-  --mainBtnText-color: var(--white-color);
-  --cancelBtnText--color: var(--primary-color);
-
-  /* Table color */
-  --tableHeadBg-color: var(--primary-color);
-  --tableHeadText-color: var(--black-color);
-  --subTableHeadBg-color: var(--secondary-color);
+  --menuText-color: var(--white-color);
+  --menuTextActive-color: var(--primary-color);
+  --subMenuTextActive-color: var(--primary-color);
+  --subMenuText-color: var(--gray-color);
 }
 
 @media (prefers-color-scheme: light) {

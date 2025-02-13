@@ -1,5 +1,5 @@
 import { conditionPage } from '../../../../stores/interface/Facilities'
-export const paramsData = (condition: conditionPage) => {
+export const paramsdata = (condition: conditionPage) => {
     let datastr: string = `perPage=${condition.perPage}&curPage=${condition.curPage}&facilitiesId=${condition.facilitiesId}`;
   
     if (condition.startDate) {

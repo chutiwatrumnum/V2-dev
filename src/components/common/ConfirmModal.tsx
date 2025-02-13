@@ -1,61 +1,68 @@
-import { Modal } from "antd";
-import MediumActionButton from "./MediumActionButton";
-// import SmallActionButton from "./SmallActionButton";
+import { Typography, Modal, Col, Space, Button } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, Dispatch } from "../../stores";
 
-import "../styles/common.css";
-import { whiteLabel } from "../../configs/theme";
+import "../style/modal.css";
 
-interface ConfirmModalType {
-  title: string;
-  message?: string;
-  okMessage: string;
-  cancelMessage: string;
-  onCancel?: () => void;
-  onOk?: () => void;
-}
+const { Text, Title } = Typography;
 
-const ConfirmModal = ({
-  message,
-  title = "title",
-  okMessage = "okMessage",
-  cancelMessage = "cancelMessage",
-  onOk,
-  onCancel,
-}: ConfirmModalType) => {
-  return Modal.confirm({
-    icon: null,
-    title: <span style={{ fontWeight: whiteLabel.normalWeight }}>{title}</span>,
-    width: 500,
-    content: message ? (
-      <div>
-        <p>{message}</p>
-      </div>
-    ) : null,
-    footer: (
-      <div className="confirmModalFooter">
-        <MediumActionButton
-          message={cancelMessage}
-          onClick={() => {
-            if (onCancel !== undefined) onCancel();
-            Modal.destroyAll();
-          }}
-          type="default"
-          className="cancelBtnColor smokeBorderColor mainTextColor spacer"
-        />
+const ConfirmModal = () => {
+  const dispatch = useDispatch<Dispatch>();
+  const confirmModal = useSelector(
+    (state: RootState) => state.common.confirmModal
+  );
 
-        <MediumActionButton
-          message={okMessage}
-          onClick={() => {
-            if (onOk !== undefined) onOk();
-            Modal.destroyAll();
-          }}
-          className="primaryColor spacer"
-        />
-      </div>
-    ),
-    centered: true,
-    className: "confirmModalStyle",
-  });
+  const closeModal = () => {
+    dispatch.common.updateConfirmModalState({
+      ...confirmModal,
+      open: false,
+    });
+  };
+
+  const handleOk = async () => {
+    dispatch.common.updateConfirmModalState({
+      ...confirmModal,
+      loading: true,
+    });
+    await confirmModal.onConfirm(
+      confirmModal.onConfirmParams ? confirmModal.onConfirmParams : null
+    );
+  };
+
+  return (
+    <Modal
+      open={confirmModal.open}
+      onCancel={closeModal}
+      closable={false}
+      centered
+      className="confirmModal"
+      footer={[
+        <Button shape="round" key="back" onClick={closeModal}>
+          {confirmModal.cancelText}
+        </Button>,
+        <Button
+          shape="round"
+          key="submit"
+          type="primary"
+          loading={confirmModal.loading}
+          onClick={handleOk}
+        >
+          {confirmModal.confirmText}
+        </Button>,
+      ]}
+    >
+      <Col className="confirmModalContent">
+        <Space direction="vertical" size={25}>
+          <Title level={3} style={{ textAlign: "center" }}>
+            {confirmModal.title}
+          </Title>
+          <Text>
+            <span>{confirmModal.description}</span>
+          </Text>
+        </Space>
+      </Col>
+    </Modal>
+  );
 };
 
 export default ConfirmModal;

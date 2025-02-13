@@ -1,5 +1,5 @@
-import { conditionPage } from '../../../../stores/interfaces/Management'
-export const paramsData = async (condition: conditionPage) => {
+import { conditionPage } from '../../../../stores/interface/Management'
+export const paramsdata = async (condition: conditionPage) => {
 
   let datastr: string = `perPage=${condition.perPage}&curPage=${condition.curPage}`;
 

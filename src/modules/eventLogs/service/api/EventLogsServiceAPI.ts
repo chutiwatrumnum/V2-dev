@@ -10,7 +10,7 @@ import {
   dataEventLogsType,
   EditEventLogsType,
   IChangeLockedById,
-} from "../../../../stores/interfaces/EventLog";
+} from "../../../../stores/interface/EventLog";
 import dayjs from "dayjs";
 const getDataEventJoinLogList = async (params: conditionPage) => {
   let url: string = `events/referral/list?`;
@@ -112,7 +112,7 @@ const getDataEventLogList = async (params: conditionPage) => {
 
 const deleteEventLogsById = async (id: string) => {
   try {
-    const resultDelete = await axios.delete(`events/${id}`);
+    const resultDelete = await axios.delete(`/events/${id}`);
     if (resultDelete.status === statusSuccess) {
       return true;
     } else {
@@ -127,7 +127,7 @@ const deleteEventLogsById = async (id: string) => {
 
 const deleteEventJoinById = async (id: string) => {
   try {
-    const resultDelete = await axios.delete(`events/referral/${id}`);
+    const resultDelete = await axios.delete(`/events/referral/${id}`);
     if (resultDelete.status === statusSuccess) {
       return {
         status: true,
@@ -148,7 +148,7 @@ const deleteEventJoinById = async (id: string) => {
 
 const editEventLogs = async (req: EditEventLogsType) => {
   try {
-    const result = await axios.put("events/update", req);
+    const result = await axios.put("/events/update", req);
     if (result.status === statusSuccess) {
       return true;
     } else {
@@ -160,7 +160,7 @@ const editEventLogs = async (req: EditEventLogsType) => {
 };
 const addEventLogs = async (req: AddNewEventLogsType) => {
   try {
-    const result = await axios.post("events/create", req);
+    const result = await axios.post("/events/create", req);
     if (result.status === statusCreated) {
       return true;
     } else {
@@ -197,7 +197,7 @@ const getDataJoinLogByid = async (id: number) => {
 };
 const changeLockedById = async (req: IChangeLockedById) => {
   try {
-    const result = await axios.put("events/locked", req);
+    const result = await axios.put("/events/locked", req);
     if (result.status === statusSuccess) {
       return true;
     } else {

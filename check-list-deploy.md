@@ -1,35 +1,34 @@
-# V0.0.1
+### PROD
 
-- Add Authentication
-  - Sign in UI
-  - Forgot password UI
+# V0.9.0.0
 
-# V0.0.2
+- based application ready for production
 
-- Add Side menu UI
+### DEV
 
-# V0.0.3
+# V0.9.0.0
 
-- Add Announcement UI
+- based application ready for development
 
-# V0.0.4
+# V0.9.1.0
 
-- Add Warranty tracking UI
+- update UI
+- bug fixes
 
-# V0.0.5
+# V0.9.2.0
 
-- Add Setting UI
+- update UI reset password on mobile view
 
-# V0.0.6
+# V0.9.3.0
 
-- Add NearBy UI
+- bug fix resident info
+  - date not show correctly
+  - unit no. in edit show incorrect
 
-# V0.0.6.1
+# V0.9.3.1
 
-- Update, Theme and Icons
+- update export button in visitor management page
 
-# V0.0.6.1
+# V0.9.3.2
 
-- edit bug fix and UI validation text change 
-- disable save button before read
-- Profile text button
+- update css z-index alerts modal

@@ -4,10 +4,10 @@ import {
   UserType,
   LoginPayloadType,
   ResetPasswordPayloadType,
-} from "../interfaces/User";
+} from "../interface/User";
 import { RootModel } from "./index";
 import { encryptStorage } from "../../utils/encryptStorage";
-import FailedModal from "../../components/common/FailedModal";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export const userAuth = createModel<RootModel>()({
@@ -39,85 +39,78 @@ export const userAuth = createModel<RootModel>()({
   effects: (dispatch) => ({
     async loginEffects(payload: LoginPayloadType) {
       try {
-        const data = { username: payload.username, password: payload.password };
+        let data = { username: payload.username, password: payload.password };
         const userToken = await axios.post("/auth/dashboard/login", data);
+
         if (userToken.status >= 400) {
-          FailedModal(userToken.data.message);
+          message.error(userToken.data.message);
           return;
         }
-
         encryptStorage.setItem("accessToken", userToken.data.accessToken);
         encryptStorage.setItem("refreshToken", userToken.data.refreshToken);
-        const userData = await axios.get("/mcst/profile");
-        encryptStorage.setItem("userData", userData.data.result);
-        await dispatch.common.getRoleAccessToken();
+        dispatch.userAuth.refreshUserDataEffects();
         dispatch.userAuth.updateAuthState(true);
       } catch (error) {
         console.error("ERROR", error);
-        if (axios.isAxiosError(error)) {
-          FailedModal(error.response?.data.message);
-        } else {
-          FailedModal("An unexpected error occurred");
-        }
       }
     },
     async recoveryByEmail(payload: { email: string }) {
       try {
         const result = await axios.post("/users/forgot-password", payload);
         if (result.status >= 400) {
-          console.error(result.data.message);
-          FailedModal(result.data.message);
-          return;
+          return message.error(result.data.message);
         }
+        dispatch.common.updateSuccessModalState({
+          open: true,
+          text: "Successfully sent",
+        });
+      } catch (error) {
+        console.error("ERROR", error);
+      }
+    },
+    async resetPassword(payload: ResetPasswordPayloadType) {
+      try {
+        const result = await axios.put("/users/forgot-password", payload);
+        if (result.status >= 400) {
+          message.error(result.data.message);
+          return result.status;
+        }
+        return result.status;
+      } catch (error) {
+        console.error("ERROR", error);
+      }
+    },
+    async refreshToken(payload: { token: string }) {
+      const navigate = useNavigate();
+      try {
+        const newToken = await axios.post("/users/refresh-token", payload);
+        if (newToken.status >= 400) {
+          encryptStorage.removeItem("accessToken");
+          encryptStorage.removeItem("refreshToken");
+          dispatch.userAuth.updateAuthState(false);
+          navigate("/auth");
+          return false;
+        }
+        encryptStorage.setItem("accessToken", newToken.data.accessToken);
+        dispatch.userAuth.updateAuthState(true);
         return true;
       } catch (error) {
         console.error("ERROR", error);
-                if (axios.isAxiosError(error)) {
-                    FailedModal(error.response?.data.message);
-                } else {
-                    FailedModal("An unexpected error occurred");
-                }
-            }
-        },
-        async resetPassword(payload: ResetPasswordPayloadType) {
-            try {
-                const result = await axios.put("/users/forgot-password", payload);
-                if (result.status >= 400) {
-                    message.error(result.data.message);
-                    return false;
-                }
-                return true;
-            } catch (error) {
-                console.error("ERROR", error);
-                if (axios.isAxiosError(error)) {
-                    FailedModal(error.response?.data.message);
-                } else {
-                    FailedModal("An unexpected error occurred");
-                }
-            }
-        },
-
+      }
+    },
     async refreshTokenNew() {
       try {
         const refreshToken = await encryptStorage.getItem("refreshToken");
         const res = await axios.post("/users/refresh-token", {
           token: refreshToken,
         });
-        // console.log(refreshToken);
-
-        if (res.status >= 400) {
-          console.error(">400 : ", res.data.message);
-          throw "refresh token expired";
-        }
-        if (!res.data.hasOwnProperty("accessToken")) {
-          console.error("No props : ", res.data.message);
+        if (res.status >= 400) throw "refresh token expaired";
+        if (!res.data.hasOwnProperty("accessToken"))
           throw "accessToken not found";
-        }
-        encryptStorage.setItem("accessToken", res.data.accessToken);
         dispatch.userAuth.updateAuthState(true);
+        encryptStorage.setItem("accessToken", res.data.accessToken);
         return true;
       } catch (error) {
-        console.warn("FAILED");
         dispatch.userAuth.updateAuthState(false);
         await axios.post("/users/logout");
         encryptStorage.removeItem("accessToken");
@@ -125,7 +118,6 @@ export const userAuth = createModel<RootModel>()({
         return false;
       }
     },
-
     async onLogout() {
       try {
         await axios.post("/users/logout");
@@ -134,30 +126,35 @@ export const userAuth = createModel<RootModel>()({
         dispatch.userAuth.updateAuthState(false);
         return true;
       } catch (error) {
-                if (axios.isAxiosError(error)) {
-                    FailedModal(error.response?.data.message);
-                } else {
-                    FailedModal("An unexpected error occurred");
-                }
-                dispatch.userAuth.updateAuthState(false);
-                encryptStorage.removeItem("accessToken");
-                encryptStorage.removeItem("refreshToken");
-                return false;
-            }
-        },
-        async logoutEffects() {
-            try {
-                const logout = await axios.post("/users/logout");
-                if (logout.status >= 400) {
-                    console.log("FAILED ", logout.statusText);
-                    return;
-                }
-                dispatch.userAuth.updateAuthState(false);
-                encryptStorage.removeItem("accessToken");
-                encryptStorage.removeItem("refreshToken");
-            } catch (error) {
-                console.error("ERROR", error);
-            }
-        },
-    }),
+        dispatch.userAuth.updateAuthState(false);
+        encryptStorage.removeItem("accessToken");
+        encryptStorage.removeItem("refreshToken");
+        return false;
+      }
+    },
+    async logoutEffects() {
+      try {
+        const logout = await axios.post("/users/logout");
+        if (logout.status >= 400) {
+          console.log("FAILED ", logout.statusText);
+          return;
+        }
+        dispatch.userAuth.updateAuthState(false);
+        encryptStorage.removeItem("accessToken");
+        encryptStorage.removeItem("refreshToken");
+      } catch (error) {
+        console.error("ERROR", error);
+      }
+    },
+    async refreshUserDataEffects() {
+      try {
+        const userData = await axios.get("/mcst/profile");
+        if (userData.status >= 400) return console.error(userData.data.message);
+        // console.log(userData.data.result);
+        encryptStorage.setItem("userData", userData.data.result);
+      } catch (error) {
+        console.error("ERROR", error);
+      }
+    },
+  }),
 });

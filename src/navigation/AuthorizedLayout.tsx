@@ -1,37 +1,59 @@
 import { useEffect, useLayoutEffect } from "react";
-import { useOutlet, useNavigate, Navigate } from "react-router-dom";
+import { useOutlet, useNavigate } from "react-router-dom";
 import { Layout } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { Dispatch, RootState } from "../stores";
+import { useSelector } from "react-redux";
+import { RootState } from "../stores";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "../stores";
+import { encryptStorage } from "../utils/encryptStorage";
+
 import SideMenu from "../components/templates/SideMenu";
 
-import "./styles/authorizedLayout.css";
-import { setupAxiosInterceptors } from "../configs/axios";
+import "./styles/AuthorizedLayout.css";
 
 const { Sider, Content } = Layout;
 
 function AuthorizedLayout() {
   const navigate = useNavigate();
   const dispatch = useDispatch<Dispatch>();
+  const userAuth = useSelector((state: RootState) => state.userAuth);
   const outlet = useOutlet();
-  useLayoutEffect(() => {
-    // console.log("AxiosConfig running.....");
-    // เรียกใช้ function setupAxiosInterceptors เมื่อ component โหลด
-    try {
-      setupAxiosInterceptors(navigate, dispatch);
-    } catch (error) {
-      console.log("setupAxiosInterceptors error :: ", error);
-    }
-  }, [navigate]);
 
+  const refreshTokenHandle = async () => {
+    let token = { token: await encryptStorage.getItem("refreshToken") };
+    // let token = { token: "123" };
+    if (token) await dispatch.userAuth.refreshToken(token);
+  };
+
+  useLayoutEffect(() => {
+    (() => {
+      if (!userAuth.isAuth) {
+        setTimeout(() => {
+          navigate("/auth", { replace: true });
+        }, 500);
+        return;
+      }
+    })();
+  }, []);
   return (
     <Layout>
-      <Sider width={320} className="sideContainer">
+      <Sider
+        width={320}
+        style={{
+          background:
+            "linear-gradient(177.2deg, #2D4B40 4.02%, #284138 32.87%, #223830 64.52%, #1D2F28 97.16%)",
+          height: "100vh",
+          position: "fixed",
+          left: 0,
+          overflow: "auto",
+          top: 0,
+          bottom: 0,
+        }}
+      >
         <SideMenu />
       </Sider>
-      <div className="authorizeBG" />
-      <Layout style={{ marginLeft: 320 }}>
-        <Content className="authorizeContentContainer">
+      <Layout className="authContentContainer">
+        <Content className="authContent">
           <div>{outlet}</div>
         </Content>
       </Layout>

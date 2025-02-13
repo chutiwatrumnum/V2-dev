@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../../components/templates/Header";
+import Header from "../../../components/common/Header";
 import { Table } from "antd";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import {
@@ -7,24 +7,18 @@ import {
   getDataJoinLogByid,
   downloadEventJoinLogs,
 } from "../service/api/EventLogsServiceAPI";
-import { Row, Col, Input, Button, Modal } from "antd";
+import { Row, Col, DatePicker, Input, Button, Modal } from "antd";
 import type { DatePickerProps } from "antd";
 import { InfoCircleOutlined, DeleteOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import {
   dataEventJoinLogsType,
   conditionPage,
-} from "../../../stores/interfaces/EventLog";
+} from "../../../stores/interface/EventLog";
 import InfoEventJoinLogs from "../components/InfoEventJoinLogs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../../stores";
 const { confirm } = Modal;
-import SuccessModal from "../../../components/common/SuccessModal";
-import FailedModal from "../../../components/common/FailedModal";
-import ConfirmModal from "../../../components/common/ConfirmModal";
-import MediumActionButton from "../../../components/common/MediumActionButton";
-import SearchBox from "../../../components/common/SearchBox";
-import DatePicker from "../../../components/common/DatePicker";
 
 const EventJoinLogs = () => {
   const { loading, tableData, total } = useSelector(
@@ -49,6 +43,7 @@ const EventJoinLogs = () => {
   const [isModalOpenInfo, setIsModalOpenInfo] = useState(false);
   const [paramsData, setParamsData] = useState<conditionPage>(params);
   const dispatch = useDispatch<Dispatch>();
+  const { RangePicker } = DatePicker;
   const customFormat: DatePickerProps["format"] = (value) =>
     `Month : ${value.format(dateFormat)}`;
   const dateFormat = "MMMM,YYYY";
@@ -101,7 +96,8 @@ const EventJoinLogs = () => {
             value={record.key}
             type="text"
             icon={<DeleteOutlined />}
-            onClick={showDeleteConfirm}></Button>
+            onClick={showDeleteConfirm}
+          ></Button>
         </>
       ),
     },
@@ -178,20 +174,33 @@ const EventJoinLogs = () => {
     },
   ];
   const showDeleteConfirm = ({ currentTarget }: any) => {
-    ConfirmModal({
-      title: "Are you sure you want to delete this?",
-      okMessage: "Yes",
-      cancelMessage: "Cancel",
-      onOk: async () => {
+    confirm({
+      title: "Confirm action",
+      icon: null,
+      content: "Are you sure you want to delete event logs?",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "Cancel",
+      centered: true,
+      async onOk() {
         const statusDeleted = await deleteEventJoinById(currentTarget.value);
         if (statusDeleted) {
-          SuccessModal("Successfully Deleted");
+          dispatch.common.updateSuccessModalState({
+            open: true,
+            text: "Successfully deleted",
+          });
         } else {
-          FailedModal("Something went wrong");
+          dispatch.common.updateSuccessModalState({
+            open: true,
+            status: "error",
+            text: "Failed deleted",
+          });
         }
         setRerender(!rerender);
       },
-      onCancel: () => console.log("Cancel"),
+      onCancel() {
+        console.log("Cancel");
+      },
     });
   };
 
@@ -209,45 +218,70 @@ const EventJoinLogs = () => {
   };
 
   const exportEventJoinLogs = () => {
-    ConfirmModal({
-      title: "Are you sure you want to export this file?",
-      okMessage: "Yes",
-      cancelMessage: "Cancel",
-      onOk: async () => {
+    confirm({
+      title: "Confirm action",
+      icon: null,
+      content: "Are you sure you want to export this file?",
+      okText: "Yes",
+      okType: "primary",
+      cancelText: "Cancel",
+      centered: true,
+      async onOk() {
         const statusSuccess = await downloadEventJoinLogs();
-        //  if (stastatusSuccesstusDeleted) {
-        //    SuccessModal("Successfully Deleted");
-        //  } else {
-        //    FailedModal("Something went wrong");
-        //  }
-        //  setRerender(!rerender);
+        // if (statusSuccess) {
+        //   dispatch.common.updateSuccessModalState({
+        //     open: true,
+        //     text: "Successfully deleted",
+        //   });
+        //   await initdata(paramsAPI);
+        // } else {
+        //   dispatch.common.updateSuccessModalState({
+        //     open: true,
+        //     status: "error",
+        //     text: "Failed deleted",
+        //   });
+        // }
       },
-      onCancel: () => console.log("Cancel"),
+      onCancel() {
+        console.log("Cancel");
+      },
     });
   };
 
   return (
     <>
       <Header title="Event joining logs" />
-      <div className="eventTopActionGroup">
-        <div className="eventTopActionLeftGroup">
-          <DatePicker
-            className="eventDatePicker"
+      <Row style={{ marginTop: 15, marginBottom: 15 }}>
+        <Col span={10}>
+          <RangePicker
             onChange={handleDate}
+            style={{ width: "95%" }}
             picker="month"
+            format={customFormat}
           />
-          <SearchBox
-            className="eventSearchBox"
+        </Col>
+        <Col
+          span={10}
+          style={{ display: "flex", justifyContent: "flex-start" }}
+        >
+          <Search
+            placeholder="Search by event name"
+            allowClear
             onSearch={onSearch}
-            placeholderText="Search by event name"
+            className="searchBox"
+            style={{ width: 300 }}
           />
-        </div>
-        <MediumActionButton
-          message="Export"
-          onClick={exportEventJoinLogs}
-          className="createEventBtn"
-        />
-      </div>
+        </Col>
+        <Col span={4} style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button
+            type="primary"
+            style={{ marginRight: 10 }}
+            onClick={exportEventJoinLogs}
+          >
+            Export
+          </Button>
+        </Col>
+      </Row>
       <Row>
         <Col span={24}>
           <Table
@@ -261,7 +295,7 @@ const EventJoinLogs = () => {
         </Col>
       </Row>
       <InfoEventJoinLogs
-        callBack={async (isOpen: boolean) => setIsModalOpenInfo(isOpen)}
+        callBack={async (isOpen: boolean) => await setIsModalOpenInfo(isOpen)}
         isOpen={isModalOpenInfo}
         eventjoinLog={dataInfo}
       />

@@ -1,0 +1,41 @@
+.monthTitle {
+    margin-bottom: 0 !important;
+}
+
+.arrowIcon {
+    font-size: 24px;
+    color: #4E4E4E;
+    background-color: #EFEDED;
+    border-radius: 5px;
+    padding: 4px;
+}
+
+.titleContainer {
+    justify-content: center;
+    align-content: center;
+    background-color: #D3D3D3;
+    margin: 30px 0 10px 0;
+    padding: 5px 0;
+}
+
+.contentEventViewContainer {
+    padding: 0 10px;
+}
+
+.eventCard {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    height: 120px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding-left: 15px;
+    background-color: #fff;
+}
+
+.eventCardInner {
+    height: 100%;
+    background-color: #fff;
+    border-radius: 0 10px 10px 0;
+    padding: 10px 15px;
+}

@@ -1,49 +1,49 @@
 .containerSignIn {
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  width: 50%;
-  padding: 0 10%;
+  text-align: center;
+}
+
+.txtCenter {
+  text-align: center;
+}
+
+.logo {
+  margin-bottom: -30px;
 }
 
 .formSignIn {
   display: flex;
   flex-direction: column;
+  margin-top: 100px;
+  /* color: #fff; */
 }
 
 .forgotPassword {
-  color: var(--mainBtnText-color);
+  align-self: end;
+}
+
+.forgotPassword span {
+  color: var(--primary-color);
+  text-decoration: underline;
+  font-weight: var(--font-bold);
 }
 
 .loginBtn {
-  margin-top: 40px;
-  box-shadow: none;
-  line-height: normal;
-  background-color: var(--primary-color);
+  margin-top: 60px;
+  width: 340px;
 }
 
-.loginBtn:hover {
-  background-color: var(--tertiary-color) !important;
-  opacity: 0.9;
-}
-
-.textColor {
-  color: var(--mainBtnText-color);
-}
-
-.forgotRememberContainer {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
-  justify-content: space-between;
-}
-
-.logo {
-  width: 100%;
-  max-width: 400px;
-}
-
-.txtCenter {
-  align-items: center;
-  text-align: center;
+@media only screen and (max-width: 480px) {
+  .logoContainer {
+    display: block;
+    width: 100%;
+    height: fit-content;
+    text-align: center;
+  }
+  .logo {
+    width: 80%;
+    margin: 0;
+  }
+  .textColor {
+    color: #fff;
+  }
 }

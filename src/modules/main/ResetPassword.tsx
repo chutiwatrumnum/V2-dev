@@ -1,121 +1,147 @@
 import { useRef } from "react";
-import { Col, Space, Typography, Form, Input } from "antd";
-import { resetPasswordRule, requiredRule } from "../../configs/inputRule";
-import MediumButton from "../../components/common/MediumButton";
-import FailedModal from "../../components/common/FailedModal";
-import SuccessModal from "../../components/common/SuccessModal";
-import { LockIcon } from "../../assets/icons/Icons";
-import { whiteLabel } from "../../configs/theme";
-import { useDispatch } from "react-redux";
-import { Dispatch } from "../../stores";
-import { useNavigate, useParams } from "react-router-dom";
+import { Col, Space, Button, Typography, Form, Input, message } from "antd";
+import { LockOutlined } from "@ant-design/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch, RootState } from "../../stores";
+import { useParams, useNavigate } from "react-router-dom";
 
+import { ResetPasswordPayloadType } from "../../stores/interface/User";
 import type { FormInstance } from "antd/es/form";
-import { ResetPasswordPayloadType } from "../../stores/interfaces/User";
 
-import LOGO from "../../assets/images/mainLogo.svg";
+import LOGO from "../../assets/images/logo.svg";
 
 import "./styles/forgotPassword.css";
 
 const { Text, Title } = Typography;
 
+const resetPasswordRule = [
+  { required: true, message: "Please re-enter the new password" },
+  {
+    pattern: new RegExp(
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@~`!@#$%^&*()_=+\\\\';:\"\\/?>.<,-])[a-zA-Z0-9@~`!@#$%^&*()_=+\\\\';:\"\\/?>.<,-]{8,}$"
+    ),
+    message: (
+      <span>
+        Password must contain at least 8 characters, one lowercase letter,
+        <br />
+        uppercase letter, number, and special character
+      </span>
+    ),
+  },
+];
+
 const ResetPassword = () => {
-  const width: number = window.innerWidth;
-  const dispatch = useDispatch<Dispatch>();
-  const formRef = useRef<FormInstance>(null);
   const navigate = useNavigate();
-  const [form] = Form.useForm();
-  const token = useParams();
+  const dispatch = useDispatch<Dispatch>();
+  const test = useParams();
+  const formRef = useRef<FormInstance>(null);
+  const confirmModal = useSelector(
+    (state: RootState) => state.common.confirmModal
+  );
 
   const onFinish = async (values: ResetPasswordPayloadType) => {
-    const payload: ResetPasswordPayloadType = {
-      ...token,
-      ...values,
-    };
-    // console.log(payload);
-    const result = await dispatch.userAuth.resetPassword(payload);
-    if (result) {
-      width <= 600
-        ? SuccessModal("Please signin with your new password")
-        : SuccessModal("Successfully save");
-      setTimeout(() => navigate("/success-reset"), 3000);
-    } else {
-      FailedModal("Something went wrong, Please try again later");
+    dispatch.common.updateConfirmModalState({
+      ...confirmModal,
+      open: true,
+      title: "Are you sure?",
+      cancelText: "Cancel",
+      confirmText: "Yes",
+      description:
+        "Are you sure you want to require a password reset on next login for this user? This will prompt the user to create and confirm a new password the next time they attempt to login.",
+      onConfirm: onConfirm,
+      onConfirmParams: values,
+    });
+  };
+
+  const onConfirm = async (values: ResetPasswordPayloadType) => {
+    let payload: ResetPasswordPayloadType = { ...test, ...values };
+    let resetStatus = await dispatch.userAuth.resetPassword(payload);
+    if (resetStatus && resetStatus >= 400) {
+      dispatch.common.updateConfirmModalState({
+        ...confirmModal,
+        loading: false,
+      });
+      return;
     }
+    dispatch.common.updateConfirmModalState({
+      ...confirmModal,
+      loading: false,
+    });
+    navigate("/landing-screen");
+    message.success("Reset password successfully");
+    dispatch.common.updateSuccessModalState({
+      open: true,
+      text: "Successfully saved",
+    });
   };
 
   const onFinishFailed = (errorInfo: object) => {
     console.log("Failed:", errorInfo);
   };
 
-  // const onCancel = () => {
-  //   formRef.current?.resetFields();
-  //   navigate("/auth");
-  // };
-
   return (
-    <Col className="forgotContainer">
-      <Space direction="vertical" size={0} style={{ alignItems: "center" }}>
-        <div className="logoContainer">
-          <img src={LOGO} alt="logo" className="logo" />
-        </div>
-      </Space>
-      <Col className="forgotPasswordTitle">
-        <Title level={2} style={{ fontWeight: whiteLabel.normalWeight }}>
-          Forgot your password?
+    <Col>
+      <div className="logoContainer">
+        <img src={LOGO} alt="logo" className="logo" />
+      </div>
+      <Col className="column forgotPasswordTitle">
+        <Title level={3}>
+          <span className="textColor">Forgot your password?</span>
         </Title>
-        <p className="mainTextColor">
+        <Text className="textColor">
           Enter a new password below to change your password
-        </p>
+        </Text>
       </Col>
       <Form
         name="recovery"
         ref={formRef}
-        form={form}
         className="formForgotPassword"
         layout="vertical"
         initialValues={{ remember: true }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        autoComplete="off">
+        autoComplete="off"
+      >
         <Form.Item
-          label={<Text className="textColor">New password</Text>}
+          label={<Text className="textColor bold">New password</Text>}
           name="password"
-          rules={resetPasswordRule}>
-          <Input.Password
-            prefix={<LockIcon color={whiteLabel.grayColor} />}
-            size="large"
-          />
+          rules={resetPasswordRule}
+        >
+          <Input.Password placeholder="Input new password" size="large" />
         </Form.Item>
 
         <Form.Item
-          label={<Text className="textColor">Re-enter new password</Text>}
+          label={<Text className="textColor bold">Re-enter new password</Text>}
           name="confirmPassword"
           rules={[
-            ...requiredRule,
+            ...resetPasswordRule,
             ({ getFieldValue }) => ({
               validator(_, value) {
                 if (!value || getFieldValue("password") === value) {
                   return Promise.resolve();
                 }
                 return Promise.reject(
-                  new Error("Password confirmation doesn't match")
+                  new Error(
+                    "The passwords you entered do not match. Please ensure both passwords are identical."
+                  )
                 );
               },
             }),
-          ]}>
-          <Input.Password
-            prefix={<LockIcon color={whiteLabel.grayColor} />}
-            size="large"
-          />
+          ]}
+        >
+          <Input.Password placeholder="Input new password" size="large" />
         </Form.Item>
 
-        <Form.Item style={{ textAlign: "center" }}>
-          <MediumButton
-            className="resetPassBtn"
-            message="Reset Password"
-            form={form}
-          />
+        <Form.Item className="txtCenter">
+          <Button
+            shape="round"
+            className="resetPasswordBtn"
+            type="primary"
+            htmlType="submit"
+            size="large"
+          >
+            <span className="bold"> Reset password</span>
+          </Button>
         </Form.Item>
       </Form>
     </Col>

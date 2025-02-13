@@ -1,33 +1,129 @@
 import { createModel } from "@rematch/core";
 import {
-  AccessibilityType,
   CommonType,
-  MenuItemAccessibilityType,
-} from "../interfaces/Common";
+  ConfirmModalType,
+  AccessibilityType,
+} from "../interface/Common";
 import { RootModel } from "./index";
 import axios from "axios";
 
 export const common = createModel<RootModel>()({
   state: {
+    successModal: {
+      open: false,
+      status: null,
+      text: "Successfully",
+    },
+    confirmModal: {
+      open: false,
+      title: "Title",
+      description: "Lorem Ipsum",
+      cancelText: "Cancel",
+      confirmText: "Confirm",
+      loading: false,
+      onConfirm: () => {},
+    },
     unitOptions: [],
-    masterData: undefined,
     accessibility: undefined,
+    unitFilter: undefined,
+    masterData: undefined,
+    monitorData: undefined,
+    loading: false,
   } as CommonType,
   reducers: {
-    updateMasterData: (state, payload) => ({
+    updateSuccessModalState: (state, payload) => ({
       ...state,
-      masterData: payload,
+      successModal: payload,
     }),
-    updateAccessibility: (state, payload) => ({
+    updateConfirmModalState: (state, payload: ConfirmModalType) => ({
       ...state,
-      accessibility: payload,
+      confirmModal: payload,
     }),
     updateUnitOptions: (state, payload) => ({
       ...state,
       unitOptions: payload,
     }),
+    updateAccessibility: (state, payload) => ({
+      ...state,
+      accessibility: payload,
+    }),
+    updateUnitFilter: (state, payload) => ({
+      ...state,
+      unitFilter: payload,
+    }),
+    updateMasterData: (state, payload) => ({
+      ...state,
+      masterData: payload,
+    }),
+    updateMonitorData: (state, payload) => ({
+      ...state,
+      monitorData: payload,
+    }),
+    updateLoading: (state, payload) => ({
+      ...state,
+      loading: payload,
+    }),
   },
   effects: (dispatch) => ({
+    async getBlockOptions() {
+      try {
+        const result = await axios.get("/unit/block-unit-list");
+        if (result.status >= 400) return console.error(result.data.message);
+
+        let blocks = result.data.result.blockList;
+        blocks.forEach((block: any) => {
+          let payloadValue: { label: string; value: number }[] = [];
+          let payloadCheck: string[] = [];
+          block.unit.forEach((item: any) => {
+            // payloadValue.push(item.unitNo);
+            payloadValue.push({ label: item.unitNo, value: item.id });
+            payloadCheck.push(item.id);
+          });
+
+          if (block.blockNo === "Blk86") {
+            dispatch.common.updateBlk86OptionsState(payloadValue);
+            dispatch.common.updateBlk86AllCheckState(payloadCheck);
+          } else if (block.blockNo === "Blk88") {
+            dispatch.common.updateBlk88OptionsState(payloadValue);
+            dispatch.common.updateBlk88AllCheckState(payloadCheck);
+          }
+        });
+      } catch (error) {
+        console.error("ERROR", error);
+      }
+    },
+    async getUnitOptions() {
+      try {
+        const result = await axios.get("/unit/unit-list");
+        if (result.status >= 400)
+          return console.log("ERROR => ", result.data.message);
+        // console.log(result.data.result);
+        dispatch.common.updateUnitOptions(result.data.result);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getRoleAccessToken() {
+      try {
+        const roleAccessToken = await axios.get("/master/access-menu");
+        if (roleAccessToken.status >= 400) {
+          console.error(roleAccessToken.data.message);
+          return;
+        }
+        // console.log(roleAccessToken.data);
+        dispatch.common.updateAccessibility(roleAccessToken.data.result);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getFileInfo(id: string) {
+      try {
+        const fileInfo = await axios.get(`/document-form/info/${id}`);
+        return fileInfo.data.result;
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async getMasterData() {
       try {
         const data = await axios.get("/master");
@@ -35,47 +131,22 @@ export const common = createModel<RootModel>()({
           console.error(data.data.message);
           return;
         }
+        // console.log(data.data);
         dispatch.common.updateMasterData(data.data.result);
       } catch (error) {
         console.error(error);
       }
     },
-    async getUnitOptions() {
+    async getMonitorData(payload: string) {
       try {
-        const unit = await axios.get(`facilities/dashboard/unit`);
-        // console.log("getUnitOptions:",unit.data.result);
-        if (unit.status >= 400)
-          return console.log("ERROR => ", unit.data.message);
-        unit.data.result.map((e: any) => {
-          e.label = e.unitNo;
-          e.value = e.id;
-        });
-        dispatch.common.updateUnitOptions(unit.data.result);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    async getRoleAccessToken() {
-      try {
-        const data = await axios.get("/permission/menu-access");
+        const data = await axios.get(
+          `/monitoring-summary/list?year=${payload}`
+        );
         if (data.status >= 400) {
           console.error(data.data.message);
           return;
         }
-        // console.log("permission:,", data);
-
-        const result: { [key: string]: MenuItemAccessibilityType } =
-          data.data.result.reduce(
-            (
-              acc: { [key: string]: MenuItemAccessibilityType },
-              curr: MenuItemAccessibilityType
-            ) => {
-              acc[curr.permissionCode] = curr;
-              return acc;
-            },
-            {}
-          );
-        dispatch.common.updateAccessibility(result);
+        dispatch.common.updateMonitorData(data.data.result);
       } catch (error) {
         console.error(error);
       }
