@@ -42,7 +42,7 @@ export const common = createModel<RootModel>()({
     },
     async getUnitOptions() {
       try {
-        const unit = await axios.get(`facilities/dashboard/unit`);
+        const unit = await axios.get(`/unit/unit-list`);
         // console.log("getUnitOptions:",unit.data.result);
         if (unit.status >= 400)
           return console.log("ERROR => ", unit.data.message);
@@ -57,15 +57,15 @@ export const common = createModel<RootModel>()({
     },
     async getRoleAccessToken() {
       try {
-        const data = await axios.get("/permission/menu-access");
+        const data = await axios.get("/master/access-menu");
         if (data.status >= 400) {
           console.error(data.data.message);
           return;
         }
-        // console.log("permission:,", data);
-
+        console.log("permission:,", data.data.result);
+        
         const result: { [key: string]: MenuItemAccessibilityType } =
-          data.data.result.reduce(
+          [data.data.result].reduce(
             (
               acc: { [key: string]: MenuItemAccessibilityType },
               curr: MenuItemAccessibilityType
