@@ -37,16 +37,16 @@ export const announcement = createModel<RootModel>()({
 
       try {
         const result = await axios.get(
-          `/announcement/list/dashboard?curPage=${item.curPage}&perPage=${item.perPage}${searchWord}${timeRange}&sort=asc&sortBy=createdAt`
+          `/announcement?curPage=${item.curPage}&perPage=${item.perPage}${searchWord}${timeRange}&sort=asc&sortBy=createdAt`
         );
 
         if (result.data.statusCode >= 400) {
           console.error(result.data.message);
           return;
         }
-        console.log(result.data.result);
+        console.log(result.data);
 
-        dispatch.announcement.updateTableDataState(result.data.result.rows);
+        dispatch.announcement.updateTableDataState(result.data.result.announcement);
         dispatch.announcement.updateAnnouncementMaxLengthState(
           result.data.result.total
         );
@@ -56,7 +56,7 @@ export const announcement = createModel<RootModel>()({
     },
     async deleteTableData(payload: number) {
       try {
-        const result = await axios.delete(`/announcement/${payload}`);
+        const result = await axios.delete(`/announcement`,{data:{id:payload}});
         if (result.status >= 400) console.log(result);
         SuccessModal("Successfully Deleted");
       } catch (error) {
