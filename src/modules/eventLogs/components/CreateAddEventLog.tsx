@@ -21,7 +21,7 @@ import { Dispatch } from "../../../stores";
 import type { RangePickerProps } from "antd/es/date-picker";
 dayjs.extend(customParseFormat);
 import "../styles/eventLogs.css";
-import { AddNewEventLogsType } from "../../../stores/interface/EventLog";
+import { AddNewEventLogsType } from "../../../stores/interfaces/EventLog";
 import SendToGroup from "../../../components/groups/SendToGroup";
 interface ComponentCreateProps {
   isOpen: boolean;
@@ -159,8 +159,7 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
           borderBottom: 20,
           borderWidth: 200,
           borderBlock: 10,
-        }}
-      >
+        }}>
         <Form
           form={form}
           layout="vertical"
@@ -170,8 +169,7 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
+          autoComplete="off">
           <Row>
             <Col span={8}>
               <Form.Item
@@ -186,8 +184,7 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
                     max: 99,
                     message: "Value should be less than 99 character",
                   },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input title" maxLength={100} />
               </Form.Item>
               <Form.Item
@@ -198,8 +195,7 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
                     required: true,
                     message: "This field is required !",
                   },
-                ]}
-              >
+                ]}>
                 <Input.TextArea
                   placeholder="Input announcement body"
                   maxLength={1000}
@@ -219,8 +215,7 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
                         required: true,
                         message: "This field is required !",
                       },
-                    ]}
-                  >
+                    ]}>
                     <DatePicker
                       disabledDate={disabledDate}
                       className="fullWidth"
@@ -249,8 +244,7 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
                           }
                         },
                       },
-                    ]}
-                  >
+                    ]}>
                     <InputNumber
                       className="fullWidth"
                       placeholder="select maximum number"
@@ -266,8 +260,7 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
                       isMaxBookingPerUnit
                         ? { marginBottom: 8 }
                         : { marginBottom: 24 }
-                    }
-                  >
+                    }>
                     Maximum participant per unit
                   </Checkbox>
                   {isMaxBookingPerUnit ? (
@@ -291,8 +284,7 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
                             }
                           },
                         },
-                      ]}
-                    >
+                      ]}>
                       <InputNumber
                         className="fullWidth"
                         placeholder="input number"
@@ -311,8 +303,7 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
                             required: true,
                             message: "This field is required !",
                           },
-                        ]}
-                      >
+                        ]}>
                         <TimePicker className="fullWidth" format="hh:mm a" />
                       </Form.Item>
                     </Col>
@@ -325,8 +316,7 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
                             required: true,
                             message: "This field is required !",
                           },
-                        ]}
-                      >
+                        ]}>
                         <TimePicker className="fullWidth" format="hh:mm a" />
                       </Form.Item>
                     </Col>
@@ -341,8 +331,7 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
                     required: true,
                     message: "This field is required !",
                   },
-                ]}
-              >
+                ]}>
                 <Select
                   placeholder="Select receiver"
                   onSelect={onSendToChange}
@@ -368,8 +357,7 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
                     required: true,
                     message: "This field is required !",
                   },
-                ]}
-              >
+                ]}>
                 <UploadImageGroup
                   image={previewImage ? previewImage : ""}
                   onChange={handleImageChange}
@@ -385,8 +373,7 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
                     } else {
                       await setAllowvisitorregistration(true);
                     }
-                  }}
-                >
+                  }}>
                   Allow visitor registration
                 </Checkbox>
               </Col>
@@ -400,8 +387,7 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
                     } else {
                       await setPayable(true);
                     }
-                  }}
-                >
+                  }}>
                   Payable
                 </Checkbox>
               </Col>
@@ -427,8 +413,7 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
                           }
                         },
                       },
-                    ]}
-                  >
+                    ]}>
                     <InputNumber
                       className="fullWidth"
                       prefix="$"
@@ -442,14 +427,12 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
           <Form.Item
             className="noMargin"
             wrapperCol={{ span: 24 }}
-            style={{ textAlign: "right" }}
-          >
+            style={{ textAlign: "right" }}>
             <Button
               shape="round"
               type="primary"
               htmlType="submit"
-              style={{ minWidth: 140 }}
-            >
+              style={{ minWidth: 140 }}>
               Add
             </Button>
           </Form.Item>

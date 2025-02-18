@@ -32,6 +32,11 @@ export interface AccessibilityType {
   menu_delivery_management: MenuItemAccessibilityType;
   menu_mcst: MenuItemAccessibilityType;
   menu_announcement_management: MenuItemAccessibilityType;
+  team_user_profile: MenuItemAccessibilityType;
+  team_user_management: MenuItemAccessibilityType;
+  team_facility_management: MenuItemAccessibilityType;
+  team_announcement: MenuItemAccessibilityType;
+  team_team_management: MenuItemAccessibilityType;
 }
 export interface MenuItemAccessibilityType {
   id: number;
@@ -41,6 +46,7 @@ export interface MenuItemAccessibilityType {
   available: boolean;
   allowDelete: boolean;
   allowEdit: boolean;
+  allowAdd: boolean;
 }
 export interface ConfirmModalType {
   open: boolean;

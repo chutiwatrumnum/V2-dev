@@ -21,7 +21,7 @@ import { useDispatch } from "react-redux";
 import { Dispatch } from "../../../stores";
 dayjs.extend(customParseFormat);
 import "../styles/eventLogs.css";
-import { EditEventLogsType } from "../../../stores/interface/EventLog";
+import { EditEventLogsType } from "../../../stores/interfaces/EventLog";
 interface EditEventLogProps {
   eventLogs: any;
   isOpen: boolean;
@@ -176,8 +176,7 @@ const EditEventLog = (props: EditEventLogProps) => {
           borderBottom: 20,
           borderWidth: 200,
           borderBlock: 10,
-        }}
-      >
+        }}>
         <Form
           form={form}
           layout="vertical"
@@ -187,8 +186,7 @@ const EditEventLog = (props: EditEventLogProps) => {
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
+          autoComplete="off">
           <Row>
             <Col span={8}>
               <Form.Item
@@ -203,8 +201,7 @@ const EditEventLog = (props: EditEventLogProps) => {
                     max: 99,
                     message: "Value should be less than 99 character",
                   },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input title" maxLength={100} />
               </Form.Item>
               <Form.Item
@@ -215,8 +212,7 @@ const EditEventLog = (props: EditEventLogProps) => {
                     required: true,
                     message: "This field is required !",
                   },
-                ]}
-              >
+                ]}>
                 <Input.TextArea
                   placeholder="Input announcement body"
                   maxLength={2000}
@@ -236,8 +232,7 @@ const EditEventLog = (props: EditEventLogProps) => {
                         required: true,
                         message: "This field is required !",
                       },
-                    ]}
-                  >
+                    ]}>
                     <DatePicker className="fullWidth" format="YYYY-MM-DD" />
                   </Form.Item>
                 </Col>
@@ -262,8 +257,7 @@ const EditEventLog = (props: EditEventLogProps) => {
                           }
                         },
                       },
-                    ]}
-                  >
+                    ]}>
                     <InputNumber
                       className="fullWidth"
                       placeholder="select maximum number"
@@ -280,8 +274,7 @@ const EditEventLog = (props: EditEventLogProps) => {
                       isMaxBookingPerUnit
                         ? { marginBottom: 8 }
                         : { marginBottom: 24 }
-                    }
-                  >
+                    }>
                     Maximum participant per unit
                   </Checkbox>
                   {isMaxBookingPerUnit ? (
@@ -305,8 +298,7 @@ const EditEventLog = (props: EditEventLogProps) => {
                             }
                           },
                         },
-                      ]}
-                    >
+                      ]}>
                       <InputNumber
                         className="fullWidth"
                         placeholder="input number"
@@ -325,8 +317,7 @@ const EditEventLog = (props: EditEventLogProps) => {
                             required: true,
                             message: "This field is required !",
                           },
-                        ]}
-                      >
+                        ]}>
                         <TimePicker className="fullWidth" format="hh:mm a" />
                       </Form.Item>
                     </Col>
@@ -339,8 +330,7 @@ const EditEventLog = (props: EditEventLogProps) => {
                             required: true,
                             message: "This field is required !",
                           },
-                        ]}
-                      >
+                        ]}>
                         <TimePicker className="fullWidth" format="hh:mm a" />
                       </Form.Item>
                     </Col>
@@ -355,8 +345,7 @@ const EditEventLog = (props: EditEventLogProps) => {
                     required: true,
                     message: "This field is required !",
                   },
-                ]}
-              >
+                ]}>
                 <Select
                   placeholder="Select receiver"
                   onSelect={onSendToChange}
@@ -382,8 +371,7 @@ const EditEventLog = (props: EditEventLogProps) => {
                     required: true,
                     message: "This field is required !",
                   },
-                ]}
-              >
+                ]}>
                 <UploadImageGroup
                   image={previewImage ? previewImage : ""}
                   onChange={handleImageChange}
@@ -399,8 +387,7 @@ const EditEventLog = (props: EditEventLogProps) => {
                     } else {
                       await setAllowvisitorregistration(true);
                     }
-                  }}
-                >
+                  }}>
                   Allow visitor registration
                 </Checkbox>
               </Col>
@@ -414,8 +401,7 @@ const EditEventLog = (props: EditEventLogProps) => {
                     } else {
                       await setPayable(true);
                     }
-                  }}
-                >
+                  }}>
                   Payable
                 </Checkbox>
               </Col>
@@ -441,8 +427,7 @@ const EditEventLog = (props: EditEventLogProps) => {
                           }
                         },
                       },
-                    ]}
-                  >
+                    ]}>
                     <InputNumber
                       className="fullWidth"
                       prefix="$"

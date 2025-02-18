@@ -6,15 +6,10 @@ export interface ReserveSlotModalPropsType {
   isOpen: boolean;
 }
 export interface SlotSelectedType {
-  id: number;
-  isLocked: boolean;
-  isPeakTime: boolean;
-  sessionType: string;
-  active: boolean;
+  index: number;
   startTime: string;
   endTime: string;
-  // index: number;
-  // timeShow: string;
+  timeShow: string;
 }
 
 export interface DataType {
@@ -71,6 +66,4 @@ export interface ReserveFacilityPropsType {
 export interface RoomType {
   label: string;
   value: number;
-  imageId?: string;
-  validDateNumber?: number;
 }

@@ -18,7 +18,7 @@ import {
   DataType,
   columnTable,
   conditionPage,
-} from "../../../stores/interface/Buliding";
+} from "../../../stores/interfaces/Buliding";
 import CreateBuildingActivities from "../components/CreateBuildingActivities";
 import EditBuildingActivitiesModal from "../components/EditBuildingActivities";
 import EditMaintenanceFacilityModal from "../components/EditMaintenanceFacility";
@@ -77,8 +77,7 @@ const BuildingActivities = () => {
               value={record.key}
               type="text"
               icon={<DeleteOutlined />}
-              onClick={showDeleteConfirm}
-            ></Button>
+              onClick={showDeleteConfirm}></Button>
           </>
         ),
       },
@@ -213,8 +212,9 @@ const BuildingActivities = () => {
               type="text"
               icon={<DeleteOutlined />}
               onClick={showDeleteParticipantGroupConfirm}
-              disabled={!accessibility?.menu_resident_sign_up.allowDelete}
-            ></Button>
+              disabled={
+                !accessibility?.menu_resident_sign_up.allowDelete
+              }></Button>
           </>
         ),
       },
@@ -528,8 +528,7 @@ const BuildingActivities = () => {
       <Row style={{ marginTop: 15, marginBottom: 15 }}>
         <Col
           span={10}
-          style={{ display: "flex", justifyContent: "flex-start" }}
-        >
+          style={{ display: "flex", justifyContent: "flex-start" }}>
           <Search
             placeholder={
               tabsSelected == "1" ? "Search by title" : "Search by group"
@@ -542,8 +541,7 @@ const BuildingActivities = () => {
         </Col>
         <Col
           span={10}
-          style={{ display: "flex", justifyContent: "flex-end" }}
-        ></Col>
+          style={{ display: "flex", justifyContent: "flex-end" }}></Col>
         <Col span={4} style={{ display: "flex", justifyContent: "flex-end" }}>
           {tabsSelected === "1" ? (
             <Button
@@ -552,8 +550,7 @@ const BuildingActivities = () => {
               onClick={async () => {
                 await setIsModalCreateBuildingActivities(true);
               }}
-              disabled={!accessibility?.menu_resident_information.allowEdit}
-            >
+              disabled={!accessibility?.menu_resident_information.allowEdit}>
               Create building activities
             </Button>
           ) : (
@@ -563,8 +560,7 @@ const BuildingActivities = () => {
               onClick={async () => {
                 await setIsModalCreateParticipantGroup(true);
               }}
-              disabled={!accessibility?.menu_resident_information.allowEdit}
-            >
+              disabled={!accessibility?.menu_resident_information.allowEdit}>
               Create participant group
             </Button>
           )}

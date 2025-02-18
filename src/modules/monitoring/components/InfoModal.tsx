@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Modal, Row, Col, Space, Typography } from "antd";
 import "../styles/infoModal.css";
 
-import { DetailType } from "../../../stores/interface/BuildingCalendar";
+import { DetailType } from "../../../stores/interfaces/BuildingCalendar";
 
 const { Text } = Typography;
 interface FormPropsType {
@@ -39,8 +39,7 @@ const FormTemplate = ({
           paddingTop: 20,
           overflowY: "scroll",
           maxHeight: "calc(80vh)",
-        }}
-      >
+        }}>
         {data.map((item: DetailType) => {
           return (
             <Col className="infoModalContentContainer" span={24}>

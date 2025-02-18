@@ -17,10 +17,10 @@ import {
   DataType,
   conditionPage,
   ExpandedDataType,
-} from "../../../stores/interface/Visitor";
+} from "../../../stores/interfaces/Visitor";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../../stores";
-import { IApprovedBody } from "../../../stores/interface/Visitor";
+import { IApprovedBody } from "../../../stores/interfaces/Visitor";
 const { confirm } = Modal;
 const VisitorManagementLog = () => {
   const { loading, tableData, total, childrenVisitor } = useSelector(
@@ -120,8 +120,7 @@ const VisitorManagementLog = () => {
                   disabled={record.status !== "Pending" ? true : false}
                   checked={record.approved ? true : false}
                   value={record.key}
-                  onChange={showApprovedChlidID}
-                ></Checkbox>
+                  onChange={showApprovedChlidID}></Checkbox>
               </Col>
             </Row>
           </>
@@ -140,8 +139,7 @@ const VisitorManagementLog = () => {
                   disabled={record.status !== "Pending" ? true : false}
                   checked={record.reject ? true : false}
                   value={record.key}
-                  onChange={rejectChildID}
-                ></Checkbox>
+                  onChange={rejectChildID}></Checkbox>
               </Col>
             </Row>
           </>
@@ -244,8 +242,7 @@ const VisitorManagementLog = () => {
                 disabled={record.status !== "pending" ? true : false}
                 checked={record.isApproveAll ? true : false}
                 value={record.key}
-                onChange={showApproved}
-              ></Checkbox>
+                onChange={showApproved}></Checkbox>
             </Col>
           </Row>
         </>
@@ -265,8 +262,7 @@ const VisitorManagementLog = () => {
                 disabled={record.status !== "pending" ? true : false}
                 checked={record.isRejectAll ? true : false}
                 value={record.key}
-                onChange={reject}
-              ></Checkbox>
+                onChange={reject}></Checkbox>
             </Col>
           </Row>
         </>
@@ -502,8 +498,7 @@ const VisitorManagementLog = () => {
         </Col>
         <Col
           span={10}
-          style={{ display: "flex", justifyContent: "flex-start" }}
-        >
+          style={{ display: "flex", justifyContent: "flex-start" }}>
           <Search
             placeholder="Search by name"
             allowClear
@@ -516,8 +511,7 @@ const VisitorManagementLog = () => {
           <Button
             type="primary"
             style={{ marginRight: 10 }}
-            onClick={dowloadVisitorLogs}
-          >
+            onClick={dowloadVisitorLogs}>
             <VerticalAlignBottomOutlined />
             Export
           </Button>

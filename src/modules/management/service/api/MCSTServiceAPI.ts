@@ -4,7 +4,7 @@ import {
   conditionPage,
   roleDetail,
   MSCTAddNew,
-} from "../../../../stores/interface/Management";
+} from "../../../../stores/interfaces/Management";
 import { paramsdata } from "./paramsAPI";
 import { encryptStorage } from "../../../../utils/encryptStorage";
 import { statusSuccess, statusCreated } from "../../../../constant/status_code";
@@ -27,7 +27,7 @@ const getdataManagement = async (params: conditionPage) => {
             key: e.id,
             image: e.imageProfile ? e.imageProfile : null,
             firstName: e.firstName,
-            middleName: e.middleName, 
+            middleName: e.middleName,
             lastName: e.lastName,
             email: e.email,
             role: e.role[0].name,
@@ -98,7 +98,7 @@ const deleteMCSTId = async (id: string) => {
     const resultDelete = await axios.delete(
       `/mcst/delete/${id}`
     );
-    
+
     if (resultDelete.status === statusSuccess) {
       return {
         status: true,
@@ -116,24 +116,24 @@ const deleteMCSTId = async (id: string) => {
     };
   }
 };
-const addMSCT=async (req:MSCTAddNew) => { 
+const addMSCT = async (req: MSCTAddNew) => {
   try {
-   const result= await axios.post("/mcst/add-juristic",req)
-   console.log('====================================');
-   console.log("add new msct data:",result);
-   console.log('====================================');
-   if (result.status===statusCreated) {
-    return true;
-  } else {
-    return false;
-  }
+    const result = await axios.post("/mcst/add-juristic", req)
+    console.log('====================================');
+    console.log("add new msct data:", result);
+    console.log('====================================');
+    if (result.status === statusCreated) {
+      return true;
+    } else {
+      return false;
+    }
   } catch (err) {
     console.error(err);
     return false
-    
+
   }
- }
- const editdataMCST = async (id: string|any, data: MSCTAddNew) => {
+}
+const editdataMCST = async (id: string | any, data: MSCTAddNew) => {
   try {
     const result = await axios.put(`/mcst/update/${id}`, data);
     if (result.status === statusSuccess) {
@@ -146,4 +146,4 @@ const addMSCT=async (req:MSCTAddNew) => {
     return false;
   }
 };
-export { getdataRole, getdataManagement,deleteMCSTId,addMSCT,editdataMCST };
+export { getdataRole, getdataManagement, deleteMCSTId, addMSCT, editdataMCST };

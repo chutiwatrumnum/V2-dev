@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { Modal, Row, Col } from "antd";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { DataType } from "../../../stores/interface/Resident";
+import { DataType } from "../../../stores/interfaces/Resident";
 const rowStyle: object = {
   paddingTop: 2,
   paddingBottom: 2,
@@ -24,8 +24,7 @@ const InfoResidentInformation = (props: InfoResidentInformationProps) => {
         centered
         open={props?.isOpen}
         onCancel={handleCancel}
-        footer={false}
-      >
+        footer={false}>
         <Row style={{ paddingTop: 10, paddingBottom: 2 }}>
           <Col span={14} style={{ fontWeight: 700 }}>
             {"First name "}

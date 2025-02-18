@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../../stores";
 import FilterByCalendarType from "../components/FilterByCalendarType";
 import InfoModal from "../../monitoring/components/InfoModal";
-import { DetailType } from "../../../stores/interface/BuildingCalendar";
+import { DetailType } from "../../../stores/interfaces/BuildingCalendar";
 import "../styles/buildingCalendar.css";
 import "../../monitoring/styles/eventView.css";
 

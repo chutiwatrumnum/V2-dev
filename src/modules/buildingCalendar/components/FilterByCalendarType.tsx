@@ -6,7 +6,7 @@ import "../styles/buildingCalendar.css";
 import "../../monitoring/styles/eventView.css";
 
 import type { CheckboxValueType } from "antd/es/checkbox/Group";
-import { CalendarType } from "../../../stores/interface/Common";
+import { CalendarType } from "../../../stores/interfaces/Common";
 
 const FilterByCalendarType = () => {
   // variables
@@ -44,8 +44,7 @@ const FilterByCalendarType = () => {
         <Checkbox
           style={{ backgroundColor: item.colorCode }}
           value={item.id}
-          className="checkbox"
-        >
+          className="checkbox">
           {item.name}
         </Checkbox>
       </Col>
@@ -66,8 +65,7 @@ const FilterByCalendarType = () => {
       <Checkbox.Group
         style={{ width: "100%" }}
         onChange={onCheckboxChange}
-        value={selectedCalendarType}
-      >
+        value={selectedCalendarType}>
         <Row>
           {calendarTypeData?.map((item) => {
             return <CheckBoxComponent item={item} />;

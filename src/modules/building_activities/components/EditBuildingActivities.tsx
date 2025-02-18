@@ -21,7 +21,7 @@ import {
   BuildingActivitiesEdit,
   emailGroupSelect,
   eventMasterGroupList,
-} from "../../../stores/interface/Buliding";
+} from "../../../stores/interfaces/Buliding";
 import {
   editDataBuildActivity,
   getdataEmailGrouplist,
@@ -317,8 +317,7 @@ const EditBuildingActivities = (props: EditBuildingActivitiesProps) => {
         onClose={(e) => {
           e.preventDefault();
           handleClose(tag);
-        }}
-      >
+        }}>
         {tag}
       </Tag>
     );
@@ -381,12 +380,10 @@ const EditBuildingActivities = (props: EditBuildingActivitiesProps) => {
             key="submit"
             type="primary"
             style={{ paddingLeft: 30, paddingRight: 30 }}
-            onClick={form.submit}
-          >
+            onClick={form.submit}>
             Save
           </Button>,
-        ]}
-      >
+        ]}>
         <Form
           form={form}
           layout="vertical"
@@ -397,8 +394,7 @@ const EditBuildingActivities = (props: EditBuildingActivitiesProps) => {
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
+          autoComplete="off">
           <Row>
             <Col span={12}>
               <Form.Item
@@ -406,8 +402,7 @@ const EditBuildingActivities = (props: EditBuildingActivitiesProps) => {
                 label="Event"
                 rules={[
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Select
                   options={eventMasterDataList}
                   placeholder="Select event"
@@ -423,8 +418,7 @@ const EditBuildingActivities = (props: EditBuildingActivitiesProps) => {
                     max: 100,
                     message: "Value should be less than 100 character",
                   },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input title" />
               </Form.Item>
               <Form.Item
@@ -435,8 +429,7 @@ const EditBuildingActivities = (props: EditBuildingActivitiesProps) => {
                     max: 99,
                     message: "Value should be less than 99 character",
                   },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input location" maxLength={100} />
               </Form.Item>
 
@@ -445,8 +438,7 @@ const EditBuildingActivities = (props: EditBuildingActivitiesProps) => {
                 label="Date"
                 rules={[
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <DatePicker
                   style={{ width: "100%" }}
                   onChange={async (val) => {
@@ -504,8 +496,7 @@ const EditBuildingActivities = (props: EditBuildingActivitiesProps) => {
                         required: true,
                         message: "This field is required !",
                       },
-                    ]}
-                  >
+                    ]}>
                     <TimePicker className="fullWidth" format="hh:mm a" />
                   </Form.Item>
                 </Col>
@@ -518,16 +509,14 @@ const EditBuildingActivities = (props: EditBuildingActivitiesProps) => {
                         required: true,
                         message: "This field is required !",
                       },
-                    ]}
-                  >
+                    ]}>
                     <TimePicker className="fullWidth" format="hh:mm a" />
                   </Form.Item>
                 </Col>
               </Row>
               <Form.Item
                 name="reminderNotification"
-                label="Notification setting"
-              >
+                label="Notification setting">
                 <Select
                   allowClear
                   disabled={disableDatePicker}
@@ -556,8 +545,7 @@ const EditBuildingActivities = (props: EditBuildingActivitiesProps) => {
                           onClose={async (e) => {
                             await e.preventDefault();
                             await handlerDefaultEmailGroupClose(element);
-                          }}
-                        >
+                          }}>
                           {element}
                         </Tag>
                       );

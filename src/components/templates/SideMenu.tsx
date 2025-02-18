@@ -235,42 +235,33 @@ const NewSideMenu = () => {
               <div className={"group-name"}>Facilities management</div>
               <SubMenu
                 key="facilities"
-                // icon={<img src={FACILITIES_ICON} alt="facilities" />}
-                title="Facilities">
+                icon={
+                  <FacilityBookingIcon
+                    color={iconMenuColorSelector("facilities")}
+                    className="sideMenuIcon"
+                  />
+                }
+                title="Reservation Lists">
                 <Menu.Item
-                  key={`${main_link}5`}
-                  // icon={<img src={OUR_FACILITY_ICON} alt="ourFacility" />}
-                >
-                  <Link to={`${main_link}/our-facilities`}>Our facilities</Link>
-                </Menu.Item>
-                <Menu.Item
-                  key={`${main_link}6`}
+                  key={`${main_link}/reservationDashboard`}
                   icon={
-                    <FacilityBookingIcon
-                      color={iconMenuColorSelector("facilities")}
+                    <ReservationDashboardIcon
+                      color={iconSubMenuColorSelector("reservationDashboard")}
                       className="sideMenuIcon"
                     />
                   }>
-                  <Link to={`${main_link}/facilities-booking-logs`}>
-                    Facilities booking logs
-                  </Link>
+                  <Link to={`${main_link}/reservedFacilities`}>Facilities</Link>
                 </Menu.Item>
                 <Menu.Item
-                  key={`${main_link}7`}
-                  // icon={
-                  //   <img src={RESERVE_FACILITY_ICON} alt="reserveFacility" />
-                  // }
-                >
-                  <Link to={`${main_link}/reserve-facility`}>
-                    Reserve facility
-                  </Link>
-                </Menu.Item>
-                <Menu.Item
-                  key={`${main_link}8`}
-                  // icon={<img src={PEOPLE_COUNTING_ICON} alt="peopleCounting" />}
-                  style={{ display: "none" }}>
-                  <Link to={`${main_link}/people-counting`}>
-                    People counting
+                  key={`${main_link}/reservationList`}
+                  icon={
+                    <ReservationListIcon
+                      color={iconSubMenuColorSelector("reservationList")}
+                      className="sideMenuIcon"
+                    />
+                  }>
+                  <Link to={`${main_link}/reservationList`}>
+                    Reservation Lists
                   </Link>
                 </Menu.Item>
               </SubMenu>

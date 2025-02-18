@@ -10,7 +10,7 @@ import {
   dataEventLogsType,
   EditEventLogsType,
   IChangeLockedById,
-} from "../../../../stores/interface/EventLog";
+} from "../../../../stores/interfaces/EventLog";
 import dayjs from "dayjs";
 const getDataEventJoinLogList = async (params: conditionPage) => {
   let url: string = `events/referral/list?`;

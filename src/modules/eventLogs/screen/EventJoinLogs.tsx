@@ -14,7 +14,7 @@ import dayjs from "dayjs";
 import {
   dataEventJoinLogsType,
   conditionPage,
-} from "../../../stores/interface/EventLog";
+} from "../../../stores/interfaces/EventLog";
 import InfoEventJoinLogs from "../components/InfoEventJoinLogs";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../../stores";
@@ -96,8 +96,7 @@ const EventJoinLogs = () => {
             value={record.key}
             type="text"
             icon={<DeleteOutlined />}
-            onClick={showDeleteConfirm}
-          ></Button>
+            onClick={showDeleteConfirm}></Button>
         </>
       ),
     },
@@ -262,8 +261,7 @@ const EventJoinLogs = () => {
         </Col>
         <Col
           span={10}
-          style={{ display: "flex", justifyContent: "flex-start" }}
-        >
+          style={{ display: "flex", justifyContent: "flex-start" }}>
           <Search
             placeholder="Search by event name"
             allowClear
@@ -276,8 +274,7 @@ const EventJoinLogs = () => {
           <Button
             type="primary"
             style={{ marginRight: 10 }}
-            onClick={exportEventJoinLogs}
-          >
+            onClick={exportEventJoinLogs}>
             Export
           </Button>
         </Col>

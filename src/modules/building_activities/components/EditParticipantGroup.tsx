@@ -3,7 +3,7 @@ import { Button, Modal, Form, Input, Row, Col, Tag, theme } from "antd";
 import {
   ParticipantGroup,
   edidtDataParticipantGroup,
-} from "../../../stores/interface/Buliding";
+} from "../../../stores/interfaces/Buliding";
 import {
   addParticipantGroup,
   editDataParticipantGroup,
@@ -140,8 +140,7 @@ const EditParticipantGroup = (props: EditPrarticipantGroupProps) => {
         onClose={(e) => {
           e.preventDefault();
           handleClose(tag);
-        }}
-      >
+        }}>
         {tag}
       </Tag>
     );
@@ -174,12 +173,10 @@ const EditParticipantGroup = (props: EditPrarticipantGroupProps) => {
             key="submit"
             type="primary"
             style={{ paddingLeft: 30, paddingRight: 30 }}
-            onClick={form.submit}
-          >
+            onClick={form.submit}>
             Save
           </Button>,
-        ]}
-      >
+        ]}>
         <Form
           form={form}
           layout="vertical"
@@ -190,8 +187,7 @@ const EditParticipantGroup = (props: EditPrarticipantGroupProps) => {
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
+          autoComplete="off">
           <Row>
             <Col span={24}>
               <Form.Item
@@ -199,8 +195,7 @@ const EditParticipantGroup = (props: EditPrarticipantGroupProps) => {
                 name="groupName"
                 rules={[
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Input />
               </Form.Item>
               <Form.Item
@@ -208,8 +203,7 @@ const EditParticipantGroup = (props: EditPrarticipantGroupProps) => {
                 name="emailGroup"
                 rules={[
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 {tagChild}
                 {inputVisible ? (
                   <Input

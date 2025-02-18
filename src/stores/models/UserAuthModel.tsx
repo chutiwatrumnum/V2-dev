@@ -4,7 +4,7 @@ import {
   UserType,
   LoginPayloadType,
   ResetPasswordPayloadType,
-} from "../interface/User";
+} from "../interfaces/User";
 import { RootModel } from "./index";
 import { encryptStorage } from "../../utils/encryptStorage";
 import { useNavigate } from "react-router-dom";

@@ -3,7 +3,7 @@ import {
   AnnounceType,
   AnnouncePayloadType,
   AddNewAnnouncementType,
-} from "../interface/Announce";
+} from "../interfaces/Announce";
 import { RootModel } from "./index";
 import axios from "axios";
 import { message } from "antd";

@@ -14,7 +14,7 @@ import FilterByCalendarType from "../components/FilterByCalendarType";
 import "../styles/buildingCalendar.css";
 import "../../monitoring/styles/eventView.css";
 
-import { DetailType } from "../../../stores/interface/BuildingCalendar";
+import { DetailType } from "../../../stores/interfaces/BuildingCalendar";
 
 const { Text, Title } = Typography;
 
@@ -82,13 +82,11 @@ const ListView = () => {
                     return (
                       <Row
                         style={{ backgroundColor: detailItem.colorCode }}
-                        className="eventCard"
-                      >
+                        className="eventCard">
                         <Col span={24} className="eventCardInner">
                           <Row
                             style={{ height: "100%" }}
-                            justify="space-between"
-                          >
+                            justify="space-between">
                             <Space direction="vertical" size={10}>
                               <Text strong>
                                 {detailItem.title ?? "Title name"}

@@ -9,11 +9,11 @@ import {
   eventMasterGroupList,
   BuildingActivitiesEdit,
   MaintenanceFacilityEdit,
-} from "../../../../stores/interface/Buliding";
+} from "../../../../stores/interfaces/Buliding";
 import { paramsdata } from "./paramsAPI";
 import { encryptStorage } from "../../../../utils/encryptStorage";
 import { statusSuccess, statusCreated } from "../../../../constant/status_code";
-import { CreateMaintenanceFacilities } from "../../../../stores/interface/Facilities";
+import { CreateMaintenanceFacilities } from "../../../../stores/interfaces/Facilities";
 
 const getdataBuildinglist = async (params: conditionPage) => {
   let url: string = `/building-calendar/activities-list?`;
@@ -324,7 +324,7 @@ const addBuildingActivity = async (req: BuildingActivitiesNew) => {
     } else {
       return false;
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 const addMaintenanceFacilities = async (req: CreateMaintenanceFacilities) => {
   try {
@@ -337,7 +337,7 @@ const addMaintenanceFacilities = async (req: CreateMaintenanceFacilities) => {
     } else {
       return false;
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export {

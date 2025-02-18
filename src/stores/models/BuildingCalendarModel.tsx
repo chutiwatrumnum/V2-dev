@@ -1,5 +1,5 @@
 import { createModel } from "@rematch/core";
-import { BuildingCalendarDataType } from "../interface/BuildingCalendar";
+import { BuildingCalendarDataType } from "../interfaces/BuildingCalendar";
 import { RootModel } from "./index";
 import axios from "axios";
 import dayjs from "dayjs";

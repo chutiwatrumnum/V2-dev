@@ -11,7 +11,7 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { DataType, conditionPage } from "../../../stores/interface/Resident";
+import { DataType, conditionPage } from "../../../stores/interfaces/Resident";
 
 import CreateAddNew from "../components/CreateAddNew";
 import EditResidentInformation from "../components/EditResidentInformation";
@@ -105,8 +105,9 @@ const ResidentInformation = () => {
             type="text"
             icon={<DeleteOutlined />}
             onClick={showDeleteConfirm}
-            disabled={!accessibility?.menu_resident_information.allowDelete}
-          ></Button>
+            disabled={
+              !accessibility?.menu_resident_information.allowDelete
+            }></Button>
         </>
       ),
     },
@@ -288,8 +289,7 @@ const ResidentInformation = () => {
         </Col>
         <Col
           span={10}
-          style={{ display: "flex", justifyContent: "flex-start" }}
-        >
+          style={{ display: "flex", justifyContent: "flex-start" }}>
           <Search
             placeholder="Search by first name"
             allowClear
@@ -305,8 +305,7 @@ const ResidentInformation = () => {
             onClick={async () => {
               await setIsModalCreate(true);
             }}
-            disabled={!accessibility?.menu_resident_information.allowEdit}
-          >
+            disabled={!accessibility?.menu_resident_information.allowEdit}>
             Add new
           </Button>
           <CreateAddNew

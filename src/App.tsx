@@ -15,9 +15,8 @@ import AuthorizedLayout from "./navigation/AuthorizedLayout";
 // authorize routes
 import AnnouncementMain from "./modules/announcement/screen/AnnouncementMain";
 
-import FacilitiesLogs from "./modules/facilities/components/HeaderFacilitiesLogs";
-import ReserveFacility from "./modules/facilities/screen/ReserveFacility";
-import OurFacilities from "./modules/facilities/screen/OurFacilities";
+import ReservedFacilities from "./modules/facilities/screen/ReservedFacilities";
+import ReservationList from "./modules/facilities/screen/ReservationList";
 
 import ManagementMain from "./modules/management/screen/ManagementMain";
 
@@ -101,8 +100,7 @@ function App() {
             justifyContent: "center",
             alignItems: "center",
             textAlign: "center",
-          }}
-        >
+          }}>
           <Spin size="large" />
           {/* <p style={{ marginTop: 10 }}>Loading...</p> */}
         </div>
@@ -128,12 +126,9 @@ function App() {
             <Route index path="summary" element={<Summary />} />
             <Route path="management" element={<ManagementMain />} />
 
-            <Route
-              path="facilities-booking-logs"
-              element={<FacilitiesLogs />}
-            />
-            <Route path="reserve-facility" element={<ReserveFacility />} />
-            <Route path="our-facilities" element={<OurFacilities />} />
+            {/* Facility */}
+            <Route path="reservedFacilities" element={<ReservedFacilities />} />
+            <Route path="reservationList" element={<ReservationList />} />
             <Route
               path="visitor-management-log"
               element={<VisitorManagementLog />}

@@ -31,7 +31,7 @@ import "../styles/document.css";
 import {
   GetPublicDataPayloadType,
   DocumentDataType,
-} from "../../../stores/interface/Document";
+} from "../../../stores/interfaces/Document";
 import { BreadcrumbType } from "../interface/Public";
 import type { ColumnsType } from "antd/es/table";
 import UploadPersonal from "../components/UploadPersonal";
@@ -161,8 +161,7 @@ const PersonalFolder = () => {
               onClick={() => {
                 onBreadCrumbClick(item);
               }}
-              className="breadcrumbTxt"
-            >
+              className="breadcrumbTxt">
               {item.folderName}
             </Link>
           ),
@@ -233,8 +232,7 @@ const PersonalFolder = () => {
             onClick={() => {
               onBreadCrumbClick(item);
             }}
-            className="breadcrumbTxt"
-          >
+            className="breadcrumbTxt">
             {item.folderName}
           </Link>
         ),
@@ -261,8 +259,7 @@ const PersonalFolder = () => {
               onClick={showDeleteConfirm}
               disabled={
                 !accessibility?.menu_document_form_management.allowDelete
-              }
-            ></Button>
+              }></Button>
           ) : null}
         </>
       ),
@@ -376,8 +373,7 @@ const PersonalFolder = () => {
       <Row style={{ marginBottom: 15 }}>
         <Col
           span={16}
-          style={{ display: "flex", justifyContent: "flex-start" }}
-        >
+          style={{ display: "flex", justifyContent: "flex-start" }}>
           <Row style={{ width: "100%" }}>
             <Search
               placeholder="Search by Name"
@@ -410,8 +406,7 @@ const PersonalFolder = () => {
             onClick={async () => {
               await setisModalUploadPublic(true);
             }}
-            disabled={!accessibility?.menu_document_form_management.allowEdit}
-          >
+            disabled={!accessibility?.menu_document_form_management.allowEdit}>
             Upload
           </Button>
           <UploadPersonal

@@ -11,7 +11,7 @@ import {
   Select,
   notification,
 } from "antd";
-import { MSCTAddNew, roleDetail } from "../../../stores/interface/Management";
+import { MSCTAddNew, roleDetail } from "../../../stores/interfaces/Management";
 import { getdataRole, addMSCT } from "../service/api/MCSTServiceAPI";
 import { Dispatch, RootState } from "../../../stores";
 interface ComponentCreateProps {
@@ -113,12 +113,10 @@ const CreateAddNew = (props: ComponentCreateProps) => {
             key="submit"
             type="primary"
             style={{ paddingLeft: 30, paddingRight: 30 }}
-            onClick={form.submit}
-          >
+            onClick={form.submit}>
             Register
           </Button>,
-        ]}
-      >
+        ]}>
         <Form
           form={form}
           layout="vertical"
@@ -129,8 +127,7 @@ const CreateAddNew = (props: ComponentCreateProps) => {
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
+          autoComplete="off">
           <Row>
             <Col span={12}>
               <Form.Item
@@ -143,15 +140,13 @@ const CreateAddNew = (props: ComponentCreateProps) => {
                     message: "charecter only",
                   },
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input first name" />
               </Form.Item>
               <Form.Item
                 label="Middle name"
                 name="middleName"
-                rules={[{ max: 25, message: "max 25 charecter" }]}
-              >
+                rules={[{ max: 25, message: "max 25 charecter" }]}>
                 <Input placeholder="Input middle name" />
               </Form.Item>
               <Form.Item
@@ -164,8 +159,7 @@ const CreateAddNew = (props: ComponentCreateProps) => {
                     message: "charecter only",
                   },
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input last name" />
               </Form.Item>
               <Form.Item
@@ -179,8 +173,7 @@ const CreateAddNew = (props: ComponentCreateProps) => {
                     message: "invalid email",
                   },
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input email" />
               </Form.Item>
               <Form.Item
@@ -190,8 +183,7 @@ const CreateAddNew = (props: ComponentCreateProps) => {
                   { max: 10, message: "max 10 charecter" },
                   { pattern: new RegExp(/^[0-9]*$/), message: "digit only" },
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input contact no." />
               </Form.Item>
             </Col>
@@ -202,8 +194,7 @@ const CreateAddNew = (props: ComponentCreateProps) => {
               <Form.Item
                 name="roleId"
                 label="Role"
-                rules={[{ required: true, message: "Role" }]}
-              >
+                rules={[{ required: true, message: "Role" }]}>
                 <Select options={role} placeholder="Select role" />
               </Form.Item>
             </Col>

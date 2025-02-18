@@ -21,7 +21,7 @@ import "../styles/announcement.css";
 import {
   AddNewAnnouncementType,
   DataAnnouncementType,
-} from "../../../stores/interface/Announce";
+} from "../../../stores/interfaces/Announce";
 import { ConvertDate, ConvertDateToString } from "../../../utils/helper";
 
 const { TextArea } = Input;
@@ -199,8 +199,7 @@ const FormTemplate = ({
           borderBottom: 20,
           borderWidth: 200,
           borderBlock: 10,
-        }}
-      >
+        }}>
         <Form
           form={form}
           layout="vertical"
@@ -210,8 +209,7 @@ const FormTemplate = ({
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
+          autoComplete="off">
           <Row>
             <Col span={8}>
               <Form.Item label="Title" name="title" rules={normalInputRule}>
@@ -220,8 +218,7 @@ const FormTemplate = ({
               <Form.Item
                 label="Announcement body"
                 name="description"
-                rules={requiredRule}
-              >
+                rules={requiredRule}>
                 <TextArea
                   placeholder="Input announcement body"
                   maxLength={2000}
@@ -236,15 +233,13 @@ const FormTemplate = ({
                   <Form.Item
                     label="Start date"
                     name="startDate"
-                    rules={requiredRule}
-                  >
+                    rules={requiredRule}>
                     <DatePicker className="fullWidth" format="YYYY-MM-DD" />
                   </Form.Item>
                   <Form.Item
                     label="Start time"
                     name="startTime"
-                    rules={requiredRule}
-                  >
+                    rules={requiredRule}>
                     <TimePicker className="fullWidth" format="hh:mm a" />
                   </Form.Item>
                 </Col>
@@ -252,15 +247,13 @@ const FormTemplate = ({
                   <Form.Item
                     label="End date"
                     name="endDate"
-                    rules={requiredRule}
-                  >
+                    rules={requiredRule}>
                     <DatePicker className="fullWidth" format="YYYY-MM-DD" />
                   </Form.Item>
                   <Form.Item
                     label="End time"
                     name="endTime"
-                    rules={requiredRule}
-                  >
+                    rules={requiredRule}>
                     <TimePicker className="fullWidth" format="hh:mm a" />
                   </Form.Item>
                 </Col>

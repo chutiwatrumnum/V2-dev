@@ -14,7 +14,7 @@ import {
   MSCTAddNew,
   roleDetail,
   DataType,
-} from "../../../stores/interface/Management";
+} from "../../../stores/interfaces/Management";
 import UploadImageGroup from "../../../components/groups/UploadImageGroup";
 import { getdataRole, editdataMCST } from "../service/api/MCSTServiceAPI";
 import { Dispatch, RootState } from "../../../stores";
@@ -125,12 +125,10 @@ const EditMSCTtInformation = (props: EditMSCTComponentProps) => {
             key="submit"
             type="primary"
             style={{ paddingLeft: 30, paddingRight: 30 }}
-            onClick={form.submit}
-          >
+            onClick={form.submit}>
             save
           </Button>,
-        ]}
-      >
+        ]}>
         <Form
           form={form}
           layout="vertical"
@@ -141,8 +139,7 @@ const EditMSCTtInformation = (props: EditMSCTComponentProps) => {
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
+          autoComplete="off">
           <Row>
             <Col span={12}>
               <Form.Item
@@ -155,15 +152,13 @@ const EditMSCTtInformation = (props: EditMSCTComponentProps) => {
                     message: "charecter only",
                   },
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input first name" />
               </Form.Item>
               <Form.Item
                 label="Middle name"
                 name="middleName"
-                rules={[{ max: 25, message: "max 25 charecter" }]}
-              >
+                rules={[{ max: 25, message: "max 25 charecter" }]}>
                 <Input placeholder="Input middle name" />
               </Form.Item>
               <Form.Item
@@ -176,8 +171,7 @@ const EditMSCTtInformation = (props: EditMSCTComponentProps) => {
                     message: "charecter only",
                   },
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input last name" />
               </Form.Item>
               <Form.Item
@@ -191,8 +185,7 @@ const EditMSCTtInformation = (props: EditMSCTComponentProps) => {
                     message: "invalid email",
                   },
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input email" />
               </Form.Item>
               <Form.Item
@@ -202,8 +195,7 @@ const EditMSCTtInformation = (props: EditMSCTComponentProps) => {
                   { max: 10, message: "max 10 charecter" },
                   { pattern: new RegExp(/^[0-9]*$/), message: "digit only" },
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input phone no." />
               </Form.Item>
             </Col>
@@ -218,8 +210,7 @@ const EditMSCTtInformation = (props: EditMSCTComponentProps) => {
               <Form.Item
                 name="roleId"
                 label="Role"
-                rules={[{ required: true, message: "Role" }]}
-              >
+                rules={[{ required: true, message: "Role" }]}>
                 <Select options={role} placeholder="Input role." />
               </Form.Item>
             </Col>

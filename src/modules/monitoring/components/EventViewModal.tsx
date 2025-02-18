@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Modal, Row, Col, Space, Typography } from "antd";
 import "../styles/infoModal.css";
 
-import { DetailType } from "../../../stores/interface/Summary";
+import { DetailType } from "../../../stores/interfaces/Summary";
 
 const { Text } = Typography;
 interface FormPropsType {
@@ -37,8 +37,7 @@ const EventViewModal = ({
           paddingTop: 20,
           overflowY: "scroll",
           maxHeight: "calc(80vh)",
-        }}
-      >
+        }}>
         {data.map((item: DetailType) => {
           if (item.type === "building_calendar" || item.type === "event")
             return (
@@ -70,8 +69,7 @@ const EventViewModal = ({
                   </Row>
                   <Row
                     justify="space-between"
-                    className="timeInfoModalContainer"
-                  >
+                    className="timeInfoModalContainer">
                     <Row>
                       <Text>Start time :</Text>
                       <Text className="rightTxtInfoModal">
@@ -128,8 +126,7 @@ const EventViewModal = ({
                   </Row>
                   <Row
                     justify="space-between"
-                    className="timeInfoModalContainer"
-                  >
+                    className="timeInfoModalContainer">
                     <Row>
                       <Text>Start time :</Text>
                       <Text className="rightTxtInfoModal">

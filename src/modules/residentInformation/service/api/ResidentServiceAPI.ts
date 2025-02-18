@@ -7,7 +7,7 @@ import {
   hobbyDetail,
   roleDetail,
   rejectRequest,
-} from "../../../../stores/interface/Resident";
+} from "../../../../stores/interfaces/Resident";
 import { paramsdata } from "./paramsAPI";
 import { encryptStorage } from "../../../../utils/encryptStorage";
 import { statusSuccess, statusCreated } from "../../../../constant/status_code";
@@ -249,7 +249,7 @@ const addResident = async (req: ResidentAddNew) => {
     } else {
       return result.data.message;
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 const RejectById = async (data: rejectRequest) => {

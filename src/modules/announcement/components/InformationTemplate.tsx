@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { Modal, Row, Col, Typography, Image } from "antd";
-import { DataAnnouncementType } from "../../../stores/interface/Announce";
+import { DataAnnouncementType } from "../../../stores/interfaces/Announce";
 
 import "../styles/announcement.css";
 
@@ -46,8 +46,7 @@ const InformationTemplate = ({
           borderBottom: 20,
           borderWidth: 200,
           borderBlock: 10,
-        }}
-      >
+        }}>
         <Row>
           <Col span={12} style={{ padding: 10 }}>
             <Title level={5}>Image</Title>

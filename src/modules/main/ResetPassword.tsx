@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../stores";
 import { useParams, useNavigate } from "react-router-dom";
 
-import { ResetPasswordPayloadType } from "../../stores/interface/User";
+import { ResetPasswordPayloadType } from "../../stores/interfaces/User";
 import type { FormInstance } from "antd/es/form";
 
 import LOGO from "../../assets/images/logo.svg";
@@ -100,13 +100,11 @@ const ResetPassword = () => {
         initialValues={{ remember: true }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        autoComplete="off"
-      >
+        autoComplete="off">
         <Form.Item
           label={<Text className="textColor bold">New password</Text>}
           name="password"
-          rules={resetPasswordRule}
-        >
+          rules={resetPasswordRule}>
           <Input.Password placeholder="Input new password" size="large" />
         </Form.Item>
 
@@ -127,8 +125,7 @@ const ResetPassword = () => {
                 );
               },
             }),
-          ]}
-        >
+          ]}>
           <Input.Password placeholder="Input new password" size="large" />
         </Form.Item>
 
@@ -138,8 +135,7 @@ const ResetPassword = () => {
             className="resetPasswordBtn"
             type="primary"
             htmlType="submit"
-            size="large"
-          >
+            size="large">
             <span className="bold"> Reset password</span>
           </Button>
         </Form.Item>

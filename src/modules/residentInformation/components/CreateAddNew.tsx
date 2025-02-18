@@ -18,7 +18,7 @@ import {
   blockDetail,
   unitDetail,
   roleDetail,
-} from "../../../stores/interface/Resident";
+} from "../../../stores/interfaces/Resident";
 import {
   addResident,
   getdatablock,
@@ -179,12 +179,10 @@ const CreateAddNew = (props: ComponentCreateProps) => {
             key="submit"
             type="primary"
             style={{ paddingLeft: 30, paddingRight: 30 }}
-            onClick={form.submit}
-          >
+            onClick={form.submit}>
             Register
           </Button>,
-        ]}
-      >
+        ]}>
         <Form
           form={form}
           layout="vertical"
@@ -195,8 +193,7 @@ const CreateAddNew = (props: ComponentCreateProps) => {
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
+          autoComplete="off">
           <Row>
             <Col span={8}>
               <Form.Item
@@ -209,15 +206,13 @@ const CreateAddNew = (props: ComponentCreateProps) => {
                     message: "charecter only",
                   },
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input first name" />
               </Form.Item>
               <Form.Item
                 label="Middle name"
                 name="middleName"
-                rules={[{ max: 25, message: "max 25 charecter" }]}
-              >
+                rules={[{ max: 25, message: "max 25 charecter" }]}>
                 <Input placeholder="Input middle name" />
               </Form.Item>
               <Form.Item
@@ -230,8 +225,7 @@ const CreateAddNew = (props: ComponentCreateProps) => {
                     message: "charecter only",
                   },
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input last name" />
               </Form.Item>
               <Form.Item label="Nickname" name="nickName">
@@ -251,8 +245,7 @@ const CreateAddNew = (props: ComponentCreateProps) => {
                     message: "invalid email",
                   },
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input email" />
               </Form.Item>
               {/* <Form.Item
@@ -269,8 +262,7 @@ const CreateAddNew = (props: ComponentCreateProps) => {
               <Form.Item
                 name="unitId"
                 label="Unit no."
-                rules={[{ required: true, message: "Unit" }]}
-              >
+                rules={[{ required: true, message: "Unit" }]}>
                 <Select
                   disabled={selectedblock}
                   options={unit}
@@ -302,8 +294,7 @@ const CreateAddNew = (props: ComponentCreateProps) => {
                 rules={[
                   { max: 10, message: "max 10 number" },
                   { pattern: new RegExp(/^[0-9]*$/), message: "digit only" },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input IU number" />
               </Form.Item>
             </Col>
@@ -312,8 +303,7 @@ const CreateAddNew = (props: ComponentCreateProps) => {
               <Form.Item
                 name="roleId"
                 label="Role"
-                rules={[{ required: true, message: "Please select role" }]}
-              >
+                rules={[{ required: true, message: "Please select role" }]}>
                 <Select options={role} placeholder="Select role" />
               </Form.Item>
               <Form.Item name="birthDate" label="Birthday">
@@ -330,8 +320,7 @@ const CreateAddNew = (props: ComponentCreateProps) => {
                   { max: 10, message: "max 10 number" },
                   { pattern: new RegExp(/^[0-9]*$/), message: "digit only" },
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input contact no." />
               </Form.Item>
             </Col>

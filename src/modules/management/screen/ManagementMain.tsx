@@ -5,7 +5,7 @@ import type { ColumnsType, TableProps } from "antd/es/table";
 import { deleteMCSTId } from "../service/api/MCSTServiceAPI";
 import { Row, Col, Input, Button, Modal, Image, Avatar } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { DataType, conditionPage } from "../../../stores/interface/Management";
+import { DataType, conditionPage } from "../../../stores/interfaces/Management";
 
 import CreateAddNew from "../components/CreateAddNew";
 import EditMSCTtInformation from "../components/EditMSCTtInformation";
@@ -90,8 +90,7 @@ const ManagementMain = () => {
             value={record.key}
             type="text"
             icon={<DeleteOutlined />}
-            onClick={showDeleteConfirm}
-          ></Button>
+            onClick={showDeleteConfirm}></Button>
         </>
       ),
     },
@@ -232,8 +231,7 @@ const ManagementMain = () => {
       <Row style={{ marginTop: 15, marginBottom: 15 }}>
         <Col
           span={20}
-          style={{ display: "flex", justifyContent: "flex-start" }}
-        >
+          style={{ display: "flex", justifyContent: "flex-start" }}>
           <Search
             placeholder="Search by first name"
             allowClear
@@ -248,8 +246,7 @@ const ManagementMain = () => {
             type="primary"
             onClick={async () => {
               await setIsModalCreate(true);
-            }}
-          >
+            }}>
             Add new
           </Button>
           <CreateAddNew

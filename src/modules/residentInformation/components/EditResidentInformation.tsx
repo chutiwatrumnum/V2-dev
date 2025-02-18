@@ -10,7 +10,7 @@ import {
   roleDetail,
   ResidentAddNew,
   unitDetail,
-} from "../../../stores/interface/Resident";
+} from "../../../stores/interfaces/Resident";
 import axios from "axios";
 import {
   editdataresident,
@@ -183,12 +183,10 @@ const EditResidentInformation = (props: MyComponentProps) => {
             key="submit"
             type="primary"
             style={{ paddingLeft: 30, paddingRight: 30 }}
-            onClick={form.submit}
-          >
+            onClick={form.submit}>
             save
           </Button>,
-        ]}
-      >
+        ]}>
         <Form
           form={form}
           layout="vertical"
@@ -199,8 +197,7 @@ const EditResidentInformation = (props: MyComponentProps) => {
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
+          autoComplete="off">
           <Row>
             <Col span={8}>
               <Form.Item
@@ -213,15 +210,13 @@ const EditResidentInformation = (props: MyComponentProps) => {
                     message: "character only",
                   },
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input first name" />
               </Form.Item>
               <Form.Item
                 label="Middle name"
                 name="middleName"
-                rules={[{ max: 25, message: "max 25 charecter" }]}
-              >
+                rules={[{ max: 25, message: "max 25 charecter" }]}>
                 <Input placeholder="Input middle name" />
               </Form.Item>
               <Form.Item
@@ -234,8 +229,7 @@ const EditResidentInformation = (props: MyComponentProps) => {
                     message: "charecter only",
                   },
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input last name" />
               </Form.Item>
               <Form.Item label="Nickname" name="nickName">
@@ -255,15 +249,13 @@ const EditResidentInformation = (props: MyComponentProps) => {
                     message: "invalid email",
                   },
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Input disabled placeholder="Input email" />
               </Form.Item>
               <Form.Item
                 name="unitId"
                 label="Unit no."
-                rules={[{ required: true, message: "Unit" }]}
-              >
+                rules={[{ required: true, message: "Unit" }]}>
                 <Select options={unitOptions} placeholder="Select unit no." />
               </Form.Item>
 
@@ -291,8 +283,7 @@ const EditResidentInformation = (props: MyComponentProps) => {
                 rules={[
                   { max: 10, message: "max 10 charecter" },
                   { pattern: new RegExp(/^[0-9]*$/), message: "digit only" },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input iu number" />
               </Form.Item>
             </Col>
@@ -301,8 +292,7 @@ const EditResidentInformation = (props: MyComponentProps) => {
               <Form.Item
                 name="roleId"
                 label="Role"
-                rules={[{ required: true, message: "Role" }]}
-              >
+                rules={[{ required: true, message: "Role" }]}>
                 <Select options={role} placeholder="Select role." />
               </Form.Item>
               <Form.Item name="birthDate" label="Birthday (Op)">
@@ -319,8 +309,7 @@ const EditResidentInformation = (props: MyComponentProps) => {
                   { max: 10, message: "max 10 charecter" },
                   { pattern: new RegExp(/^[0-9]*$/), message: "digit only" },
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input phone no." />
               </Form.Item>
             </Col>

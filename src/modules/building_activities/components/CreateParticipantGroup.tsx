@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Button, Modal, Form, Input, Row, Col, Tag, theme } from "antd";
-import { ParticipantGroup } from "../../../stores/interface/Buliding";
+import { ParticipantGroup } from "../../../stores/interfaces/Buliding";
 import { addParticipantGroup } from "../service/api/buildingActivitesAPI";
 import { PlusOutlined } from "@ant-design/icons";
 import type { InputRef } from "antd";
@@ -119,8 +119,7 @@ const CreateParticipantGroup = (props: ComponentCreateProps) => {
         onClose={(e) => {
           e.preventDefault();
           handleClose(tag);
-        }}
-      >
+        }}>
         {tag}
       </Tag>
     );
@@ -153,12 +152,10 @@ const CreateParticipantGroup = (props: ComponentCreateProps) => {
             key="submit"
             type="primary"
             style={{ paddingLeft: 30, paddingRight: 30 }}
-            onClick={form.submit}
-          >
+            onClick={form.submit}>
             Create
           </Button>,
-        ]}
-      >
+        ]}>
         <Form
           form={form}
           layout="vertical"
@@ -169,8 +166,7 @@ const CreateParticipantGroup = (props: ComponentCreateProps) => {
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
+          autoComplete="off">
           <Row>
             <Col span={24}>
               <Form.Item
@@ -178,8 +174,7 @@ const CreateParticipantGroup = (props: ComponentCreateProps) => {
                 name="groupName"
                 rules={[
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Input />
               </Form.Item>
               <Form.Item
@@ -187,8 +182,7 @@ const CreateParticipantGroup = (props: ComponentCreateProps) => {
                 name="emailGroup"
                 rules={[
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 {tagChild}
                 {inputVisible ? (
                   <Input

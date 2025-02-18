@@ -4,10 +4,10 @@ import { UploadOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "../../../stores";
 import type { RcFile, UploadFile } from "antd/es/upload/interface";
-import { dataFiles } from "../../../stores/interface/Document";
+import { dataFiles } from "../../../stores/interfaces/Document";
 import { uploadDocument } from "../service/DocumentAPI";
 
-import { DocumentDataType } from "../../../stores/interface/Document";
+import { DocumentDataType } from "../../../stores/interfaces/Document";
 type ProgressStatus = "normal" | "exception" | "active" | "success";
 const { Dragger } = Upload;
 const { confirm } = Modal;
@@ -173,12 +173,10 @@ const UploadPublic = (props: ComponentCreateProps) => {
             loading={buttonloading}
             disabled={fileList.length > 0 ? false : true}
             style={{ paddingLeft: 30, paddingRight: 30 }}
-            onClick={UploadPublicFile}
-          >
+            onClick={UploadPublicFile}>
             Upload
           </Button>,
-        ]}
-      >
+        ]}>
         <div>{props?.folderDetail?.folderName ?? "Public folder"}</div>
         <Dragger
           accept="application/pdf"
@@ -239,8 +237,7 @@ const UploadPublic = (props: ComponentCreateProps) => {
             await setFileList(allFile);
           }}
           progress={{ ...propProcess }}
-          multiple={true}
-        >
+          multiple={true}>
           <p className="ant-upload-drag-icon">
             <UploadOutlined style={{ color: "#AEAEAE" }} />
           </p>

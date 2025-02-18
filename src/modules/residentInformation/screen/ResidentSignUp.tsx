@@ -30,7 +30,7 @@ import {
   columnTable,
   conditionPage,
   rejectRequest,
-} from "../../../stores/interface/Resident";
+} from "../../../stores/interfaces/Resident";
 import ApprovedResidentSignUp from "../components/ApprovedResidentSignUp";
 import InfoResidentSignUp from "../components/InfoResidentSignUp";
 import { useDispatch, useSelector } from "react-redux";
@@ -74,8 +74,9 @@ const ResidentSignUp = () => {
               type="text"
               icon={<DeleteOutlined />}
               onClick={showDeleteConfirm}
-              disabled={!accessibility?.menu_resident_sign_up.allowDelete}
-            ></Button>
+              disabled={
+                !accessibility?.menu_resident_sign_up.allowDelete
+              }></Button>
           </>
         ),
       },
@@ -208,8 +209,9 @@ const ResidentSignUp = () => {
                   type="text"
                   icon={<CheckCircleOutlined />}
                   onClick={showApproved}
-                  disabled={!accessibility?.menu_resident_sign_up.allowEdit}
-                ></Button>
+                  disabled={
+                    !accessibility?.menu_resident_sign_up.allowEdit
+                  }></Button>
               </Col>
             </Row>
           </>
@@ -231,8 +233,9 @@ const ResidentSignUp = () => {
                   type="text"
                   icon={<CheckCircleOutlined />}
                   onClick={showReject}
-                  disabled={!accessibility?.menu_resident_sign_up.allowEdit}
-                ></Button>
+                  disabled={
+                    !accessibility?.menu_resident_sign_up.allowEdit
+                  }></Button>
               </Col>
             </Row>
           </>
@@ -615,8 +618,7 @@ const ResidentSignUp = () => {
         </Col>
         <Col
           span={10}
-          style={{ display: "flex", justifyContent: "flex-start" }}
-        >
+          style={{ display: "flex", justifyContent: "flex-start" }}>
           <Search
             placeholder="Search by first name"
             allowClear
@@ -627,8 +629,7 @@ const ResidentSignUp = () => {
         </Col>
         <Col
           span={4}
-          style={{ display: "flex", justifyContent: "flex-end" }}
-        ></Col>
+          style={{ display: "flex", justifyContent: "flex-end" }}></Col>
       </Row>
 
       <Row>
@@ -662,8 +663,7 @@ const ResidentSignUp = () => {
         onOk={form.submit}
         onCancel={handleCancel}
         //  okButtonProps={{ style: {marginRight:30 } }}
-        cancelButtonProps={{ style: { display: "none" } }}
-      >
+        cancelButtonProps={{ style: { display: "none" } }}>
         <Form
           form={form}
           layout="vertical"
@@ -674,8 +674,7 @@ const ResidentSignUp = () => {
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
+          autoComplete="off">
           <Form.Item
             label="Note"
             name="rejectReason"

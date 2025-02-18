@@ -28,7 +28,7 @@ import "../styles/document.css";
 import {
   GetPublicDataPayloadType,
   DocumentDataType,
-} from "../../../stores/interface/Document";
+} from "../../../stores/interfaces/Document";
 import { BreadcrumbType } from "../interface/Public";
 import type { ColumnsType } from "antd/es/table";
 import UploadPublic from "../components/UploadPublic";
@@ -115,8 +115,9 @@ const PublicFolder = () => {
               type="text"
               icon={<DeleteOutlined />}
               onClick={showDeleteConfirm}
-              disabled={!accessibility?.menu_document_form_management.allowEdit}
-            ></Button>
+              disabled={
+                !accessibility?.menu_document_form_management.allowEdit
+              }></Button>
           ) : null}
         </>
       ),
@@ -248,8 +249,7 @@ const PublicFolder = () => {
               onClick={() => {
                 onBreadCrumbClick(item);
               }}
-              className="breadcrumbTxt"
-            >
+              className="breadcrumbTxt">
               {item.folderName}
             </Link>
           ),
@@ -303,8 +303,7 @@ const PublicFolder = () => {
             onClick={() => {
               onBreadCrumbClick(item);
             }}
-            className="breadcrumbTxt"
-          >
+            className="breadcrumbTxt">
             {item.folderName}
           </Link>
         ),
@@ -327,8 +326,7 @@ const PublicFolder = () => {
       <Row style={{ marginBottom: 15 }}>
         <Col
           span={12}
-          style={{ display: "flex", justifyContent: "flex-start" }}
-        >
+          style={{ display: "flex", justifyContent: "flex-start" }}>
           <Search
             placeholder="Search by Name"
             onSearch={onSearch}
@@ -344,8 +342,7 @@ const PublicFolder = () => {
             onClick={async () => {
               await setIsModalUploadPublic(true);
             }}
-            disabled={!accessibility?.menu_document_form_management.allowEdit}
-          >
+            disabled={!accessibility?.menu_document_form_management.allowEdit}>
             Upload
           </Button>
           <UploadPublic

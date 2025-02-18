@@ -3,7 +3,8 @@ import {
   CommonType,
   ConfirmModalType,
   AccessibilityType,
-} from "../interface/Common";
+  MenuItemAccessibilityType,
+} from "../interfaces/Common";
 import { RootModel } from "./index";
 import axios from "axios";
 
@@ -110,7 +111,7 @@ export const common = createModel<RootModel>()({
           console.error(roleAccessToken.data.message);
           return;
         }
-        // console.log(roleAccessToken.data);
+        console.log(roleAccessToken.data);
         dispatch.common.updateAccessibility(roleAccessToken.data.result);
       } catch (error) {
         console.error(error);

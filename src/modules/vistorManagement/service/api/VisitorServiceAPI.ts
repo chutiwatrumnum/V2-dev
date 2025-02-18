@@ -1,5 +1,5 @@
 import axios from "axios";
-import {DataType,ResidentAddNew,conditionPage,rejectRequest, ExpandedDataType, IchildData, IApprovedBody,} from "../../../../stores/interface/Visitor";
+import { DataType, ResidentAddNew, conditionPage, rejectRequest, ExpandedDataType, IchildData, IApprovedBody, } from "../../../../stores/interfaces/Visitor";
 import { paramsdata } from "./paramsAPI";
 import { encryptStorage } from "../../../../utils/encryptStorage";
 import { statusSuccess, statusCreated } from '../../../../constant/status_code';
@@ -75,23 +75,23 @@ import dayjs from "dayjs";
 //   }
 // };
 
-const ApprovedId = async (params:IApprovedBody ,type:boolean) => {
+const ApprovedId = async (params: IApprovedBody, type: boolean) => {
   try {
-   let data:any
-   //true = header or false = child
-   if (type) {
-    let dataHeader={
-    refBookingId:params.id,
-    status:params.status
+    let data: any
+    //true = header or false = child
+    if (type) {
+      let dataHeader = {
+        refBookingId: params.id,
+        status: params.status
+      }
+      data = dataHeader
+    } else {
+      let dataChild = {
+        visitorId: params.id,
+        status: params.status
+      }
+      data = dataChild
     }
-    data=dataHeader
-   }else{
-    let dataChild={
-      visitorId:params.id,
-      status:params.status
-    }
-    data=dataChild
-   }
     console.log("request data:", data);
     const resultApproved = await axios.put(`/visitor/facilities/confirm`, data);
     console.log("resp Facility data", resultApproved);
@@ -107,28 +107,28 @@ const ApprovedId = async (params:IApprovedBody ,type:boolean) => {
     };
   }
 };
-const ApprovedVisitorLogsId = async (params:IApprovedBody ,type:boolean) => {
+const ApprovedVisitorLogsId = async (params: IApprovedBody, type: boolean) => {
   try {
-   let data:any
-   //true = header or false = child
-   if (type) {
-    let dataHeader={
-    refId:params.id,
-    status:params.status
+    let data: any
+    //true = header or false = child
+    if (type) {
+      let dataHeader = {
+        refId: params.id,
+        status: params.status
+      }
+      data = dataHeader
+    } else {
+      let dataChild = {
+        visitorId: params.id,
+        status: params.status
+      }
+      data = dataChild
     }
-    data=dataHeader
-   }else{
-    let dataChild={
-      visitorId:params.id,
-      status:params.status
-    }
-    data=dataChild
-   }
-   console.log("request data:",data);
-   
+    console.log("request data:", data);
+
     const resultApproved = await axios.put(`/visitor/events/confirm`, data);
-    console.log("resp EvenLog data",resultApproved);
-    
+    console.log("resp EvenLog data", resultApproved);
+
     if (resultApproved.status === statusSuccess) {
       return true;
     } else {
@@ -147,7 +147,7 @@ const getdataVisitorLoglist = async (params: conditionPage) => {
   const resultparams = await paramsdata(params);
   if (resultparams.status) {
     url = url + resultparams.paramsstr;
-    console.log("url:",url);
+    console.log("url:", url);
   }
   const token = await encryptStorage.getItem("accessToken");
   if (token) {
@@ -156,28 +156,28 @@ const getdataVisitorLoglist = async (params: conditionPage) => {
       if (result.status === statusSuccess) {
         const AllDataResident = result.data.result.dataList;
         let data: DataType[] = [];
-        let allChildData={} as IchildData
+        let allChildData = {} as IchildData
         AllDataResident.map((e: any, i: number) => {
-          let childData:ExpandedDataType[]=[]
+          let childData: ExpandedDataType[] = []
           let userdata: DataType = {
             key: e.id,
             name: e.createdBy.fullName,
             totalVisitor: e.visitorList.length,
             createdAt: e.createdAt,
             bookingAt: e.joinAt,
-            startTime: e.events?e.events.startTime:"-",
-            endTime: e.events?e.events.endTime:"-",
+            startTime: e.events ? e.events.startTime : "-",
+            endTime: e.events ? e.events.endTime : "-",
             isApproveAll: e.isApproveAll,
             isRejectAll: e.isRejectAll,
-            status:e.status?e.status:"Pending"
+            status: e.status ? e.status : "Pending"
           };
-          if (e.visitorList.length>0) {
-            e.visitorList.map((childitem: any, childindex: number)=>{
-              let childrenData:ExpandedDataType={
+          if (e.visitorList.length > 0) {
+            e.visitorList.map((childitem: any, childindex: number) => {
+              let childrenData: ExpandedDataType = {
                 key: childitem.id,
                 name: childitem.fullName,
                 status: childitem.status,
-                createDate:dayjs().toString() ,
+                createDate: dayjs().toString(),
                 iuNumber: childitem.iuNumber ? childitem.iuNumber : "-",
                 licensePlate: childitem.licensePlate ? childitem.licensePlate : "-",
                 type: childitem.type,
@@ -186,18 +186,18 @@ const getdataVisitorLoglist = async (params: conditionPage) => {
               }
               childData.push(childrenData)
             })
-            allChildData[e.id]=childData
-          }else{
-            userdata.status="confrimed"
+            allChildData[e.id] = childData
+          } else {
+            userdata.status = "confrimed"
           }
           data.push(userdata);
         });
 
         return {
-          total:result.data.result.maxRowLength,
+          total: result.data.result.maxRowLength,
           status: true,
           datavlaue: data,
-          childdata:allChildData
+          childdata: allChildData
         };
       } else {
         console.warn("status code:", result.status);

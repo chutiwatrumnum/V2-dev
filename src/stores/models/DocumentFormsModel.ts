@@ -1,7 +1,7 @@
 import {
   DocumentFormType,
   GetPublicDataPayloadType,
-} from "../interface/Document";
+} from "../interfaces/Document";
 import { createModel } from "@rematch/core";
 import { RootModel } from "./index";
 import axios from "axios";
@@ -47,7 +47,7 @@ export const document = createModel<RootModel>()({
     }),
   },
   effects: (dispatch) => ({
-    
+
     async getPublicData(payload: GetPublicDataPayloadType) {
       let item = payload;
       let search = item.search ? `&search=${item.search}` : "";
@@ -142,8 +142,8 @@ export const document = createModel<RootModel>()({
         const result = await axios.get(
           `document-form/private/folders?curPage=${item.curPage}&perPage=${item.perPage}${search}${sort}${sortBy}${unitId}`
         );
-        console.log("result file private:",result.data.result);
-        
+        console.log("result file private:", result.data.result);
+
         if (result.data.statusCode >= 400) {
           console.error(result.data.message);
           return;
@@ -172,7 +172,7 @@ export const document = createModel<RootModel>()({
       try {
         const result = await axios.get(
           `document-form/private/folders?curPage=${item.curPage}&perPage=${item.perPage}${search}${sort}${sortBy}${unitId}`
-        );      
+        );
         if (result.data.statusCode >= 400) {
           console.error(result.data.message);
           return;
@@ -204,8 +204,8 @@ export const document = createModel<RootModel>()({
         const result = await axios.get(
           `document-form/private/files?curPage=${item.curPage}&perPage=${item.perPage}${search}${sort}${sortBy}${folderId}${unitId}`
         );
-        console.log("result folder private:",result.data.result);
-        
+        console.log("result folder private:", result.data.result);
+
         if (result.data.statusCode >= 400) {
           return console.error(result.data.message);
         }

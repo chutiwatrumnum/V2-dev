@@ -1,5 +1,5 @@
 import { createModel } from "@rematch/core";
-import { SummaryDataType } from "../interface/Summary";
+import { SummaryDataType } from "../interfaces/Summary";
 import { RootModel } from "./index";
 import axios from "axios";
 import dayjs from "dayjs";

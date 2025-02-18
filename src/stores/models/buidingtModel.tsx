@@ -1,5 +1,5 @@
 import { createModel } from "@rematch/core";
-import { buildingType, conditionPage } from "../interface/Buliding";
+import { buildingType, conditionPage } from "../interfaces/Buliding";
 import { RootModel } from "./index";
 import {
   getdataBuildinglist,

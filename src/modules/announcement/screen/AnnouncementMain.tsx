@@ -25,7 +25,7 @@ import { Dispatch, RootState } from "../../../stores";
 import {
   DataAnnouncementType,
   AnnouncePayloadType,
-} from "../../../stores/interface/Announce";
+} from "../../../stores/interfaces/Announce";
 import FormTemplate from "../components/FormTemplate";
 import InformationTemplate from "../components/InformationTemplate";
 import { ConvertDate } from "../../../utils/helper";
@@ -329,8 +329,7 @@ const Announcement = () => {
         </Col>
         <Col
           span={10}
-          style={{ display: "flex", justifyContent: "flex-start" }}
-        >
+          style={{ display: "flex", justifyContent: "flex-start" }}>
           <Search
             placeholder="Search by title "
             onSearch={onSearch}

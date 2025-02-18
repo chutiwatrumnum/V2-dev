@@ -22,7 +22,7 @@ import {
   MaintenanceFacilityEdit,
   emailGroupSelect,
   eventMasterGroupList,
-} from "../../../stores/interface/Buliding";
+} from "../../../stores/interfaces/Buliding";
 import {
   editDataBuildActivity,
   editDataMaintenanceFacility,
@@ -304,8 +304,7 @@ const EditMaintenanceFacility = (props: EditMaintenanceFacilityProps) => {
         onClose={(e) => {
           e.preventDefault();
           handleClose(tag);
-        }}
-      >
+        }}>
         {tag}
       </Tag>
     );
@@ -368,12 +367,10 @@ const EditMaintenanceFacility = (props: EditMaintenanceFacilityProps) => {
             key="submit"
             type="primary"
             style={{ paddingLeft: 30, paddingRight: 30 }}
-            onClick={form.submit}
-          >
+            onClick={form.submit}>
             Save
           </Button>,
-        ]}
-      >
+        ]}>
         <Form
           form={form}
           layout="vertical"
@@ -384,8 +381,7 @@ const EditMaintenanceFacility = (props: EditMaintenanceFacilityProps) => {
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
+          autoComplete="off">
           <Row>
             <Col span={12}>
               <Form.Item
@@ -397,8 +393,7 @@ const EditMaintenanceFacility = (props: EditMaintenanceFacilityProps) => {
                     max: 99,
                     message: "Value should be less than 99 character",
                   },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input title" maxLength={100} />
               </Form.Item>
               <Form.Item label="Facility" name="location">
@@ -410,8 +405,7 @@ const EditMaintenanceFacility = (props: EditMaintenanceFacilityProps) => {
                 label="Date"
                 rules={[
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <DatePicker
                   style={{ width: "100%" }}
                   onChange={async (val) => {
@@ -469,8 +463,7 @@ const EditMaintenanceFacility = (props: EditMaintenanceFacilityProps) => {
                         required: true,
                         message: "This field is required !",
                       },
-                    ]}
-                  >
+                    ]}>
                     <TimePicker className="fullWidth" format="hh:mm a" />
                   </Form.Item>
                 </Col>
@@ -483,16 +476,14 @@ const EditMaintenanceFacility = (props: EditMaintenanceFacilityProps) => {
                         required: true,
                         message: "This field is required !",
                       },
-                    ]}
-                  >
+                    ]}>
                     <TimePicker className="fullWidth" format="hh:mm a" />
                   </Form.Item>
                 </Col>
               </Row>
               <Form.Item
                 name="reminderNotification"
-                label="Notification setting"
-              >
+                label="Notification setting">
                 <Select
                   allowClear
                   disabled={disableDatePicker}
@@ -521,8 +512,7 @@ const EditMaintenanceFacility = (props: EditMaintenanceFacilityProps) => {
                           onClose={async (e) => {
                             await e.preventDefault();
                             await handlerDefaultEmailGroupClose(element);
-                          }}
-                        >
+                          }}>
                           {element}
                         </Tag>
                       );

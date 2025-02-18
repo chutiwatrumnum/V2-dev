@@ -21,7 +21,7 @@ import {
   BuildingActivitiesNew,
   emailGroupSelect,
   eventMasterGroupList,
-} from "../../../stores/interface/Buliding";
+} from "../../../stores/interfaces/Buliding";
 import {
   addBuildingActivity,
   getdataEmailGrouplist,
@@ -215,8 +215,7 @@ const CreateBuildingActivities = (props: ComponentCreateProps) => {
         onClose={(e) => {
           e.preventDefault();
           handleClose(tag);
-        }}
-      >
+        }}>
         {tag}
       </Tag>
     );
@@ -262,12 +261,10 @@ const CreateBuildingActivities = (props: ComponentCreateProps) => {
             key="submit"
             type="primary"
             style={{ paddingLeft: 30, paddingRight: 30 }}
-            onClick={form.submit}
-          >
+            onClick={form.submit}>
             Create
           </Button>,
-        ]}
-      >
+        ]}>
         <Form
           form={form}
           layout="vertical"
@@ -278,8 +275,7 @@ const CreateBuildingActivities = (props: ComponentCreateProps) => {
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
+          autoComplete="off">
           <Row>
             <Col span={12}>
               <Form.Item
@@ -287,8 +283,7 @@ const CreateBuildingActivities = (props: ComponentCreateProps) => {
                 label="Event"
                 rules={[
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <Select
                   options={eventMasterDataList}
                   placeholder="Select event"
@@ -304,8 +299,7 @@ const CreateBuildingActivities = (props: ComponentCreateProps) => {
                     max: 99,
                     message: "Value should be less than 99 character",
                   },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input title" maxLength={100} />
               </Form.Item>
               <Form.Item
@@ -316,8 +310,7 @@ const CreateBuildingActivities = (props: ComponentCreateProps) => {
                     max: 99,
                     message: "Value should be less than 99 character",
                   },
-                ]}
-              >
+                ]}>
                 <Input placeholder="Input location" maxLength={100} />
               </Form.Item>
 
@@ -326,8 +319,7 @@ const CreateBuildingActivities = (props: ComponentCreateProps) => {
                 label="Date"
                 rules={[
                   { required: true, message: "Please fill in required field" },
-                ]}
-              >
+                ]}>
                 <DatePicker
                   style={{ width: "100%" }}
                   disabledDate={disabledDate}
@@ -382,8 +374,7 @@ const CreateBuildingActivities = (props: ComponentCreateProps) => {
                         required: true,
                         message: "This field is required !",
                       },
-                    ]}
-                  >
+                    ]}>
                     <TimePicker className="fullWidth" format="hh:mm a" />
                   </Form.Item>
                 </Col>
@@ -396,16 +387,14 @@ const CreateBuildingActivities = (props: ComponentCreateProps) => {
                         required: true,
                         message: "This field is required !",
                       },
-                    ]}
-                  >
+                    ]}>
                     <TimePicker className="fullWidth" format="hh:mm a" />
                   </Form.Item>
                 </Col>
               </Row>
               <Form.Item
                 name="reminderNotification"
-                label="Notification setting"
-              >
+                label="Notification setting">
                 <Select
                   allowClear
                   disabled={disableDatePicker}
@@ -434,8 +423,7 @@ const CreateBuildingActivities = (props: ComponentCreateProps) => {
                           onClose={async (e) => {
                             await e.preventDefault();
                             await handlerDefaultEmailGroupClose(element);
-                          }}
-                        >
+                          }}>
                           {element}
                         </Tag>
                       );

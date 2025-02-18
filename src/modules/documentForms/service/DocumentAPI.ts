@@ -1,6 +1,6 @@
 import axios from "axios";
 import { statusCreated, statusSuccess } from "../../../constant/status_code";
-import { dataFiles, dataFilesPersonal } from "../../../stores/interface/Document";
+import { dataFiles, dataFilesPersonal } from "../../../stores/interfaces/Document";
 const deleteDocumentById = async (id: string) => {
   try {
     const resultDelete = await axios.delete(`document-form/delete/${id}`);
@@ -21,74 +21,74 @@ const deleteDocumentById = async (id: string) => {
     };
   }
 };
-const uploadDocument = async (file: dataFiles,processFunc:Function) => {
+const uploadDocument = async (file: dataFiles, processFunc: Function) => {
   try {
     const resultUploadDocument = await axios.post(
       "document-form/public/upload",
       file, {
-        onUploadProgress: async (progressEvent:any) => {
-          let percentComplete = progressEvent?.loaded / progressEvent?.total
-          percentComplete =percentComplete * 100
-          console.log("percentComplete:",percentComplete);
-       await   processFunc(Math.floor(percentComplete))
-        }
+      onUploadProgress: async (progressEvent: any) => {
+        let percentComplete = progressEvent?.loaded / progressEvent?.total
+        percentComplete = percentComplete * 100
+        console.log("percentComplete:", percentComplete);
+        await processFunc(Math.floor(percentComplete))
       }
+    }
     );
-    console.log("resultUploadDocument:",resultUploadDocument);
-    
+    console.log("resultUploadDocument:", resultUploadDocument);
+
     if (resultUploadDocument?.status === statusCreated) {
       return {
-        status:true,
-        message:null
+        status: true,
+        message: null
       }
-    }else{
-      console.warn("resultUploadDocument:",resultUploadDocument);
+    } else {
+      console.warn("resultUploadDocument:", resultUploadDocument);
       return {
-        status:false,
-        message:resultUploadDocument.data.message
+        status: false,
+        message: resultUploadDocument.data.message
       }
     }
   } catch (err) {
     console.error(err);
     return {
-      status:false,
-      message:null
+      status: false,
+      message: null
     }
   }
 };
 
-const uploadDocumentPersonal = async (file: dataFilesPersonal,processFunc:Function) => {
+const uploadDocumentPersonal = async (file: dataFilesPersonal, processFunc: Function) => {
   try {
     const resultUploadDocument = await axios.post(
       "document-form/private/upload",
       file, {
-        onUploadProgress: async (progressEvent:any) => {
-          let percentComplete = progressEvent?.loaded / progressEvent?.total
-          percentComplete =percentComplete * 100
-          console.log("percentComplete:",percentComplete);
-       await   processFunc(Math.floor(percentComplete))
-        }
+      onUploadProgress: async (progressEvent: any) => {
+        let percentComplete = progressEvent?.loaded / progressEvent?.total
+        percentComplete = percentComplete * 100
+        console.log("percentComplete:", percentComplete);
+        await processFunc(Math.floor(percentComplete))
       }
+    }
     )
     if (resultUploadDocument.status === statusCreated) {
-     return {
-        status:true,
-        message:null
-      }
-    }else{
-      console.warn(resultUploadDocument);
-      
       return {
-        status:false,
-        message:resultUploadDocument.data.message
+        status: true,
+        message: null
+      }
+    } else {
+      console.warn(resultUploadDocument);
+
+      return {
+        status: false,
+        message: resultUploadDocument.data.message
       }
     }
   } catch (err) {
     console.error(err);
     return {
-      status:false,
-      message:null
+      status: false,
+      message: null
     }
   }
 };
-export { deleteDocumentById, uploadDocument,uploadDocumentPersonal };
+export { deleteDocumentById, uploadDocument, uploadDocumentPersonal };

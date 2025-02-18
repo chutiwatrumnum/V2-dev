@@ -13,7 +13,7 @@ import { ConvertDate } from "../../../utils/helper";
 import EventViewModal from "../components/EventViewModal";
 import "../styles/eventView.css";
 
-import { DetailType } from "../../../stores/interface/Summary";
+import { DetailType } from "../../../stores/interfaces/Summary";
 
 const { Text, Title } = Typography;
 
@@ -88,14 +88,12 @@ const EventView = () => {
                   return (
                     <Badge.Ribbon
                       color={tagEventColorHandler(detailItem?.type ?? "")}
-                      text={detailItem.tag}
-                    >
+                      text={detailItem.tag}>
                       <Row className="eventCard">
                         <Col span={24} className="eventCardInner">
                           <Row
                             style={{ height: "100%" }}
-                            justify="space-between"
-                          >
+                            justify="space-between">
                             <Space direction="vertical" size={10}>
                               <Text strong>
                                 {detailItem.title ?? detailItem.purpose ?? "-"}

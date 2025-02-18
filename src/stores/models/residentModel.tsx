@@ -1,20 +1,24 @@
 import { createModel } from "@rematch/core";
-import { residentType, conditionPage, rejectRequest } from '../interface/Resident';
+import {
+  residentType,
+  conditionPage,
+  rejectRequest,
+} from "../interfaces/Resident";
 import { RootModel } from "./index";
 import { getdataresidentlist } from "../../modules/residentInformation/service/api/ResidentServiceAPI";
-const filterDataInit:conditionPage={
+const filterDataInit: conditionPage = {
   perPage: 0,
   curPage: 0,
   verifyByJuristic: false,
-  reject:false
-}
+  reject: false,
+};
 export const resident = createModel<RootModel>()({
   state: {
     tableData: [],
     loading: false,
     total: 0,
     residentMaxLength: 0,
-    filterData:filterDataInit
+    filterData: filterDataInit,
   } as residentType,
   reducers: {
     updateloadingDataState: (state, payload) => ({

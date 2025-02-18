@@ -1,5 +1,5 @@
 import { createModel } from "@rematch/core";
-import { MSCTType, conditionPage } from "../interface/Management";
+import { MSCTType, conditionPage } from "../interfaces/Management";
 import { RootModel } from "./index";
 import { getdataManagement } from "../../modules/management/service/api/MCSTServiceAPI";
 export const MCST = createModel<RootModel>()({

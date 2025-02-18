@@ -1,7 +1,7 @@
 import { Col, Space, Button, Typography, Form, Input } from "antd";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "../../stores";
-import { LoginPayloadType } from "../../stores/interface/User";
+import { LoginPayloadType } from "../../stores/interfaces/User";
 import { Link } from "react-router-dom";
 
 import LOGO from "../../assets/images/logo.svg";
@@ -35,21 +35,18 @@ const SignInScreen = () => {
         initialValues={{ remember: true }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        autoComplete="off"
-      >
+        autoComplete="off">
         <Form.Item
           label={<Text className="textColor bold">Email</Text>}
           name="username"
-          required={true}
-        >
+          required={true}>
           <Input placeholder="Input email address" size="large" />
         </Form.Item>
 
         <Form.Item
           label={<Text className="textColor bold">Password</Text>}
           name="password"
-          required={true}
-        >
+          required={true}>
           <Input.Password placeholder="Input password" size="large" />
         </Form.Item>
 
@@ -63,8 +60,7 @@ const SignInScreen = () => {
             className="loginBtn"
             type="primary"
             htmlType="submit"
-            size="large"
-          >
+            size="large">
             <span className="bold">Login</span>
           </Button>
         </Form.Item>

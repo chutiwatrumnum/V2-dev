@@ -23,7 +23,7 @@ import {
   dataEventLogsType,
   conditionPage,
   IChangeLockedById,
-} from "../../../stores/interface/EventLog";
+} from "../../../stores/interfaces/EventLog";
 const { confirm } = Modal;
 const EventLogs = () => {
   const { loading, tableDataEventLog, total } = useSelector(
@@ -100,8 +100,7 @@ const EventLogs = () => {
             value={record.key}
             type="text"
             icon={<DeleteOutlined />}
-            onClick={showDeleteConfirm}
-          ></Button>
+            onClick={showDeleteConfirm}></Button>
         </>
       ),
     },
@@ -381,8 +380,7 @@ const EventLogs = () => {
         </Col>
         <Col
           span={10}
-          style={{ display: "flex", justifyContent: "flex-start" }}
-        >
+          style={{ display: "flex", justifyContent: "flex-start" }}>
           <Search
             placeholder="Search by title"
             allowClear
@@ -396,8 +394,7 @@ const EventLogs = () => {
           <Button
             type="primary"
             style={{ marginRight: 10 }}
-            onClick={exportEventLogs}
-          >
+            onClick={exportEventLogs}>
             Export
           </Button>
 
@@ -405,8 +402,7 @@ const EventLogs = () => {
             type="primary"
             onClick={async () => {
               await setIsModalCreate(true);
-            }}
-          >
+            }}>
             Add new
           </Button>
           <CreateAddEventLog

@@ -12,10 +12,10 @@ import { UploadOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../../stores";
 import type { RcFile, UploadFile } from "antd/es/upload/interface";
-import { dataFilesPersonal } from "../../../stores/interface/Document";
+import { dataFilesPersonal } from "../../../stores/interfaces/Document";
 import { uploadDocumentPersonal } from "../service/DocumentAPI";
 import SendToGroup from "../../../components/groups/SendToGroup";
-import { DocumentDataType } from "../../../stores/interface/Document";
+import { DocumentDataType } from "../../../stores/interfaces/Document";
 
 const { Dragger } = Upload;
 const { confirm } = Modal;
@@ -205,12 +205,10 @@ const UploadPersonal = (props: ComponentCreateProps) => {
             loading={buttonloading}
             disabled={fileList.length > 0 ? false : true}
             style={{ paddingLeft: 30, paddingRight: 30 }}
-            onClick={form.submit}
-          >
+            onClick={form.submit}>
             Upload
           </Button>,
-        ]}
-      >
+        ]}>
         <div>{props.folderDetail?.folderName ?? "Personal folder"}</div>
         <Form
           form={form}
@@ -222,8 +220,7 @@ const UploadPersonal = (props: ComponentCreateProps) => {
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
+          autoComplete="off">
           <Form.Item
             label="Send to"
             name="unitList"
@@ -233,8 +230,7 @@ const UploadPersonal = (props: ComponentCreateProps) => {
                 required: true,
                 message: "This field is required !",
               },
-            ]}
-          >
+            ]}>
             <Select
               mode="multiple"
               showSearch
@@ -314,8 +310,7 @@ const UploadPersonal = (props: ComponentCreateProps) => {
               await setFileList(allFile);
             }}
             progress={{ ...propProcess }}
-            multiple={true}
-          >
+            multiple={true}>
             <p className="ant-upload-drag-icon">
               <UploadOutlined style={{ color: "#AEAEAE" }} />
             </p>
