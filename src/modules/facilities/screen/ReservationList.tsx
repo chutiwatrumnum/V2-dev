@@ -118,9 +118,9 @@ const ReservationList = () => {
         return (
           <>
             <Button
-              disabled={
-                accessibility?.team_facility_management.allowView ? false : true
-              }
+              // disabled={
+              //   accessibility?.team_facility_management.allowView ? false : true
+              // }
               type="text"
               icon={<QRCodeIcon />}
               onClick={() => onQRClick(record)}

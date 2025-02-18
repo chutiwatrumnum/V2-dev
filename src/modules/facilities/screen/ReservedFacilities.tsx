@@ -128,7 +128,9 @@ const ReservedFacilities = () => {
                 <Row>
                   <Switch
                     disabled={
-                      accessibility?.menu_facility_log.allowEdit ? false : true
+                      accessibility?.menu_facility_log.allowEdit
+                        ? false
+                        : true
                     }
                     checked={data?.locked}
                     onChange={() => onSwitchChange(!data.locked, data.id)}
@@ -137,7 +139,8 @@ const ReservedFacilities = () => {
                     style={{
                       color: whiteLabel.subMenuTextColor,
                       marginLeft: 5,
-                    }}>
+                    }}
+                  >
                     Click to {data?.locked ? "unlock" : "lock"}
                   </span>
                 </Row>
