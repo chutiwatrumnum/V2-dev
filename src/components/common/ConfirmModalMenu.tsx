@@ -2,7 +2,7 @@ import { Modal } from "antd";
 import MediumActionButton from "./MediumActionButton";
 // import SmallActionButton from "./SmallActionButton";
 
-import "../style/common.css";
+import "../styles/common.css";
 import { whiteLabel } from "../../configs/theme";
 
 interface ConfirmModalType {

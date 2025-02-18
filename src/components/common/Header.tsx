@@ -1,4 +1,4 @@
-import "../style/common.css";
+import "../styles/common.css";
 interface HeaderPropsType {
   title: string;
 }

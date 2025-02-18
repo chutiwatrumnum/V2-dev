@@ -3,7 +3,7 @@ import { Typography, Modal, Col, Space } from "antd";
 import { CheckCircleFilled, CloseCircleFilled } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, Dispatch } from "../../stores";
-import "../style/modal.css";
+import "../styles/modal.css";
 
 const { Text } = Typography;
 
@@ -56,8 +56,7 @@ const SuccessModal = () => {
       onCancel={closeModal}
       closable={false}
       className="successModalController"
-      centered
-    >
+      centered>
       <Col style={{ textAlign: "center", padding: "30px 0" }}>
         <Space direction="vertical" size={25}>
           {iconSatus}

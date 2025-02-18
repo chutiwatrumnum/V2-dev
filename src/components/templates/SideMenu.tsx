@@ -1,7 +1,7 @@
 import { Badge, Menu, Modal, Col, Row, ConfigProvider, Typography } from "antd";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../style/sidermenu.css";
+import "../styles/sidermenu.css";
 import { encryptStorage } from "../../utils/encryptStorage";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "../../stores";
@@ -101,19 +101,19 @@ const NewSideMenu = () => {
     console.log("Cancel");
   };
 
-   const iconMenuColorSelector = (key: string) => {
-     // console.log(keyPath);
-     // console.log(key);
-     // console.log(keyPath.includes(key));
+  const iconMenuColorSelector = (key: string) => {
+    // console.log(keyPath);
+    // console.log(key);
+    // console.log(keyPath.includes(key));
 
-     if (keyPath.includes(key)) return whiteLabel.primaryColor;
-     return whiteLabel.whiteColor;
-   };
+    if (keyPath.includes(key)) return whiteLabel.primaryColor;
+    return whiteLabel.whiteColor;
+  };
 
-   const iconSubMenuColorSelector = (key: string) => {
-     if (keyPath.includes(key)) return whiteLabel.primaryColor;
-     return whiteLabel.whiteColor;
-   };
+  const iconSubMenuColorSelector = (key: string) => {
+    if (keyPath.includes(key)) return whiteLabel.primaryColor;
+    return whiteLabel.whiteColor;
+  };
 
   return (
     <React.Fragment>
@@ -245,12 +245,12 @@ const NewSideMenu = () => {
                 </Menu.Item>
                 <Menu.Item
                   key={`${main_link}6`}
-                   icon={
-                  <FacilityBookingIcon
-                    color={iconMenuColorSelector("facilities")}
-                    className="sideMenuIcon"
-                  />}
-                >
+                  icon={
+                    <FacilityBookingIcon
+                      color={iconMenuColorSelector("facilities")}
+                      className="sideMenuIcon"
+                    />
+                  }>
                   <Link to={`${main_link}/facilities-booking-logs`}>
                     Facilities booking logs
                   </Link>
@@ -370,7 +370,6 @@ const NewSideMenu = () => {
                 style={{ display: "none" }}>
                 <Link to={`${main_link}/delivery-logs`}>Delivery logs</Link>
               </Menu.Item>
-            
 
               {/* <Menu.Item
                 key={`${main_link}/profile`}
@@ -491,7 +490,7 @@ const NewSideMenu = () => {
                 <Link to={`${main_link}/nearbyService`}>Nearby Service</Link>
               </Menu.Item> */}
               {/* User management */}
-             {/* <Menu.Item
+              {/* <Menu.Item
                 key={`${main_link}/chatRoom`}
                 icon={
                   <ChatIcon
@@ -551,7 +550,7 @@ const NewSideMenu = () => {
                   <Link to={`${main_link}/ServiceChat`}>Messages</Link>
                 </Menu.Item>
               </SubMenu> */}
-            </Menu> 
+            </Menu>
           </div>
           <div>
             <Menu
@@ -575,8 +574,6 @@ const NewSideMenu = () => {
           </div>
         </div>
       </div>
-
-    
     </React.Fragment>
   );
 };

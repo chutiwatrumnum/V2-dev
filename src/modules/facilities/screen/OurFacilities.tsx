@@ -4,12 +4,11 @@ import "dayjs/locale/en-gb";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Card, Breadcrumb, Row, Button, Col, Typography } from "antd";
 import DetailRoomFacilities from "../components/DetailRoomFacilities";
-import Header from "../../../components/common/Header";
-import "../../../components/style/header.css";
+// import "../../../components/style/header.css";
 import { getFacilitiesList } from "../service/api/FacilitiesServiceAPI";
 const { Text, Link } = Typography;
 const title = "Our facilities";
-import "../style/slide.css";
+// import "../styles/slide.css";
 import "../styles/OurFacilities.css";
 import { BreadcrumbType } from "../../documentForms/interface/Public";
 
@@ -35,8 +34,7 @@ const OurFacilities: React.FC = () => {
               onClick={async () => {
                 setreRender(!reRender);
                 setdetail(false);
-              }}
-            >
+              }}>
               {title}
             </Link>
           ),
@@ -67,8 +65,7 @@ const OurFacilities: React.FC = () => {
                       onClick={async () => {
                         setreRender(!reRender);
                         setdetail(false);
-                      }}
-                    >
+                      }}>
                       {title}
                     </Link>
                   ),
@@ -76,8 +73,7 @@ const OurFacilities: React.FC = () => {
               ]);
               await setdetail(false);
             }}
-            className="title"
-          >
+            className="title">
             {data.name}
           </Link>
         ),
@@ -113,8 +109,7 @@ const OurFacilities: React.FC = () => {
                     className="title"
                     onClick={async () => {
                       await setdetail(false);
-                    }}
-                  >
+                    }}>
                     {title}
                   </Link>
                 ),
@@ -132,14 +127,12 @@ const OurFacilities: React.FC = () => {
                     span={6}
                     style={{
                       marginTop: 20,
-                    }}
-                  >
+                    }}>
                     <Card
                       hoverable
                       cover={<img alt="example" src={item?.imageId} />}
                       style={{ height: "100%", paddingBottom: 24 }}
-                      className="ourFacilitiesCardContainer"
-                    >
+                      className="ourFacilitiesCardContainer">
                       <div className="ourFacilitiesCardBodyContainer">
                         <div style={{ display: "flex", flex: 1 }}>
                           <h1>{item?.label}</h1>
@@ -150,14 +143,12 @@ const OurFacilities: React.FC = () => {
                             flex: 1,
                             justifyContent: "flex-end",
                             alignItems: "flex-end",
-                          }}
-                        >
+                          }}>
                           <Button
                             shape="round"
                             value={index}
                             onClick={nextTocalendar}
-                            type="primary"
-                          >
+                            type="primary">
                             Check availability
                           </Button>
                         </div>

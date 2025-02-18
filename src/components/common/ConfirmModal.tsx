@@ -2,7 +2,7 @@ import { Typography, Modal, Col, Space, Button } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, Dispatch } from "../../stores";
 
-import "../style/modal.css";
+import "../styles/modal.css";
 
 const { Text, Title } = Typography;
 
@@ -45,12 +45,10 @@ const ConfirmModal = () => {
           key="submit"
           type="primary"
           loading={confirmModal.loading}
-          onClick={handleOk}
-        >
+          onClick={handleOk}>
           {confirmModal.confirmText}
         </Button>,
-      ]}
-    >
+      ]}>
       <Col className="confirmModalContent">
         <Space direction="vertical" size={25}>
           <Title level={3} style={{ textAlign: "center" }}>
