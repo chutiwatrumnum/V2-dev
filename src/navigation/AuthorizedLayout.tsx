@@ -37,19 +37,7 @@ function AuthorizedLayout() {
   }, []);
   return (
     <Layout>
-      <Sider
-        width={320}
-        style={{
-          background:
-            "linear-gradient(177.2deg, #2D4B40 4.02%, #284138 32.87%, #223830 64.52%, #1D2F28 97.16%)",
-          height: "100vh",
-          position: "fixed",
-          left: 0,
-          overflow: "auto",
-          top: 0,
-          bottom: 0,
-        }}
-      >
+      <Sider width={320} className="sideContainer">
         <SideMenu />
       </Sider>
       <Layout className="authContentContainer">

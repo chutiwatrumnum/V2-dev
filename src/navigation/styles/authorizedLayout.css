@@ -1,3 +1,14 @@
+.sideContainer {
+  background: var(--menuBg-color) !important;
+  height: 100vh;
+  position: fixed !important;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  overflow: scroll;
+  z-index: 2;
+}
+
 .authContentContainer {
   margin-left: 320px;
   background-image: url("../../assets/images/webBG.png");

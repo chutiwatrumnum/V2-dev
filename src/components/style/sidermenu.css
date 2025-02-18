@@ -1,42 +1,32 @@
-/* .side-menu {
-    text-align: center;
-    padding-top: 80px;
-    padding-bottom: 80px;
-    background-color: rgba(59, 59, 59, 1);
-    border-top-right-radius: 100;
-    border-bottom-right-radius: 50;
-    width: 300px;
-} */
-.menu-logo {
+.sideMenuContainer .ant-menu {
+  border-inline-end: none !important;
+}
+
+.sideMenuContainer {
+  height: 100%;
+  box-sizing: border-box;
+  padding: 40px 0;
+}
+
+.sideMenuLogo {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  padding-top: 20px;
+  margin-bottom: 30px;
+  box-sizing: border-box;
 }
 
-.menu-logo-image {
-  width: 70%;
+.sideMenuIcon {
+  width: 24px;
+  margin-right: 15px;
 }
 
-.powerBy {
-  padding: 10px 0;
-  color: var(--gray-color);
-}
-
-.menu-group {
-  margin-top: 10px;
-  text-align: left;
-}
-
-.text-version {
-  color: #fff;
-  text-align: right;
-  font-size: 0.9rem;
-  padding-right: 24px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+.menuContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .group-name {
@@ -55,31 +45,72 @@
   margin-bottom: 20px;
 }
 
-.logout {
-  color: #ffffff;
-  margin-left: 24px;
-  align-items: center;
-  height: 40px;
+/* set menu */
+.sideMenuContainer .ant-menu-item {
+  color: var(--white-color);
 }
 
-.ant-menu-item-selected .logout {
-  color: var(--danger-color);
+
+/* set menu selected */
+.sideMenuContainer .ant-menu-item-selected {
+  color: var(--menuBgActive-color);
+  background-color: var(--menuBg-color);
+  font-weight: normal;
 }
 
-.menu-txt {
-  float: left;
-  padding-left: 10px;
-  padding-top: 12px;
-  height: 40px;
+/* set sub menu parent */
+.sideMenuContainer .ant-menu-submenu-title {
+  background-color: var(--menuBg-color);
+  color: var(--white-color);
 }
 
-/* icons style */
-.ant-menu .ant-menu-item-icon {
-  width: 20px;
-  height: 20px;
+/* set sub menu parent selected */
+.sideMenuContainer .ant-menu-submenu-selected .ant-menu-submenu-title {
+  color: var(--menuBgActive-color);
+  background-color: var(--menuBg-color);
 }
 
-/*background in submenu*/
+.sideMenuContainer .ant-menu {
+  background: var(--menuBg-color) !important;
+}
+
+/* set sub menu bg */
+.sideMenuContainer .ant-menu-sub {
+  background: var(--menuBg-color) !important;
+  border: 1px solid var(--menuBg-color);
+}
+
+/* set sub menu child */
+.sideMenuContainer .ant-menu-submenu .ant-menu-item {
+  color: var(--white-color);
+}
+
+/* set sub menu child selected */
+.sideMenuContainer .ant-menu-submenu-selected .ant-menu-item-selected {
+  color: var(--menuBgActive-color);
+  background-color: var(--menuBg-color);
+}
+
+.textVersion {
+  padding: 15px;
+  margin-top: 10px;
+  text-align: right;
+  color: var(--black-color);
+}
+
+.sideMenuContainer .ant-menu-item,
+.sideMenuContainer .ant-menu-submenu-title {
+  width: 100%;
+  margin: 0 !important;
+  margin-inline: 0 !important;  /* ลบระยะห่างด้านข้าง */
+  border-radius: 0 !important; /* ลบมุมโค้ง */
+}
+
+.sideMenuContainer .ant-menu {
+  padding: 0 !important;
+  width: 100% !important;
+}
+
 .ant-menu-light.ant-menu-inline .ant-menu-sub.ant-menu-inline {
   background-color: rgb(255, 255, 255);
 }
@@ -88,57 +119,3 @@
   background-color: rgb(255, 255, 255);
 }
 
-/* set menu */
-.side-menu .ant-menu-item {
-  color: var(--menuText-color);
-}
-
-/* set menu selected */
-.side-menu .ant-menu-item-selected {
-  width: 100%;
-  color: var(--menuTextActive-color) !important;
-  font-weight: normal;
-  background-color: #fff;
-  border-left: 10px solid var(--primary-color);
-  margin: 0;
-  border-radius: 0;
-}
-
-.side-menu .ant-menu-sub .ant-menu-item-selected {
-  border-left: none;
-}
-
-/* set menu hover */
-.side-menu .ant-menu-item-active {
-  color: var(--primary-color) !important;
-}
-
-/* set sub menu parent */
-.side-menu .ant-menu-submenu-title {
-  color: var(--menuText-color);
-}
-
-/* set sub menu parent selected */
-.side-menu .ant-menu-submenu-selected .ant-menu-submenu-title {
-  width: 100%;
-  color: var(--menuTextActive-color);
-  background-color: #fff;
-  border-left: 10px solid var(--primary-color);
-  margin: 0;
-  border-radius: 0;
-}
-
-/* set sub menu parent hover */
-.side-menu .ant-menu-submenu-active .ant-menu-submenu-title {
-  color: var(--primary-color) !important;
-}
-
-/* set sub menu child */
-.side-menu .ant-menu-submenu .ant-menu-item {
-  color: var(--subMenuText-color);
-}
-
-/* set sub menu child selected */
-.side-menu .ant-menu-submenu-selected .ant-menu-item-selected {
-  color: var(--subMenuTextActive-color);
-}

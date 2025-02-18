@@ -39,7 +39,8 @@
   --whiteTrans-color: rgba(255, 255, 255, 0.8);
   --black-color: #403d38;
   --gray-color: #bfbfbf;
-  --cardBG-color: #fee7e2;
+  --cardBG-color: #fee7e2; 
+  --MenuBG-color: #101010; 
 
   /* Semantic Colors */
   --danger-color: #ad1b20;
@@ -51,6 +52,21 @@
   --menuTextActive-color: var(--primary-color);
   --subMenuTextActive-color: var(--primary-color);
   --subMenuText-color: var(--gray-color);
+    /* Bg colors */
+  --mainBg-color: var(--white-color);
+  --menuBg-color: var(--MenuBG-color);
+  --menuBgActive-color: var(--primary-color);
+  --subMenuBg-color: var(--white-color);
+  --subMenuBgActive-color: var(--black-color);
+    /* Button colors */
+  --mainBtn-color: var(--primary-color);
+  --cancelBtn-color: var(--white-color);
+  --mainBtnText-color: var(--white-color);
+  --cancelBtnText--color: var(--primary-color);
+  /* Table color */
+  --tableHeadBg-color: var(--primary-color);
+  --tableHeadText-color: var(--black-color);
+  --subTableHeadBg-color: var(--secondary-color);
 }
 
 @media (prefers-color-scheme: light) {

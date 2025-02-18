@@ -6,13 +6,13 @@ import { Provider } from "react-redux";
 import { store } from "./stores";
 import { ConfigProvider } from "antd";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { theme } from "./configuration/themeToken";
+import { theme } from "./configs/themeToken";
 // import './index.css'
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 
-import "./configuration/axios";
+import "./configs/axios";
 import "./i18n";
 import "antd/dist/reset.css";
 import "./index.css";
