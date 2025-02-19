@@ -6,7 +6,7 @@ import { RootState } from "../stores";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "../stores";
 import { encryptStorage } from "../utils/encryptStorage";
-
+import { setupAxiosInterceptors } from "../configs/axios";
 import SideMenu from "../components/templates/SideMenu";
 
 import "./styles/AuthorizedLayout.css";
@@ -27,11 +27,16 @@ function AuthorizedLayout() {
 
   useLayoutEffect(() => {
     (() => {
-      if (!userAuth.isAuth) {
-        setTimeout(() => {
-          navigate("/auth", { replace: true });
-        }, 500);
-        return;
+      // if (!userAuth.isAuth) {
+      //   setTimeout(() => {
+      //     navigate("/auth", { replace: true });
+      //   }, 500);
+      //   return;
+      // }
+      try {
+        setupAxiosInterceptors(navigate, dispatch);
+      } catch (error) {
+        console.log("setupAxiosInterceptors error :: ", error);
       }
     })();
   }, []);
