@@ -188,6 +188,7 @@ export interface ReservedDataPayloadType {
   curPage: number;
   perPage: number;
   date?: string;
+  search?: string;
 }
 
 export interface ReservedUnitDataType {

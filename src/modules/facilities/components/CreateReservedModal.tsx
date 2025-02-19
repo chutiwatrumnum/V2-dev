@@ -166,7 +166,10 @@ const ReservedCreateModal = ({
               if (post < 400) {
                 clear();
                 onRefresh();
-                SuccessModal("Successfully Create reservation");
+                dispatch.common.updateSuccessModalState({
+                  open: true,
+                  text: "Successfully Create reservation",
+                });
               }
             },
           });

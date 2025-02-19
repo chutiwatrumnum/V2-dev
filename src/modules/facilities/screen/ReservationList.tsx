@@ -8,8 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../../stores";
 import QRModal from "../components/QRModal";
 import CreateReservedModal from "../components/CreateReservedModal";
-import SuccessModal from "../../../components/common/SuccessModal";
-import FailedModal from "../../../components/common/FailedModal";
 import ConfirmModal from "../../../components/common/ConfirmModalMenu";
 import SearchBox from "../../../components/common/SearchBox";
 
@@ -146,7 +144,6 @@ const ReservationList = () => {
 
   // functions
   const onSearch = (value: string) => {
-    console.log(value);
     setSearch(value);
   };
 
@@ -218,9 +215,17 @@ const ReservationList = () => {
       onOk: async () => {
         const result = await dispatch.facilities.deleteReserved([value.id]);
         if (result) {
-          SuccessModal("Successfully Deleted");
+          dispatch.common.updateSuccessModalState({
+            open: true,
+            text: "Successfully Deleted",
+          });
         } else {
-          FailedModal("Something went wrong");
+          
+          dispatch.common.updateSuccessModalState({
+            open: true,
+            status: "error",
+            text: "Something went wrong",
+          });
         }
         onRefresh();
       },

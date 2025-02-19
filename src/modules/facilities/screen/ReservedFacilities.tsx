@@ -12,9 +12,6 @@ import {
 import NoImg from "../../../assets/images/noImg.jpeg";
 import ConfirmModal from "../../../components/common/ConfirmModalMenu";
 import EditFacilityModal from "../components/EditFacilityModal";
-import SuccessModal from "../../../components/common/SuccessModal";
-import FailedModal from "../../../components/common/FailedModal";
-
 import { ReservationListDataType } from "../../../stores/interfaces/Facilities";
 
 import "../styles/ReserveFacility.css";
@@ -54,7 +51,10 @@ const ReservedFacilities = () => {
   const onLockOk = async (payload: { id: number; lock: boolean }) => {
     const result = await dispatch.facilities.updateLockStatus(payload);
     if (result) {
-      SuccessModal("Successfully change information");
+      dispatch.common.updateSuccessModalState({
+        open: true,
+        text: "Successfully change information",
+      });
     }
     setRefresh(!refresh);
   };
@@ -70,12 +70,18 @@ const ReservedFacilities = () => {
   };
 
   const onEditSave = async (values: ReservationListDataType) => {
-    // console.log(values);
     const result = await dispatch.facilities.updateFacilities(values);
+    dispatch.common.updateSuccessModalState({
+      open: true,
+      text: "Successfully change information",
+    });
     if (result) {
-      SuccessModal("Successfully change information");
     } else {
-      FailedModal("Something went wrong");
+      dispatch.common.updateSuccessModalState({
+        open: true,
+        status: "error",
+        text: "Something went wrong",
+      });
     }
     refreshHandler();
   };

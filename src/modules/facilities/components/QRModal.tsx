@@ -8,9 +8,10 @@ import QR_LOGO from "../../../assets/images/QRLogo.png";
 import LOGO from "../../../assets/images/mainLogo.svg";
 import SuccessModal from "../../../components/common/SuccessModal";
 import dayjs from "dayjs";
-
+import { useDispatch, useSelector } from "react-redux";
 import "../styles/ReserveFacility.css";
 import { whiteLabel } from "../../../configs/theme";
+import { Dispatch } from "../../../stores";
 
 interface EditFacilityModalProps {
   visible: boolean;
@@ -23,6 +24,7 @@ export default function QrModal({
   visible = false,
   onExit,
 }: EditFacilityModalProps) {
+  const dispatch = useDispatch<Dispatch>();
   const qrRef = useRef(null);
   return (
     <>
@@ -130,7 +132,13 @@ export default function QrModal({
             onClick={() =>
               exportComponentAsJPEG(qrRef, {
                 fileName: `${data?.fullName}_QR_Reserved`,
-              }).then(() => SuccessModal("Image saved successfully"))
+              }).then(() => {
+                dispatch.common.updateSuccessModalState({
+                  open: true,
+                  text: "Image saved successfully",
+                });
+              }
+              )
             }
             style={{ width: 200, marginTop: 10 }}
             icon={<DownloadOutlined />}>
