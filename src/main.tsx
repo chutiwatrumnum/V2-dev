@@ -5,7 +5,7 @@ import App from "./App";
 import { Provider } from "react-redux";
 import { store } from "./stores";
 import { ConfigProvider } from "antd";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { theme } from "./configs/themeToken";
 // import './index.css'
 import dayjs from "dayjs";
@@ -23,7 +23,7 @@ dayjs.extend(timezone);
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <ConfigProvider theme={theme}>
         <Provider store={store}>
@@ -31,5 +31,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         </Provider>
       </ConfigProvider>
     </QueryClientProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
