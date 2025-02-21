@@ -106,13 +106,22 @@ export const common = createModel<RootModel>()({
     },
     async getRoleAccessToken() {
       try {
-        const roleAccessToken = await axios.get("/master/access-menu");
+        const roleAccessToken = await axios.get("/permission/menu-access");
         if (roleAccessToken.status >= 400) {
           console.error(roleAccessToken.data.message);
           return;
-        }
-        console.log(roleAccessToken.data);
-        dispatch.common.updateAccessibility(roleAccessToken.data.result);
+        }        
+        const result: { [key: string]: MenuItemAccessibilityType } =
+        roleAccessToken.data.result.reduce(
+          (
+            acc: { [key: string]: MenuItemAccessibilityType },
+            curr: MenuItemAccessibilityType
+          ) => {
+            acc[curr.permissionCode] = curr;
+            return acc;
+          },
+          {}
+        );   dispatch.common.updateAccessibility(result);
       } catch (error) {
         console.error(error);
       }

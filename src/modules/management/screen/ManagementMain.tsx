@@ -46,7 +46,7 @@ const ManagementMain = () => {
       await setParamsData(params);
       await dispatch.MCST.getTableData(paramsData);
     })();
-    if (!accessibility?.menu_mcst.available) {
+    if (!accessibility?.menu_mcst.allowView) {
       navigate("/dashboard");
       message.info("Apologies, unable to access function.");
     }

@@ -39,14 +39,12 @@ export interface AccessibilityType {
   team_team_management: MenuItemAccessibilityType;
 }
 export interface MenuItemAccessibilityType {
-  id: number;
-  menuId: number;
-  title: string;
-  menuCode: string;
-  available: boolean;
-  allowDelete: boolean;
-  allowEdit: boolean;
-  allowAdd: boolean;
+  permissionCode: string;
+  permissionName: string;
+  allowAdd:       boolean;
+  allowView:      boolean;
+  allowDelete:    boolean;
+  allowEdit:      boolean;
 }
 export interface ConfirmModalType {
   open: boolean;
