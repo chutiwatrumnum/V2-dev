@@ -16,18 +16,7 @@ import {
   ReservationDashboardIcon,
   ReservationListIcon,
   LogOutIcon,
-  AnnouncementIcon,
-  UserManagementIcon,
-  ResidentManagementIcon,
-  RegistrationIcon,
-  ProfileIcon,
-  ManagementIcon,
-  NearbyIcon,
-  EmergencyIcon,
-  ChatIcon,
-  ServiceCenterIcon,
-  ServiceCenterDashboardIcon,
-  ServiceCenterListIcon,
+
 } from "../../assets/icons/Icons";
 
 //icon svg
@@ -139,15 +128,15 @@ const NewSideMenu = () => {
               <Menu.Item
                 key="management"
                 style={{ paddingTop: 30, paddingBottom: 30 }}
-                disabled={!accessibility?.menu_mcst.available}>
+                disabled={!accessibility?.menu_mcst.allowView}>
                 <Link
                   style={
-                    !accessibility?.menu_mcst.available
+                    !accessibility?.menu_mcst.allowView
                       ? { cursor: "not-allowed", pointerEvents: "none" }
                       : {}
                   }
                   to={
-                    accessibility?.menu_mcst.available
+                    accessibility?.menu_mcst.allowView
                       ? `${main_link}/management`
                       : "/dashboard"
                   }>
@@ -208,28 +197,6 @@ const NewSideMenu = () => {
                   // icon={<img src={EVENT_VIEW_ICON} alt="Event view" />}
                 >
                   <Link to={`${main_link}/event-view`}>Event view</Link>
-                </Menu.Item>
-              </SubMenu>
-              <SubMenu
-                key="Building calendar"
-                // icon={<img src={CALENDAR_ICON} alt="Building calendar" />}
-                title="Building calendar"
-                // disabled={true}
-                // style={{ display: "none" }}
-              >
-                <Menu.Item
-                  key={`${main_link}3`}
-                  // icon={<img src={EVENT_VIEW_ICON} alt="Calendar" />}
-                >
-                  <Link to={`${main_link}/building-calendar`}>Calendar</Link>
-                </Menu.Item>
-                <Menu.Item
-                  key={`${main_link}`}
-                  // icon={<img src={BUILDING_ICON} alt="Building activities" />}
-                >
-                  <Link to={`${main_link}/building-activities`}>
-                    Building activities
-                  </Link>
                 </Menu.Item>
               </SubMenu>
               <div className={"group-name"}>Facilities management</div>

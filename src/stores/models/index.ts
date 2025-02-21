@@ -9,8 +9,6 @@ import { MCST } from "./MCSTModel";
 import { document } from "./DocumentFormsModel";
 import { eventLog } from "./eventLogs";
 import { deliveryLogs } from "./DeliveryLogsModel";
-import { buildingCalendar } from "./BuildingCalendarModel";
-import { building } from "./buidingtModel";
 import { summary } from "./SummaryModel";
 export interface RootModel extends Models<RootModel> {
   userAuth: typeof userAuth;
@@ -23,8 +21,6 @@ export interface RootModel extends Models<RootModel> {
   document: typeof document;
   eventLog: typeof eventLog;
   deliveryLogs: typeof deliveryLogs;
-  buildingCalendar: typeof buildingCalendar;
-  building: typeof building;
   summary: typeof summary;
 }
 export const models: RootModel = {
@@ -38,7 +34,5 @@ export const models: RootModel = {
   document,
   eventLog,
   deliveryLogs,
-  buildingCalendar,
-  building,
   summary,
 };

@@ -32,8 +32,6 @@ import EventLogs from "./modules/eventLogs/screen/EventLogs";
 import EventJoinLogs from "./modules/eventLogs/screen/EventJoinLogs";
 
 // import DeliveryLogs from "./modules/deliveryLogs/screen/deliveryLogs";
-import BuildingCalendar from "./modules/buildingCalendar/screen/BuildingCalendar";
-import BuildingActivities from "./modules/building_activities/screen/BuildingActivities";
 import EventView from "./modules/monitoring/screen/EventView";
 import Summary from "./modules/monitoring/screen/Summary";
 
@@ -144,12 +142,6 @@ function App() {
             <Route path="personal-folder" element={<PersonalFolder />} />
             <Route path="event-logs" element={<EventLogs />} />
             <Route path="event-joining-logs" element={<EventJoinLogs />} />
-            <Route path="building-calendar" element={<BuildingCalendar />} />
-            {/* <Route path="delivery-logs" element={<DeliveryLogs />} />  */}
-            <Route
-              path="building-activities"
-              element={<BuildingActivities />}
-            />
             <Route path="event-view" element={<EventView />} />
             {/* <Route path="people-counting" element={<PeopleCounting />} /> */}
           </Route>
@@ -158,7 +150,6 @@ function App() {
         </Routes>
       )}
 
-      <SuccessModal />
       <ConfirmModal />
     </BrowserRouter>
   );
