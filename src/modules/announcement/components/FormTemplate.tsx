@@ -118,7 +118,6 @@ const FormTemplate = ({
         okType: "primary",
         cancelText: "Cancel",
         centered: true,
-
         async onOk() {
           await dispatch.announcement.addNewAnnounce(newValues);
           dispatch.common.updateSuccessModalState({

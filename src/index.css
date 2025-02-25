@@ -32,14 +32,14 @@
 
   /* Colors */
   --primary-color: #b58d54;
-  --secondary-color: #f2baaa;
+  --secondary-color: #ffffff;
   --login-color: #413a39;
-  --BG-Table-color: rgba(254, 231, 226, 0.4);
+  --BG-Table-color: rgba(255, 255, 255, 0.8);
   --white-color: #ffffff;
   --whiteTrans-color: rgba(255, 255, 255, 0.8);
-  --black-color: #403d38;
+  --black-color: #101010;
   --gray-color: #bfbfbf;
-  --cardBG-color: #fee7e2; 
+  --cardBG-color: #ffffff; 
   --MenuBG-color: #101010; 
 
   /* Semantic Colors */

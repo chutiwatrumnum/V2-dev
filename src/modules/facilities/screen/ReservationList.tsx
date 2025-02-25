@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Row, Pagination, Tabs, DatePicker } from "antd";
+import { Button, Row, Pagination, Tabs, DatePicker, Col } from "antd";
 import Header from "../../../components/common/Header";
 import MediumActionButton from "../../../components/common/MediumActionButton";
 import ReservedFacilitiesTable from "../components/ReservedFacilitiesTable";
@@ -333,14 +333,19 @@ const ReservationList = () => {
             onSearch={onSearch}
           />
         </div>
-        <MediumActionButton
+        {/* <MediumActionButton
           // disabled={
           //   accessibility?.team_facility_management.allowAdd ? false : true
           // }
           message="+ Create reservation"
           onClick={onCreate}
           className="createReserved"
-        />
+        /> */}
+        <Col span={4} style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button shape="round" type="primary" onClick={onCreate}>
+            + Create reservation
+          </Button>
+        </Col>
       </div>
       <Tabs defaultActiveKey="0" items={items} onChange={onTabsChange} />
       <ReservedFacilitiesTable
@@ -350,8 +355,7 @@ const ReservationList = () => {
       <Row
         className="reservedBottomActionContainer"
         justify="end"
-        align="middle"
-      >
+        align="middle">
         <Pagination
           defaultCurrent={1}
           pageSize={perPage}

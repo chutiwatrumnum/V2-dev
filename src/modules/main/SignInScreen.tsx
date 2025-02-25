@@ -37,14 +37,22 @@ const SignInScreen = () => {
         onFinishFailed={onFinishFailed}
         autoComplete="off">
         <Form.Item
-          label={<Text className="textColor bold">Email</Text>}
+          label={
+            <Text style={{ color: "white" }} className="textColor">
+              Email
+            </Text>
+          }
           name="username"
           required={true}>
           <Input placeholder="Input email address" size="large" />
         </Form.Item>
 
         <Form.Item
-          label={<Text className="textColor bold">Password</Text>}
+          label={
+            <Text style={{ color: "white" }} className="textColor bold">
+              Password
+            </Text>
+          }
           name="password"
           required={true}>
           <Input.Password placeholder="Input password" size="large" />

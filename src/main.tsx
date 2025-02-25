@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { store } from "./stores";
 import { ConfigProvider } from "antd";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { theme } from "./configs/themeToken";
+import { theme } from "./configs/theme";
 // import './index.css'
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";

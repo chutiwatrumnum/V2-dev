@@ -24,6 +24,7 @@ import VisitorManagementLog from "./modules/vistorManagement/screen/VisitorManag
 
 import ResidentSignUp from "./modules/residentInformation/screen/ResidentSignUp";
 import ResidentInformation from "./modules/residentInformation/screen/ResidentInformationMain";
+import PaymentDashboard from "./modules/payment/screen/PaymentDashboard";
 
 import PublicFolder from "./modules/documentForms/screen/PublicFolder";
 import PersonalFolder from "./modules/documentForms/screen/PersonalFolder";
@@ -136,6 +137,11 @@ function App() {
               index
               path="resident-information"
               element={<ResidentInformation />}
+            />
+            <Route
+              index
+              path="payment-dashboard"
+              element={<PaymentDashboard />}
             />
             <Route path="resident-sign-up" element={<ResidentSignUp />} />
             <Route path="public-folder" element={<PublicFolder />} />

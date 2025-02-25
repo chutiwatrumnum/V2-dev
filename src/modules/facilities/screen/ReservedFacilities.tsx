@@ -98,7 +98,7 @@ const ReservedFacilities = () => {
 
   const RoomCard = ({ data }: { data: ReservationListDataType }) => {
     return (
-      <Col md={12} xl={8}>
+      <Col md={12} xl={8} style={{paddingTop:20}}>
         <div className="reservedCardContainer">
           <img className="reservedCardImage" src={data.imageUrl ?? NoImg} />
           <div className="reserveCardDetail">
@@ -173,7 +173,7 @@ const ReservedFacilities = () => {
 
   return (
     <>
-      <Header title="Facilities" />
+      <Header title="Our facilities" />
       <Row gutter={[16, 16]}>
         {data.map((item) => {
           return <RoomCard key={item.id} data={item} />;

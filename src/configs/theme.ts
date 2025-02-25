@@ -54,10 +54,10 @@ interface WhiteLabelType {
 export const theme: object = {
   token: {
     colorPrimary: "#D6AA68",
-    colorText: "#7B6038",
+    colorText: "#323232",
     colorInfo: "#7B6038",
-    colorLink: "#7B6038",
-    fontFamily: "Kanit",
+    colorLink: "#D6AA68",
+    fontFamily: "Inter",
   },
 };
 

@@ -35,9 +35,11 @@ const RecoveryScreen = () => {
       </Space>
       <Col className="column forgotPasswordTitle">
         <Title level={3}>
-          <span className="bold">Forgot your password?</span>
+          <span style={{ color: "white" }} className="bold">
+            Forgot your password?
+          </span>
         </Title>
-        <Text className="textColor">
+        <Text style={{ color: "white" }} className="textColor">
           Enter your email to receive further guidance
         </Text>
       </Col>
@@ -49,10 +51,13 @@ const RecoveryScreen = () => {
         initialValues={{ remember: true }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        autoComplete="off"
-      >
+        autoComplete="off">
         <Form.Item
-          label={<Text className="textColor bold">Email</Text>}
+          label={
+            <Text style={{ color: "white" }} className="textColor bold">
+              Email
+            </Text>
+          }
           name="email"
           rules={[
             {
@@ -63,8 +68,7 @@ const RecoveryScreen = () => {
               required: true,
               message: "Please fill in required field",
             },
-          ]}
-        >
+          ]}>
           <Input placeholder="Input email address" size="large" />
         </Form.Item>
 
@@ -75,8 +79,7 @@ const RecoveryScreen = () => {
             htmlType="button"
             onClick={onCancel}
             href="/auth"
-            size="large"
-          >
+            size="large">
             <span className="bold">Cancel</span>
           </Button>
           <Button
@@ -84,8 +87,7 @@ const RecoveryScreen = () => {
             className="sendBtn"
             type="primary"
             htmlType="submit"
-            size="large"
-          >
+            size="large">
             <span className="bold">Send</span>
           </Button>
         </Form.Item>

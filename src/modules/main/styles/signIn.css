@@ -44,6 +44,6 @@
     margin: 0;
   }
   .textColor {
-    color: #fff;
+      color: var(--primary-color);
   }
 }

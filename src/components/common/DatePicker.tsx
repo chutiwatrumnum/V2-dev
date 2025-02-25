@@ -20,7 +20,7 @@ const DatePickerInput = ({
   return (
     <RangePicker
       className={className}
-      size="large"
+      size="middle"
       onChange={onChange}
       picker={picker}
       allowClear

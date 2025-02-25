@@ -7,7 +7,7 @@ interface IconPropsType {
 }
 
 const AnnouncementIcon = ({
-  color = whiteLabel.blackColor,
+  color = whiteLabel.defaultIconColor,
   className,
 }: IconPropsType) => {
   return (
@@ -25,11 +25,6 @@ const AnnouncementIcon = ({
           fill={color}
         />
       </g>
-      <defs>
-        <clipPath id="clip0_1763_17358">
-          <rect width="24" height="24" fill="white" />
-        </clipPath>
-      </defs>
     </svg>
   );
 };
@@ -75,16 +70,15 @@ const FacilityBookingIcon = ({
   return (
     <svg
       className={className}
-      width={"24"}
-      height={"24"}
+      width={"20"}
+      height={"20"}
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg">
       <g id="Frame 1562328791" clipPath="url(#clip0_1763_17305)">
         <g id="Group 1562328813">
           <path
-            id="Vector"
-            d="M19.7778 3.16667H18.6667V1H16.4444V3.16667H7.55556V1H5.33333V3.16667H4.22222C2.98889 3.16667 2.01111 4.14167 2.01111 5.33333L2 20.5C2 21.0746 2.23413 21.6257 2.65087 22.0321C3.06762 22.4384 3.63285 22.6667 4.22222 22.6667H19.7778C21 22.6667 22 21.6917 22 20.5V5.33333C22 4.14167 21 3.16667 19.7778 3.16667ZM19.7778 20.5H4.22222V9.66667H19.7778V20.5ZM8.66667 14H6.44444V11.8333H8.66667V14ZM13.1111 14H10.8889V11.8333H13.1111V14ZM17.5556 14H15.3333V11.8333H17.5556V14ZM8.66667 18.3333H6.44444V16.1667H8.66667V18.3333ZM13.1111 18.3333H10.8889V16.1667H13.1111V18.3333ZM17.5556 18.3333H15.3333V16.1667H17.5556V18.3333Z"
+            d="M23.7592 10.9187L22.0442 9.27662L12.607 0.240531C12.272 -0.0801769 11.7289 -0.0801769 11.3939 0.240531L1.95668 9.27662L0.240844 10.9196C-0.0883187 11.2459 -0.0789184 11.7659 0.261906 12.0811C0.594387 12.3886 1.12146 12.3886 1.45394 12.0811L1.70443 11.8396V22.1785C1.70443 22.6322 2.08854 23 2.56237 23H21.4368C21.9106 23 22.2947 22.6322 22.2947 22.1785V11.8396L22.5461 12.0803C22.8869 12.3955 23.43 12.3864 23.7592 12.0601C24.0803 11.7418 24.0803 11.2371 23.7592 10.9187ZM14.5734 21.3571H9.42582V14.7853H14.5734V21.3571ZM20.5788 21.3571H16.2892V13.9639C16.2892 13.5102 15.9051 13.1424 15.4313 13.1424H8.56788C8.09404 13.1424 7.70993 13.5102 7.70993 13.9639V21.3571H3.42032V10.1967L11.9996 1.98202L20.5788 10.1967V21.3571Z"
             fill={color}
           />
         </g>
@@ -984,8 +978,8 @@ const EventIcon = ({
 }: IconPropsType) => {
   return (
     <svg
-      width="50"
-      height="50"
+      width={"20"}
+      height={"20"}
       viewBox="0 0 50 50"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -1006,8 +1000,8 @@ const EventLogIcon = ({
 }: IconPropsType) => {
   return (
     <svg
-      width="50"
-      height="50"
+      width={"20"}
+      height={"20"}
       viewBox="0 0 50 50"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -1028,8 +1022,8 @@ const EventJoinLogIcon = ({
 }: IconPropsType) => {
   return (
     <svg
-      width="50"
-      height="50"
+      width={"20"}
+      height={"20"}
       viewBox="0 0 50 50"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -1191,6 +1185,253 @@ const ServiceCenterListIcon = ({
     </svg>
   );
 };
+
+const DocumentFromsIcon = ({
+  color = whiteLabel.defaultIconColor,
+  className,
+}: IconPropsType) => {
+  return (
+    <svg
+      width={"20"}
+      height={"20"}
+      viewBox="0 0 50 50"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}>
+      <path
+        d="M27.8146 1H9V48.5416H40.9955V13.9089L27.8146 1Z"
+        stroke={color}
+        stroke-width="3"
+        stroke-miterlimit="10"
+      />
+      <path
+        d="M27 1V15.4533H41.0017"
+        stroke={color}
+        stroke-width="3"
+        stroke-miterlimit="10"
+      />
+      <path
+        d="M14.9141 27.1821H34.7291"
+        stroke={color}
+        stroke-width="3"
+        stroke-miterlimit="10"
+      />
+      <path
+        d="M14.9141 37.9056H34.7291"
+        stroke={color}
+        stroke-width="3"
+        stroke-miterlimit="10"
+      />
+    </svg>
+  );
+};
+const PersonalFolderIcon = ({
+  color = whiteLabel.defaultIconColor,
+  className,
+}: IconPropsType) => {
+  return (
+    <svg
+      width={"20"}
+      height={"20"}
+      viewBox="0 0 50 50"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}>
+      <path
+        d="M2 8V42.4601H48V11.6581H24.5918L21.18 8H2Z"
+        stroke={color}
+        stroke-width="3"
+        stroke-miterlimit="10"
+      />
+      <path
+        d="M33.0221 26.1445C35.0752 26.1445 36.7395 24.4802 36.7395 22.4271C36.7395 20.3741 35.0752 18.7097 33.0221 18.7097C30.969 18.7097 29.3047 20.3741 29.3047 22.4271C29.3047 24.4802 30.969 26.1445 33.0221 26.1445Z"
+        stroke={color}
+        stroke-width="3"
+        stroke-miterlimit="10"
+      />
+      <path
+        d="M23.2109 36.6308H42.1674C42.1674 36.6308 41.4376 30.7787 32.6892 30.7787C23.9407 30.7787 23.2109 36.6308 23.2109 36.6308Z"
+        stroke={color}
+        stroke-width="3"
+        stroke-miterlimit="10"
+      />
+    </svg>
+  );
+};
+const PublicFolderIcon = ({
+  color = whiteLabel.defaultIconColor,
+  className,
+}: IconPropsType) => {
+  return (
+    <svg
+      width={"20"}
+      height={"20"}
+      viewBox="0 0 50 50"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}>
+      <path
+        d="M2 7V43H49V10.8246H24.7283L20.7754 7H2Z"
+        stroke={color}
+        stroke-width="3"
+        stroke-miterlimit="10"
+      />
+    </svg>
+  );
+};
+
+const VisitorManagementLogIcon = ({
+  color = whiteLabel.defaultIconColor,
+  className,
+}: IconPropsType) => {
+  return (
+    <svg
+      width={"20"}
+      height={"20"}
+      viewBox="0 0 50 50"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}>
+      <path
+        d="M29.765 17.7216H48V48.2062H2V17.7216H20.3744V14.7288H29.6981L29.765 17.7216Z"
+        stroke={color}
+        stroke-width="3"
+        stroke-miterlimit="10"
+      />
+      <path
+        d="M20.3672 17.7217V21.3271C20.3672 21.3271 22.2061 24.2527 24.9924 24.2527C27.7786 24.2527 29.8906 21.3271 29.8906 21.3271L29.7569 17.7217"
+        stroke={color}
+        stroke-width="3"
+        stroke-miterlimit="10"
+      />
+      <path
+        d="M20.5294 21.5726C20.5294 21.5726 16.5391 21.6952 16.5391 25.0112C16.5391 28.3272 20.2396 28.6337 20.2396 28.6337H30.7002C30.7002 28.6337 33.6595 28.0987 33.6595 24.5765C33.6595 24.5765 33.888 21.5726 29.6915 21.5726"
+        stroke={color}
+        stroke-width="3"
+        stroke-miterlimit="10"
+      />
+      <path
+        d="M7.34375 33.1534L11.8854 41.9803L16.8895 33.1534"
+        stroke={color}
+        stroke-width="3"
+        stroke-miterlimit="10"
+      />
+      <path
+        d="M24.5126 6.28011L29.1382 2L37.6761 2.17276L29.6844 14.7289L21.8877 2H13.6562L20.3606 14.7289"
+        stroke={color}
+        stroke-width="3"
+        stroke-miterlimit="10"
+      />
+      <path
+        d="M24.4453 35.4829H31.4221"
+        stroke={color}
+        stroke-width="3"
+        stroke-miterlimit="10"
+      />
+      <path
+        d="M24.4453 39.1946H40.0332"
+        stroke={color}
+        stroke-width="3"
+        stroke-miterlimit="10"
+      />
+      <path
+        d="M24.0547 43.0735H34.0574"
+        stroke={color}
+        stroke-width="3"
+        stroke-miterlimit="10"
+      />
+    </svg>
+  );
+
+};
+
+const ResidentsInformationIcon = ({
+   color = whiteLabel.defaultIconColor,
+   className,
+ }: IconPropsType) => {
+   return (
+     <svg
+       width={"20"}
+       height={"20"}
+       viewBox="0 0 50 50"
+       className={className}
+       fill="none"
+       xmlns="http://www.w3.org/2000/svg">
+       <path
+         d="M7.53906 15.6764C7.53906 11.0853 11.043 7.5 15.1654 7.5C19.2879 7.5 22.7919 11.0853 22.7919 15.6764C22.7919 20.2674 19.2879 23.8527 15.1654 23.8527C11.043 23.8527 7.53906 20.2674 7.53906 15.6764Z"
+         stroke={color}
+         stroke-width="3"
+       />
+       <path
+         d="M31.4028 10.91L31.4027 10.9101C30.2233 12.1951 29.5712 13.9009 29.5862 15.7286L31.4028 10.91ZM31.4028 10.91C32.6 9.6053 34.1799 8.89963 35.8612 8.88482L35.9142 8.88464C39.3051 8.88464 42.2235 11.8179 42.2549 15.624C42.27 17.4519 41.6178 19.1576 40.4384 20.4427L40.4384 20.4427M31.4028 20.4427M40.4384  21.7474 37.6612 22.4531 35.98 22.468L35.926 22.4681C34.2627 22.4681 32.6897 21.7897 31.482 20.5166L40.4384 20.4427ZM31.4819 20.5165C30.2815 19.251 29.6013 17.5563 29.5862 15.7286L31.4819 20.5165Z"
+         stroke={color}
+         stroke-width="3"
+       />
+       <path
+         d="M36 27.0522H35.541C33.0186 27.0522 30.6738 27.8212 28.7255 29.1392C28.8711 29.276 29.0147 29.4153 29.1564 29.557C30.9116 31.3123 32.29 33.36 33.2564 27.0522C43 27.0522 42 32.5253 48.4961 39.2485V40.6655M36 27.0522L48.4961 40.6655H34.6107C34.3921"
+         stroke={color}
+         stroke-width="3"
+       />
+       <path
+         d="M28.8105 42.2585L28.8107 42.2609C28.8281 42.5353 28.8369 42.8131 28.8369 43.0933V43.3394H1.5V43.0933C1.5 35.7957 7.41532 29.8805 14.7129 29.8804C14.7129 29.8804 14.7129 29.8804 14.7129 29.8804H15.625C18.5832 29.8804 21.3099 30.8506 23.5099 32.4903L23.51 32.4904C26.5382 34.7469 28.5625 38.2636 28.8105 42.2585Z"
+         stroke={color}
+         stroke-width="3"
+       />
+     </svg>
+   );
+ };
+
+ const ResidentsSignupIcon = ({
+   color = whiteLabel.defaultIconColor,
+   className,
+ }: IconPropsType) => {
+   return (
+     <svg
+       width={"20"}
+       height={"20"}
+       viewBox="0 0 50 50"
+       className={className}
+       fill="none"
+       xmlns="http://www.w3.org/2000/svg">
+       <path
+         d="M15.9749 22.7622C20.6036 22.7622 24.356 19.0099 24.356 14.3811C24.356 9.75236 20.6036 6 15.9749 6C11.3461 6 7.59375 9.75236 7.59375 14.3811C7.59375 19.0099 11.3461 22.7622 15.9749 22.7622Z"
+         stroke={color}
+         stroke-width="3"
+         stroke-miterlimit="10"
+       />
+       <path
+         d="M37.2358 22.5504C40.5632 22.5504 43.2606 19.853 43.2606 16.5255C43.2606 13.1981 40.5632 10.5007 37.2358 10.5007C33.9083 10.5007 31.2109 13.1981 31.2109 16.5255C31.2109 19.853 33.9083 22.5504 37.2358 22.5504Z"
+         stroke={color}
+         stroke-width="3"
+         stroke-miterlimit="10"
+       />
+       <path
+         d="M26.7987 29.6617H2.17736C2.17736 29.6617 -0.616351 43.1929 15.9719 43.1929C15.9719 43.1929 24.005 43.6303 26.7987 38.4803"
+         stroke={color}
+         stroke-width="3"
+         stroke-miterlimit="10"
+       />
+       <path
+         d="M29.25 29.6617H48.6272"
+         stroke={color}
+         stroke-width="3"
+         stroke-miterlimit="10"
+       />
+       <path
+         d="M29.25 35.7715H48.6272"
+         stroke={color}
+         stroke-width="3"
+         stroke-miterlimit="10"
+       />
+       <path
+         d="M29.25 41.8856H48.6272"
+         stroke={color}
+         stroke-width="3"
+         stroke-miterlimit="10"
+       />
+     </svg>
+   );
+ };
 export {
   AnnouncementIcon,
   EmailIcon,
@@ -1235,4 +1476,10 @@ export {
   ServiceCenterIcon,
   ServiceCenterDashboardIcon,
   ServiceCenterListIcon,
+  DocumentFromsIcon,
+  PersonalFolderIcon,
+  PublicFolderIcon,
+  VisitorManagementLogIcon,
+  ResidentsInformationIcon,
+  ResidentsSignupIcon,
 };

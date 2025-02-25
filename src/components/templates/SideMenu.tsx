@@ -16,36 +16,26 @@ import {
   ReservationDashboardIcon,
   ReservationListIcon,
   LogOutIcon,
-
+  AnnouncementIcon,
+  EventIcon,
+  EventJoinLogIcon,
+  EventLogIcon,
+  DocumentFromsIcon,
+  PersonalFolderIcon,
+  PublicFolderIcon,
+  VisitorManagementLogIcon,
+  ResidentManagementIcon,
+  UserManagementIcon,
+  ResidentsInformationIcon,
+  ResidentsSignupIcon,
 } from "../../assets/icons/Icons";
 
 //icon svg
-import MENU_LOGO from "../../assets/images/mainLogo.svg";
+import MENU_LOGO from "../../assets/images/logo.svg";
 import USER_ICON from "../../assets/icons/user.svg";
 import MONITORING_ICON from "../../assets/icons/Monitoring_icon.svg";
 import SUMARY_ICON from "../../assets/icons/Summary.svg";
-import CALENDAR_ICON from "../../assets/icons/Building_calendar.svg";
-import BUILDING_ICON from "../../assets/icons/Building_activities.svg";
-import EVENT_VIEW_ICON from "../../assets/icons/Event_view.svg";
-import FACILITIES_ICON from "../../assets/icons/facilities.svg";
-import OUR_FACILITY_ICON from "../../assets/icons/Our_facilities.svg";
-import FACILITY_LOG_ICON from "../../assets/icons/Facilities_booking_logs.svg";
-import RESERVE_FACILITY_ICON from "../../assets/icons/Reserve_facility.svg";
-import PEOPLE_COUNTING_ICON from "../../assets/icons/People_counting.svg";
-import ANNOUNCEMENT_ICON from "../../assets/icons/Announcement.svg";
-import EVENT_ICON from "../../assets/icons/Event.svg";
-import EVENT_LOGS_ICON from "../../assets/icons/Event_logs.svg";
-import EVENT_JOIN_LOGS_ICON from "../../assets/icons/Event_joining_logs.svg";
-import DOCUMENT_FORMS_ICON from "../../assets/icons/Document_forms.svg";
 
-import PUBLIC_FOLDER_ICON from "../../assets/icons/Public_folder.svg";
-import PERSONAL_FOLDER_ICON from "../../assets/icons/Personal_folder.svg";
-import VISITOR_MANAGEMENT_LOGS_ICON from "../../assets/icons/Visitor_management_log.svg";
-import RESERVE_INFORMATION_ICON from "../../assets/icons/Reserve_facility.svg";
-
-import RESERVE_SINGUP_ICON from "../../assets/icons/Residents_sign_up.svg";
-import DELIVERY_LOGS_ICON from "../../assets/icons/Delivery_log.svg";
-import LOG_OUT_ICON from "../../assets/icons/Log_out.svg";
 import { APP_VERSION } from "../../configs/configs";
 
 //antd constraints components
@@ -108,7 +98,7 @@ const NewSideMenu = () => {
     <React.Fragment>
       <div className="sideMenuContainer">
         <div className="sideMenuLogo">
-          <img style={{ width: "40%" }} src={MENU_LOGO} alt="menuLogo" />
+          <img style={{ width: "60%" }} src={MENU_LOGO} alt="menuLogo" />
         </div>
         <div className="menuContainer">
           <div>
@@ -208,7 +198,7 @@ const NewSideMenu = () => {
                     className="sideMenuIcon"
                   />
                 }
-                title="Reservation Lists">
+                title="Facilities">
                 <Menu.Item
                   key={`${main_link}/reservationDashboard`}
                   icon={
@@ -217,7 +207,9 @@ const NewSideMenu = () => {
                       className="sideMenuIcon"
                     />
                   }>
-                  <Link to={`${main_link}/reservedFacilities`}>Facilities</Link>
+                  <Link to={`${main_link}/reservedFacilities`}>
+                    Our facilities
+                  </Link>
                 </Menu.Item>
                 <Menu.Item
                   key={`${main_link}/reservationList`}
@@ -236,189 +228,6 @@ const NewSideMenu = () => {
               <Menu.Item
                 onClick={() => setOpenKeys([])}
                 key={`${main_link}/announcement`}
-                // icon={<img src={ANNOUNCEMENT_ICON} alt="announcement" />}
-              >
-                <Link to={`${main_link}/announcement`}>Announcement</Link>
-              </Menu.Item>
-              <SubMenu
-                key="event"
-                // icon={<img src={EVENT_ICON} alt="event" />}
-                title="Event">
-                <Menu.Item
-                  key={`${main_link}9`}
-                  // icon={<img src={EVENT_LOGS_ICON} alt="Event logs" />}
-                >
-                  <Link to={`${main_link}/event-logs`}>Event logs</Link>
-                </Menu.Item>
-                <Menu.Item
-                  key={`${main_link}10`}
-                  // icon={
-                  //   <img src={EVENT_JOIN_LOGS_ICON} alt="Event joining logs" />
-                  // }
-                >
-                  <Link to={`${main_link}/event-joining-logs`}>
-                    Event joining logs
-                  </Link>
-                </Menu.Item>
-              </SubMenu>
-              <div className={"group-name"}>Document</div>
-              <SubMenu
-                key="Document / forms"
-                // icon={<img src={DOCUMENT_FORMS_ICON} alt="Document / forms" />}
-                title="Document / forms">
-                <Menu.Item
-                  key={`${main_link}11`}
-                  // icon={<img src={PUBLIC_FOLDER_ICON} alt="Public folder" />}
-                >
-                  <Link to={`${main_link}/public-folder`}>Public folder</Link>
-                </Menu.Item>
-                <Menu.Item
-                  key={`${main_link}12`}
-                  // icon={
-                  //   <img src={PERSONAL_FOLDER_ICON} alt="Personal folder" />
-                  // }
-                >
-                  <Link to={`${main_link}/personal-folder`}>
-                    Personal folder
-                  </Link>
-                </Menu.Item>
-              </SubMenu>
-              <div className={"group-name"}>Visitor management</div>
-              <Menu.Item
-                key={`${main_link}13`}
-                // icon={
-                //   <img
-                //     src={VISITOR_MANAGEMENT_LOGS_ICON}
-                //     alt="Visitor management logs"
-                //   />
-                // }
-              >
-                <Link to={`${main_link}/visitor-management-log`}>
-                  Visitor management log
-                </Link>
-              </Menu.Item>
-              <div className={"group-name"}>User management</div>
-              <Menu.Item
-                key={`${main_link}14`}
-                // icon={
-                //   <img
-                //     src={RESERVE_INFORMATION_ICON}
-                //     alt="Resident’s information"
-                //   />
-                // }
-              >
-                <Link to={`${main_link}/resident-information`}>
-                  Resident’s information
-                </Link>
-              </Menu.Item>
-              <Menu.Item
-                key={`${main_link}15`}
-                // icon={
-                //   <img src={RESERVE_SINGUP_ICON} alt="Resident’s sign up" />
-                // }
-              >
-                <Link to={`${main_link}/resident-sign-up`}>
-                  Resident’s sign up
-                </Link>
-              </Menu.Item>
-              <Menu.Item
-                key={`${main_link}16`}
-                // icon={<img src={DELIVERY_LOGS_ICON} alt="Delivery logs" />}
-                disabled={true}
-                style={{ display: "none" }}>
-                <Link to={`${main_link}/delivery-logs`}>Delivery logs</Link>
-              </Menu.Item>
-
-              {/* <Menu.Item
-                key={`${main_link}/profile`}
-                icon={
-                  <ProfileIcon
-                    color={iconMenuColorSelector(`profile`)}
-                    className="sideMenuIcon"
-                  />
-                }>
-                <Link to={`${main_link}/profile`}>Profile</Link>
-              </Menu.Item> */}
-              {/* <Menu.Item
-                key={`${main_link}/managementMain`}
-                icon={
-                  <ManagementIcon
-                    color={iconMenuColorSelector("managementMain")}
-                    className="sideMenuIcon"
-                  />
-                }>
-                <Link to={`${main_link}/managementMain`}>Management Team</Link>
-              </Menu.Item> */}
-              {/* User management */}
-              {/* <SubMenu
-                key="userManagement"
-                icon={
-                  <UserManagementIcon
-                    color={iconMenuColorSelector("userManagement")}
-                    className="sideMenuIcon"
-                  />
-                }
-                title="User management">
-                <Menu.Item
-                  key={`${main_link}/residentInformation`}
-                  icon={
-                    <ResidentManagementIcon
-                      color={iconSubMenuColorSelector("residentInformation")}
-                      className="sideMenuIcon"
-                    />
-                  }>
-                  <Link to={`${main_link}/residentInformation`}>
-                    Resident’s Information
-                  </Link>
-                </Menu.Item>
-                <Menu.Item
-                  key={`${main_link}/residentSignUp`}
-                  icon={
-                    <UserManagementIcon
-                      color={iconSubMenuColorSelector("residentSignUp")}
-                      className="sideMenuIcon"
-                    />
-                  }>
-                  <Link to={`${main_link}/residentSignUp`}>
-                    Resident’s Sign up
-                  </Link>
-                </Menu.Item>
-              </SubMenu> */}
-              {/* Facility Center */}
-              {/* <SubMenu
-                key="facilities"
-                icon={
-                  <FacilityBookingIcon
-                    color={iconMenuColorSelector("facilities")}
-                    className="sideMenuIcon"
-                  />
-                }
-                title="Reservation Lists">
-                <Menu.Item
-                  key={`${main_link}/reservationDashboard`}
-                  icon={
-                    <ReservationDashboardIcon
-                      color={iconSubMenuColorSelector("reservationDashboard")}
-                      className="sideMenuIcon"
-                    />
-                  }>
-                  <Link to={`${main_link}/reservedFacilities`}>Facilities</Link>
-                </Menu.Item>
-                <Menu.Item
-                  key={`${main_link}/reservationList`}
-                  icon={
-                    <ReservationListIcon
-                      color={iconSubMenuColorSelector("reservationList")}
-                      className="sideMenuIcon"
-                    />
-                  }>
-                  <Link to={`${main_link}/reservationList`}>
-                    Reservation Lists
-                  </Link>
-                </Menu.Item>
-              </SubMenu> */}
-              {/* <Menu.Item
-                key={`${main_link}/announcement`}
                 icon={
                   <AnnouncementIcon
                     color={iconMenuColorSelector("announcement")}
@@ -427,87 +236,122 @@ const NewSideMenu = () => {
                 }>
                 <Link to={`${main_link}/announcement`}>Announcement</Link>
               </Menu.Item>
-              <Menu.Item
-                key={`${main_link}/emergencyCall`}
-                icon={
-                  <EmergencyIcon
-                    color={iconMenuColorSelector("emergencyCall")}
-                    className="sideMenuIcon"
-                  />
-                }>
-                <Link to={`${main_link}/emergencyCall`}>Emergency Call</Link>
-              </Menu.Item>
-              <Menu.Item
-                key={`${main_link}/nearbyService`}
-                icon={
-                  <NearbyIcon
-                    color={iconMenuColorSelector("nearbyService")}
-                    className="sideMenuIcon"
-                  />
-                }>
-                <Link to={`${main_link}/nearbyService`}>Nearby Service</Link>
-              </Menu.Item> */}
-              {/* User management */}
-              {/* <Menu.Item
-                key={`${main_link}/chatRoom`}
-                icon={
-                  <ChatIcon
-                    color={iconMenuColorSelector("chatRoom")}
-                    className="sideMenuIcon"
-                  />
-                }>
-                <Link
-                  to={`${main_link}/chatRoom`}
-                  onClick={() => {
-                    socket.connect();
-                  }}>
-                  Chat Room
-                </Link>
-              </Menu.Item>
               <SubMenu
-                key="seviceCenter"
+                key="event"
                 icon={
-                  <ServiceCenterIcon
-                    color={iconMenuColorSelector("serviceDashboard")}
+                  <EventIcon
+                    color={iconMenuColorSelector("event")}
                     className="sideMenuIcon"
                   />
                 }
-                title="Service Center">
+                title="Event">
                 <Menu.Item
-                  key={`${main_link}/serviceDashboard`}
+                  key={`${main_link}event-logs`}
                   icon={
-                    <ServiceCenterDashboardIcon
-                      color={iconSubMenuColorSelector("serviceDashboard")}
+                    <EventLogIcon
+                      color={iconMenuColorSelector("event-logs")}
                       className="sideMenuIcon"
                     />
                   }>
-                  <Link to={`${main_link}/serviceDashboard`}>
-                    Service Center Dashboard
+                  <Link to={`${main_link}/event-logs`}>Event logs</Link>
+                </Menu.Item>
+                <Menu.Item
+                  key={`${main_link}event-joining-logs`}
+                  icon={
+                    <EventJoinLogIcon
+                      color={iconMenuColorSelector("event-joining-logs")}
+                      className="sideMenuIcon"
+                    />
+                  }>
+                  <Link to={`${main_link}/event-joining-logs`}>
+                    Event joining logs
                   </Link>
                 </Menu.Item>
+              </SubMenu>
+              <div className={"group-name"}>Document</div>
+              <SubMenu
+                key="document-forms"
+                icon={
+                  <DocumentFromsIcon
+                    color={iconMenuColorSelector("document-forms")}
+                    className="sideMenuIcon"
+                  />
+                }
+                title="Document / forms">
                 <Menu.Item
-                  key={`${main_link}/ServiceCenterLists`}
+                  key={`${main_link}public-folder`}
                   icon={
-                    <ServiceCenterListIcon
-                      color={iconSubMenuColorSelector("ServiceCenterLists")}
+                    <PublicFolderIcon
+                      color={iconMenuColorSelector("public-folder")}
                       className="sideMenuIcon"
                     />
                   }>
-                  <Link to={`${main_link}/serviceCenterLists`}>
-                    Service Center Lists
+                  <Link to={`${main_link}/public-folder`}>Public folder</Link>
+                </Menu.Item>
+                <Menu.Item
+                  key={`${main_link}personal-folder`}
+                  icon={
+                    <PersonalFolderIcon
+                      color={iconMenuColorSelector("personal-folder")}
+                      className="sideMenuIcon"
+                    />
+                  }>
+                  <Link to={`${main_link}/personal-folder`}>
+                    Personal folder
                   </Link>
                 </Menu.Item>
-                <Menu.Item
-                  key={`${main_link}/ServiceChat`}
-                  icon={
-                    <ChatIcon
-                      color={iconSubMenuColorSelector("ServiceChat")}
-                      className="sideMenuIcon"
-                    />
-                  }>
-                  <Link to={`${main_link}/ServiceChat`}>Messages</Link>
-                </Menu.Item>
-              </SubMenu> */}
+              </SubMenu>
+              <div className={"group-name"}>Visitor management</div>
+              <Menu.Item
+                key={`${main_link}visitor-management-log`}
+                icon={
+                  <VisitorManagementLogIcon
+                    color={iconMenuColorSelector("visitor-management-log")}
+                    className="sideMenuIcon"
+                  />
+                }>
+                <Link to={`${main_link}/visitor-management-log`}>
+                  Visitor management log
+                </Link>
+              </Menu.Item>
+              <div className={"group-name"}>User management</div>
+              <Menu.Item
+                key={`${main_link}resident-information`}
+                icon={
+                  <ResidentsInformationIcon
+                    color={iconMenuColorSelector("resident-information")}
+                    className="sideMenuIcon"
+                  />
+                }>
+                <Link to={`${main_link}/resident-information`}>
+                  Resident’s information
+                </Link>
+              </Menu.Item>
+              <Menu.Item
+                key={`${main_link}resident-sign-up`}
+                icon={
+                  <ResidentsSignupIcon
+                    color={iconMenuColorSelector("resident-sign-up")}
+                    className="sideMenuIcon"
+                  />
+                }>
+                <Link to={`${main_link}/resident-sign-up`}>
+                  Resident’s sign up
+                </Link>
+              </Menu.Item>
+              <Menu.Item
+                key={`${main_link}payment-dashboard`}
+                // icon={<img src={DELIVERY_LOGS_ICON} alt="Delivery logs" />}
+              >
+                <Link to={`${main_link}/payment-dashboard`}>Payment</Link>
+              </Menu.Item>
+              <Menu.Item
+                key={`${main_link}16`}
+                // icon={<img src={DELIVERY_LOGS_ICON} alt="Delivery logs" />}
+                disabled={true}
+                style={{ display: "none" }}>
+                <Link to={`${main_link}/delivery-logs`}>Delivery logs</Link>
+              </Menu.Item>
             </Menu>
           </div>
           <div>
@@ -519,13 +363,13 @@ const NewSideMenu = () => {
                 key="auth"
                 icon={
                   <LogOutIcon
-                    color={whiteLabel.dangerColor}
+                    color={whiteLabel.whiteColor}
                     className="sideMenuIcon"
                   />
                 }
                 onClick={logoutHandler}
                 style={{ alignSelf: "end", bottom: 0 }}>
-                <span style={{ color: whiteLabel.dangerColor }}>Log Out</span>
+                <span style={{ color: whiteLabel.whiteColor }}>Log Out</span>
               </Menu.Item>
               <div className="textVersion">version {APP_VERSION}</div>
             </Menu>

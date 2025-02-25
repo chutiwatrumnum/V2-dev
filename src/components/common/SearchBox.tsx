@@ -16,7 +16,7 @@ const SearchBox = ({ onSearch, className, placeholderText }: SearchBoxType) => {
       className={className}
       placeholder={placeholderText ? placeholderText : "Search"}
       onSearch={onSearch}
-      size="large"
+      size="middle"
       allowClear
     />
   );
