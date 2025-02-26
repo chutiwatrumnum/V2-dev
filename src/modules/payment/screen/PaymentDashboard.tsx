@@ -13,11 +13,12 @@ import {
 import dayjs from "dayjs";
 import { DataType, conditionPage } from "../../../stores/interfaces/Payment";
 
-import CreateAddNew from "../components/CreateAddNew";
+import CreateAddNew from "../components/CreatePaymentModal";
 import EditPaymentDashboard from "../components/EditPaymentDashboard";
 import InfoResidentInformation from "../components/InfoResidentInformation";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../../stores";
+import { useBillPaymentMasterDataListQuery } from "../hooks";
 const { confirm } = Modal;
 const PaymentDashboard = () => {
   const { loading, tableData, total } = useSelector(

@@ -1,20 +1,12 @@
 import type { ColumnsType} from "antd/es/table";
-export interface ResidentAddNew {
-  firstName: string;
-  lastName: string,
-  nickName: string,
-  email: string;
-  roleId: number,
-  hobby: string,
-  unitId: number,
-  iuNumber: string
-  contact: string,
-  birthDate: string,
-  channel: string,
-  moveInDate: string,
-  moveOutDate: string,
-  imageProfile: string,
-  middleName: string
+export interface addPayment {
+  unitId:       number;
+  startDue?:     string;
+  endDue?:       string;
+  startMonthly: string;
+  endMonthly:   string;
+  billTypeId:   number;
+  amount:       number;
 }
 export interface blockDetail {
   label: string
@@ -92,4 +84,8 @@ export interface columnTable{
   allTabsColumn:ColumnsType<DataType>,
   rejectTabsColumn:ColumnsType<DataType>,
   waitActiveTabsColumn:ColumnsType<DataType>
+}
+export interface selectListType {
+  label: string;
+  value: string;
 }
