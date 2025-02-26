@@ -119,7 +119,7 @@ const createPaymentModal = (props: ComponentCreateProps) => {
                             </Form.Item>
                         </Col>
                         <Col span={8}>
-                            <Form.Item name="dueDate" label="Due date">
+                            <Form.Item rules={[{ required: true, message: "dueDate" }]} name="dueDate" label="Due date">
                                 <DatePicker.RangePicker style={{ width: "92%" }} disabledDate={disabledDate} />
                             </Form.Item>
                         </Col>
