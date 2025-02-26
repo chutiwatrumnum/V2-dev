@@ -7,7 +7,7 @@ import "../styles/modal.css";
 
 const { Text } = Typography;
 
-const SuccessModal = (p0: string) => {
+const SuccessModal = () => {
   const [iconSatus, seticonSatus] = useState<any>(
     <CheckCircleFilled
       style={{ color: "#65C466", fontSize: 50, lineHeight: 50 }}

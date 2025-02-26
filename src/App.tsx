@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect } from "react";
+import { useLayoutEffect } from "react";
 import { Navigate, Route, Routes, BrowserRouter } from "react-router-dom";
 import { encryptStorage } from "./utils/encryptStorage";
 import { useDispatch, useSelector } from "react-redux";
@@ -52,112 +52,89 @@ import SuccessModal from "./components/common/SuccessModal";
 import ConfirmModal from "./components/common/ConfirmModal";
 
 function App() {
-  const dispatch = useDispatch<Dispatch>();
-  const { isAuth } = useSelector((state: RootState) => state.userAuth);
-  const { loading } = useSelector((state: RootState) => state.common);
+    const dispatch = useDispatch<Dispatch>();
+    const { isAuth } = useSelector((state: RootState) => state.userAuth);
+    const { loading } = useSelector((state: RootState) => state.common);
 
-  useLayoutEffect(() => {
-    (async () => {
-      try {
-        // Check Access token
-        dispatch.common.updateLoading(true);
-        const accessToken = await encryptStorage.getItem("accessToken");
-        if (
-          accessToken === null ||
-          accessToken === undefined ||
-          accessToken === ""
-        )
-          throw "accessToken not found";
-        // Check Refresh token
-        const resReToken = await dispatch.userAuth.refreshTokenNew();
-        if (!resReToken) throw "accessToken expired";
-        // Token pass
-        await dispatch.common.getUnitOptions();
-        await dispatch.common.getMasterData();
-        await dispatch.userAuth.refreshUserDataEffects();
-        await dispatch.common.getRoleAccessToken();
-        dispatch.userAuth.updateAuthState(true);
-        dispatch.common.updateLoading(false);
-        return true;
-      } catch (e) {
-        dispatch.userAuth.updateAuthState(false);
-        dispatch.common.updateLoading(false);
-        return false;
-      }
-    })();
-  }, [isAuth]);
+    useLayoutEffect(() => {
+        (async () => {
+            try {
+                // Check Access token
+                dispatch.common.updateLoading(true);
+                const accessToken = await encryptStorage.getItem("accessToken");
+                if (accessToken === null || accessToken === undefined || accessToken === "") throw "accessToken not found";
+                // Check Refresh token
+                const resReToken = await dispatch.userAuth.refreshTokenNew();
+                if (!resReToken) throw "accessToken expired";
+                // Token pass
+                await dispatch.common.getUnitOptions();
+                await dispatch.common.getMasterData();
+                await dispatch.userAuth.refreshUserDataEffects();
+                await dispatch.common.getRoleAccessToken();
+                dispatch.userAuth.updateAuthState(true);
+                dispatch.common.updateLoading(false);
+                return true;
+            } catch (e) {
+                dispatch.userAuth.updateAuthState(false);
+                dispatch.common.updateLoading(false);
+                return false;
+            }
+        })();
+    }, [isAuth]);
 
-  return (
-    <BrowserRouter>
-      {loading ? (
-        <div
-          style={{
-            display: "flex",
-            flex: 1,
-            height: "100vh",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            textAlign: "center",
-          }}>
-          <Spin size="large" />
-          {/* <p style={{ marginTop: 10 }}>Loading...</p> */}
-        </div>
-      ) : (
-        <Routes>
-          {/* unauthorized_route */}
-          <Route element={<UnauthorizedLayout />}>
-            <Route index path="/auth" element={<SignInScreen />} />
-            <Route index path="/recovery" element={<RecoveryScreen />} />
-            <Route
-              index
-              path="/forgot-password/:token"
-              element={<ResetPassword />}
-            />
-            <Route
-              index
-              path="/landing-screen"
-              element={<ResetLandingScreen />}
-            />
-          </Route>
-          {/* authorized_route */}
-          <Route path="dashboard" element={<AuthorizedLayout />}>
-            <Route index path="summary" element={<Summary />} />
-            <Route path="management" element={<ManagementMain />} />
+    return (
+        <BrowserRouter>
+            {loading ? (
+                <div
+                    style={{
+                        display: "flex",
+                        flex: 1,
+                        height: "100vh",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        textAlign: "center",
+                    }}
+                >
+                    <Spin size="large" />
+                    {/* <p style={{ marginTop: 10 }}>Loading...</p> */}
+                </div>
+            ) : (
+                <Routes>
+                    {/* unauthorized_route */}
+                    <Route element={<UnauthorizedLayout />}>
+                        <Route index path="/auth" element={<SignInScreen />} />
+                        <Route index path="/recovery" element={<RecoveryScreen />} />
+                        <Route index path="/forgot-password/:token" element={<ResetPassword />} />
+                        <Route index path="/landing-screen" element={<ResetLandingScreen />} />
+                    </Route>
+                    {/* authorized_route */}
+                    <Route path="dashboard" element={<AuthorizedLayout />}>
+                        <Route index path="summary" element={<Summary />} />
+                        <Route path="management" element={<ManagementMain />} />
 
-            {/* Facility */}
-            <Route path="reservedFacilities" element={<ReservedFacilities />} />
-            <Route path="reservationList" element={<ReservationList />} />
-            <Route
-              path="visitor-management-log"
-              element={<VisitorManagementLog />}
-            />
-            <Route path="announcement" element={<AnnouncementMain />} />
-            <Route
-              index
-              path="resident-information"
-              element={<ResidentInformation />}
-            />
-            <Route
-              index
-              path="payment-dashboard"
-              element={<PaymentDashboard />}
-            />
-            <Route path="resident-sign-up" element={<ResidentSignUp />} />
-            <Route path="public-folder" element={<PublicFolder />} />
-            <Route path="personal-folder" element={<PersonalFolder />} />
-            <Route path="event-logs" element={<EventLogs />} />
-            <Route path="event-joining-logs" element={<EventJoinLogs />} />
-            <Route path="event-view" element={<EventView />} />
-            {/* <Route path="people-counting" element={<PeopleCounting />} /> */}
-          </Route>
-          <Route path="*" element={<Navigate to="/auth" />} />
-          {/* <Route path="tv-podcast" element={<TVSlideShow />} /> */}
-        </Routes>
-      )}
-
-      <ConfirmModal />
-    </BrowserRouter>
-  );
+                        {/* Facility */}
+                        <Route path="reservedFacilities" element={<ReservedFacilities />} />
+                        <Route path="reservationList" element={<ReservationList />} />
+                        <Route path="visitor-management-log" element={<VisitorManagementLog />} />
+                        <Route path="announcement" element={<AnnouncementMain />} />
+                        <Route index path="resident-information" element={<ResidentInformation />} />
+                        <Route index path="payment-dashboard" element={<PaymentDashboard />} />
+                        <Route path="resident-sign-up" element={<ResidentSignUp />} />
+                        <Route path="public-folder" element={<PublicFolder />} />
+                        <Route path="personal-folder" element={<PersonalFolder />} />
+                        <Route path="event-logs" element={<EventLogs />} />
+                        <Route path="event-joining-logs" element={<EventJoinLogs />} />
+                        <Route path="event-view" element={<EventView />} />
+                        {/* <Route path="people-counting" element={<PeopleCounting />} /> */}
+                    </Route>
+                    <Route path="*" element={<Navigate to="/auth" />} />
+                    {/* <Route path="tv-podcast" element={<TVSlideShow />} /> */}
+                </Routes>
+            )}
+            <SuccessModal />
+            <ConfirmModal />
+        </BrowserRouter>
+    );
 }
 export default App;
