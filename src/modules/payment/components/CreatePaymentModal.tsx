@@ -4,7 +4,7 @@ import { Button, Modal, Form, Input, Row, Col, DatePicker, Select, notification,
 import type { RangePickerProps } from "antd/es/date-picker";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { addPayment, blockDetail, unitDetail, roleDetail } from "../../../stores/interfaces/Payment";
-import { addResident, getdatablock, getdatarole } from "../service/api/PaymentServiceAPI";
+import { getdatablock, getdatarole } from "../service/api/PaymentServiceAPI";
 import { useDispatch } from "react-redux";
 import { Dispatch, RootState } from "../../../stores";
 import { addBillPaymentQuery, useBillPaymentMasterDataListQuery } from "../hooks";
@@ -27,11 +27,6 @@ const { confirm } = Modal;
 const createPaymentModal = (props: ComponentCreateProps) => {
     const { data } = useBillPaymentMasterDataListQuery();
     const mutationAddBillPayment = addBillPaymentQuery();
-    const [selectedblock, setselectedblock] = useState(true);
-    const [block, setblock] = useState<blockDetail[] | any>([]);
-    const [unit, setunitDetail] = useState<unitDetail[]>([]);
-    const [role, setrole] = useState<roleDetail[]>([]);
-    // const [hobby, sethobbyDetail] = useState<hobbyDetail[]>([]);
     const dispatch = useDispatch<Dispatch>();
 
     const handleCancel = async () => {
@@ -64,46 +59,21 @@ const createPaymentModal = (props: ComponentCreateProps) => {
                     request.startDue = dayjs(values.dueDate[0]).format("YYYY-MM-DD");
                     request.endDue = dayjs(values.dueDate[1]).format("YYYY-MM-DD");
                 }
-                console.log("value:", request);
-
-                await mutationAddBillPayment.mutateAsync(request);
-                dispatch.common.updateSuccessModalState({
-                    open: true,
-                    text: "Successfully bill payment",
-                });
-                await props.callBack(!props?.isOpen, true);
-                return
-                console.log("issuccess:",mutationAddBillPayment.isSuccess);
-                console.log("iserrror:",mutationAddBillPayment.isError);
-                
-                if (mutationAddBillPayment.isSuccess) {
+                try {
+                    await mutationAddBillPayment.mutateAsync(request);
                     dispatch.common.updateSuccessModalState({
                         open: true,
                         text: "Successfully bill payment",
                     });
-                    await props.callBack(!props?.isOpen, true);
-                } else {
+                    props.callBack(!props?.isOpen, true);
+                } catch (error: any) {
                     dispatch.common.updateSuccessModalState({
                         open: true,
                         status: "error",
-                        text: "failed bill payment",
+                        text: error.response.data.message[0],
                     });
+                    console.log("mutationAddBillPayment:", error);
                 }
-
-                // const resultCreated = await addResident(request);
-                // if (resultCreated == true) {
-                //     dispatch.common.updateSuccessModalState({
-                //         open: true,
-                //         text: "Successfully register",
-                //     });
-                //     await props.callBack(!props?.isOpen, true);
-                // } else {
-                //     dispatch.common.updateSuccessModalState({
-                //         open: true,
-                //         status: "error",
-                //         text: resultCreated,
-                //     });
-                // }
             },
             onCancel() {
                 console.log("Cancel");
@@ -113,48 +83,14 @@ const createPaymentModal = (props: ComponentCreateProps) => {
 
     useEffect(() => {
         if (props?.isOpen) {
-            (async function () {
-                await initDattaCreate();
-            })();
+            (async function () {})();
         }
     }, [props?.isOpen]);
 
-    const initDattaCreate = async () => {
-        // const dataehobby: any = await getdatahobby();
-        const dataerole: any = await getdatarole();
-        const dataeblock = await getdatablock();
-        blocklst = dataeblock?.datablock;
-        // await sethobbyDetail(dataehobby?.datahobby);
-        await setrole(dataerole?.datarole);
-        await setblock(dataeblock?.dataselectblock);
-        await handleChangeBlock(1);
-    };
     const onFinishFailed = (errorInfo: any) => {
         console.log("Failed:", errorInfo);
     };
 
-    const handleChangeBlock = async (e: any) => {
-        await form.setFieldsValue({
-            unitId: null,
-        });
-        if (e) {
-            await setselectedblock(false);
-            const unitdata = blocklst[e - 1].unit;
-            const arrayUnit: unitDetail[] = [];
-            unitdata.map((e: any) => {
-                if (e?.active) {
-                    const unitdata: unitDetail = {
-                        label: e.unitNo,
-                        value: e.id,
-                    };
-                    arrayUnit.push(unitdata);
-                }
-            });
-            if (arrayUnit.length > 0) {
-                await setunitDetail(arrayUnit);
-            }
-        }
-    };
     return (
         <>
             <Modal

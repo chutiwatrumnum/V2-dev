@@ -13,7 +13,7 @@ import {
 import dayjs from "dayjs";
 import { DataType, conditionPage } from "../../../stores/interfaces/Payment";
 
-import CreateAddNew from "../components/CreatePaymentModal";
+import CreatePaymentModal from "../components/CreatePaymentModal";
 import EditPaymentDashboard from "../components/EditPaymentDashboard";
 import InfoResidentInformation from "../components/InfoResidentInformation";
 import { useDispatch, useSelector } from "react-redux";
@@ -309,7 +309,7 @@ const PaymentDashboard = () => {
             disabled={!accessibility?.menu_resident_information.allowEdit}>
             Add new
           </Button>
-          <CreateAddNew
+          <CreatePaymentModal
             callBack={async (isOpen: boolean, created: boolean) => {
               await setIsModalCreate(isOpen);
               if (created) {
