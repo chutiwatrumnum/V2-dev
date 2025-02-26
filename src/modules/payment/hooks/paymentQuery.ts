@@ -1,12 +1,11 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { selectListType } from "../../../stores/interfaces/Payment";
+import { conditionPage, DataType, selectListType } from "../../../stores/interfaces/Payment";
+import dayjs from "dayjs";
 
 export const useBillPaymentMasterDataListQuery = () => {
     const getBillPaymentMasterDataListQuery = async () => {
         const { data } = await axios.get("/bill-payment/master-data");
-
-
 
         return data.data;
     };
@@ -15,27 +14,82 @@ export const useBillPaymentMasterDataListQuery = () => {
         queryFn: () => getBillPaymentMasterDataListQuery(),
         retry: false,
         select(data) {
-            console.log("getBillPaymentMasterDataListQuery:",data);
-            const dataBillTypeSelectLists: selectListType[] = [];
-            data.billType.map((e:any)=>{
+            console.log("getBillPaymentMasterDataListQuery:", data);
+            const dataBillPaymentStatusLists = data.billPaymentStatus.map((e: any) => {
                 const dataSelectList: selectListType = {
                     label: e.nameEn,
                     value: e.id.toString(),
                 };
-                dataBillTypeSelectLists.push(dataSelectList);
-            })
-            const dataUnitSelectLists: selectListType[] = [];
-            data.unit.map((e:any)=>{
+                return dataSelectList;
+            });
+            const dataBillTypeSelectLists = data.billType.map((e: any) => {
+                const dataSelectList: selectListType = {
+                    label: e.nameEn,
+                    value: e.id.toString(),
+                };
+                return dataSelectList;
+            });
+
+            const dataUnitSelectLists = data.unit.map((e: any) => {
                 const dataSelectList: selectListType = {
                     label: e.unitNo,
                     value: e.id.toString(),
                 };
-                dataUnitSelectLists.push(dataSelectList);
-            })
-            
-            return{dataBillTypeSelectLists:dataBillTypeSelectLists,dataUnitSelectLists:dataUnitSelectLists}
+                return dataSelectList;
+            });
+
+            return { dataBillTypeSelectLists: dataBillTypeSelectLists, dataUnitSelectLists: dataUnitSelectLists };
         },
-        
+    });
+    return { ...query };
+};
+export const useBillPaymentListQuery = (payloadQuery: conditionPage) => {
+    const getBillPaymentListQuery = async (payload: conditionPage) => {
+        //curPage=1&perPage=10&startBillMonthly=2025-01&endBillMonthly=2025-12
+        const params: any = {
+            curPage: payload.curPage,
+            perPage: payload.perPage,
+            startBillMonthly: dayjs().format("YYYY-MM"),
+            endBillMonthly: "2025-12",
+        };
+        if (payload.startDate || payload.endDate) {
+            params.startDate = payload.startDate;
+            params.endDate = payload.endDate;
+        }
+
+        if (payload.search) {
+            params.search = payload.search;
+        }
+        if (payload.sort || payload.sortBy) {
+            params.sort = payload.sort;
+            params.sortBy = payload.sortBy;
+        }
+        const { data } = await axios.get("/bill-payment/dashboard/list", { params });
+
+        return data.data;
+    };
+    const query = useQuery({
+        queryKey: ["BillPaymentList"],
+        queryFn: () => getBillPaymentListQuery(payloadQuery),
+        retry: false,
+        select(data) {
+            console.log("getBillPaymentListQuery:", data);
+            const dataBillPaymentList = data.rows.map((items: any) => {
+                const data: DataType = {
+                    key: items.id,
+                    unitNo: items.unit.unitNo,
+                    billType: items.billType.nameEn,
+                    billStatus: items.billStatus.nameEn,
+                    amount: items.amount,
+                    startMonthly: items.startMonthly,
+                    endMonthly: items.endMonthly,
+                    createdAt: dayjs(items.createdAt).format("DD-MM-YYYY"),
+                    createdBy: `${items.createdBy.firstName} ${items.createdBy.middleName ? items.createdBy.middleName : ""} ${items.createdBy.lastName}`,
+                };
+                return data;
+            });
+            return { dataBillPaymentList: dataBillPaymentList, total: data.total };
+        },
     });
     return { ...query };
 };
