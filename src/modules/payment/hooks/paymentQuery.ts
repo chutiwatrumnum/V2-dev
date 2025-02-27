@@ -14,7 +14,6 @@ export const useBillPaymentMasterDataListQuery = () => {
         queryFn: () => getBillPaymentMasterDataListQuery(),
         retry: false,
         select(data) {
-            console.log("getBillPaymentMasterDataListQuery:", data);
             const dataBillPaymentStatusLists = data.billPaymentStatus.map((e: any) => {
                 const dataSelectList: TabsListType = {
                     label: e.nameEn,
@@ -85,14 +84,13 @@ export const useBillPaymentListQuery = (payloadQuery: conditionPage) => {
         queryFn: () => getBillPaymentListQuery(payloadQuery),
         retry: false,
         select(data) {
-            console.log("getBillPaymentListQuery:", data);
             const dataBillPaymentList = data.rows.map((items: any) => {
                 const data: DataType = {
                     key: items.id,
                     unitNo: items.unit.unitNo,
                     billType: items.billType.nameEn,
                     billStatus: items.billStatus.nameEn,
-                    amount: items.amount,
+                    amount: items.amount.toLocaleString("en"),
                     startMonthly: items.startMonthly,
                     endMonthly: items.endMonthly,
                     createdAt: dayjs(items.createdAt).format("DD-MM-YYYY"),

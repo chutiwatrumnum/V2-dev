@@ -9,6 +9,10 @@ export const addBillPaymentQuery = () => {
     };
     const mutation = useMutation({
         mutationFn: (payloadQuery: addPayment) => addBillPayment(payloadQuery),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["billPaymentList"] });
+            queryClient.invalidateQueries({ queryKey: ["billPaymentMasterDataList"] });
+        }
     });
     return mutation;
 };

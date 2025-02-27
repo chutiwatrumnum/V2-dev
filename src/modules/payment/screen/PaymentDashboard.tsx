@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../../../components/common/Header";
-import { Select, Table, Tag } from "antd";
+import { Select, Table, Tabs, Tag } from "antd";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import { deleteResidentId } from "../service/api/PaymentServiceAPI";
 import { Row, Col, DatePicker, Input, Button, Modal } from "antd";
@@ -50,6 +50,12 @@ const OutDateList: Array<selectListType> = [
 const PaymentDashboard = () => {
     const { accessibility } = useSelector((state: RootState) => state.common);
     const pageSizeOptions = [10, 20, 60, 100];
+    const [BillPaymentStatusLists, setBillPaymentStatusLists] = useState<TabsProps["items"]>([
+        {
+            label: "All",
+            key: "",
+        },
+    ]);
     const [BillTypeSelectLists, setBillTypeSelectLists] = useState<selectListType[]>([
         {
             label: "All",
@@ -76,7 +82,6 @@ const PaymentDashboard = () => {
         byBillTypeId: ByBillTypeId,
         byOutDate: ByOutDate,
     };
-    const [paramsData, setParamsData] = useState<conditionPage>(params);
     const { data, isLoading, refetch } = useBillPaymentListQuery(params);
     const PaginationConfig = {
         defaultPageSize: pageSizeOptions[0],
@@ -115,27 +120,33 @@ const PaymentDashboard = () => {
                     ...BillPaymentMasterDataList.dataBillTypeSelectLists,
                 ]);
             }
+            if (BillPaymentMasterDataList?.dataBillPaymentStatusLists) {
+                console.log(BillPaymentMasterDataList?.dataBillPaymentStatusLists);
+
+                setBillPaymentStatusLists([
+                    {
+                        label: "All",
+                        key: "",
+                    },
+
+                    ...BillPaymentMasterDataList?.dataBillPaymentStatusLists,
+                ]);
+            }
             await refetch();
         })();
-    }, [CurrentPage, SearchData, ByOutDate, ByBillTypeId, isSuccess, StartBillMonthly]);
+    }, [rerender, CurrentPage, SearchData, ByOutDate, ByBillTypeId, isSuccess, StartBillMonthly, ByBillStatusId]);
 
     const onChangeTable: TableProps<DataType>["onChange"] = async (pagination: any, filters, sorter: any, extra) => {
         params.sort = sorter?.order;
         params.sortBy = sorter?.field;
         params.curPage = pagination?.current ? pagination?.current : PaginationConfig.current;
         params.perPage = pagination?.pageSize ? pagination?.pageSize : PaginationConfig.defaultPageSize;
-        setParamsData(params);
         setCurrentPage(params.curPage);
         setPerPage(params.perPage);
     };
 
     const onSearch = async (value: string) => {
         console.log("onSearch:", value);
-
-        // params = paramsData;
-        params.search = value;
-
-        // await dispatch.resident.getTableData(paramsData);
         setSearchData(value);
     };
 
@@ -186,7 +197,7 @@ const PaymentDashboard = () => {
         {
             title: "amount",
             dataIndex: "amount",
-            align: "center",
+            align: "right",
         },
         {
             title: "startMonthly",
@@ -291,10 +302,8 @@ const PaymentDashboard = () => {
             params.startBillMonthly = undefined;
             params.endBillMonthly = undefined;
         }
-        setParamsData(params);
         setStartBillMonthly(params.startBillMonthly);
         setEndBillMonthly(params.endBillMonthly);
-        // await dispatch.resident.getTableData(paramsData);
     };
 
     return (
@@ -363,6 +372,15 @@ const PaymentDashboard = () => {
                     />
                 </Col>
             </Row>
+            {BillPaymentMasterDataList?.dataBillPaymentStatusLists ? (
+                <Tabs
+                    defaultActiveKey=""
+                    items={BillPaymentStatusLists}
+                    onChange={async (key: string) => {
+                        setByBillStatusId(key);
+                    }}
+                />
+            ) : null}
             <Row>
                 <Col span={24}>
                     <Table columns={columns} pagination={PaginationConfig} dataSource={data?.dataBillPaymentList} loading={isLoading} onChange={onChangeTable} scroll={scroll} />
