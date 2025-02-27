@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { conditionPage, DataType, selectListType } from "../../../stores/interfaces/Payment";
+import { conditionPage, DataType, selectListType, TabsListType } from "../../../stores/interfaces/Payment";
 import dayjs from "dayjs";
 
 export const useBillPaymentMasterDataListQuery = () => {
@@ -16,9 +16,9 @@ export const useBillPaymentMasterDataListQuery = () => {
         select(data) {
             console.log("getBillPaymentMasterDataListQuery:", data);
             const dataBillPaymentStatusLists = data.billPaymentStatus.map((e: any) => {
-                const dataSelectList: selectListType = {
+                const dataSelectList: TabsListType = {
                     label: e.nameEn,
-                    value: e.id.toString(),
+                    key: e.id.toString(),
                 };
                 return dataSelectList;
             });
@@ -38,27 +38,39 @@ export const useBillPaymentMasterDataListQuery = () => {
                 return dataSelectList;
             });
 
-            return { dataBillTypeSelectLists: dataBillTypeSelectLists, dataUnitSelectLists: dataUnitSelectLists };
+            return {
+                dataBillTypeSelectLists: dataBillTypeSelectLists,
+                dataUnitSelectLists: dataUnitSelectLists,
+                dataBillPaymentStatusLists: dataBillPaymentStatusLists,
+            };
         },
     });
     return { ...query };
 };
 export const useBillPaymentListQuery = (payloadQuery: conditionPage) => {
     const getBillPaymentListQuery = async (payload: conditionPage) => {
+        console.log("payload:", payload);
         //curPage=1&perPage=10&startBillMonthly=2025-01&endBillMonthly=2025-12
         const params: any = {
             curPage: payload.curPage,
             perPage: payload.perPage,
-            startBillMonthly: dayjs().format("YYYY-MM"),
-            endBillMonthly: "2025-12",
         };
-        if (payload.startDate || payload.endDate) {
-            params.startDate = payload.startDate;
-            params.endDate = payload.endDate;
+        if (payload.startBillMonthly || payload.endBillMonthly) {
+            params.startBillMonthly = payload.startBillMonthly;
+            params.endBillMonthly = payload.endBillMonthly;
         }
 
         if (payload.search) {
             params.search = payload.search;
+        }
+        if (payload.byBillTypeId) {
+            params.byBillTypeId = payload.byBillTypeId;
+        }
+        if (payload.byBillStatusId) {
+            params.byBillStatusId = payload.byBillStatusId;
+        }
+        if (payload.byOutDate) {
+            params.byOutDate = payload.byOutDate;
         }
         if (payload.sort || payload.sortBy) {
             params.sort = payload.sort;

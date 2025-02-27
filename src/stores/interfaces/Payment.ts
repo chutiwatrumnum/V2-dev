@@ -8,22 +8,7 @@ export interface addPayment {
     billTypeId: number;
     amount: number;
 }
-export interface blockDetail {
-    label: string;
-    value: number;
-}
-export interface unitDetail {
-    label: string;
-    value: number;
-}
-export interface roleDetail {
-    label: string;
-    value: number;
-}
-export interface hobbyDetail {
-    label: string;
-    value: number;
-}
+
 export interface DataType {
     key: string;
     unitNo: string;
@@ -56,14 +41,14 @@ export interface AnnouncePayloadType {
 export interface conditionPage {
     perPage: number;
     curPage: number;
-    verifyByJuristic: boolean;
+    byOutDate?: boolean;
     search?: string;
-    startDate?: string;
-    endDate?: string;
+    startBillMonthly?: string;
+    endBillMonthly?: string;
+    byBillTypeId?: string;
+    byBillStatusId?: string;
     sort?: string;
     sortBy?: string;
-    reject?: boolean;
-    isActive: boolean;
 }
 export interface rejectRequest {
     userId: string;
@@ -78,4 +63,8 @@ export interface columnTable {
 export interface selectListType {
     label: string;
     value: string;
+}
+export interface TabsListType {
+    label: string;
+    key: string;
 }

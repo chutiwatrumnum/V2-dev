@@ -1,27 +1,21 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import dayjs from "dayjs";
-import { Button, Modal, Form, Input, Row, Col, DatePicker, Select, notification, Divider, Typography } from "antd";
+import { Button, Modal, Form, Input, Row, Col, DatePicker, Select, Divider, Typography } from "antd";
 import type { RangePickerProps } from "antd/es/date-picker";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { addPayment, blockDetail, unitDetail, roleDetail } from "../../../stores/interfaces/Payment";
-import { getdatablock, getdatarole } from "../service/api/PaymentServiceAPI";
+import { addPayment } from "../../../stores/interfaces/Payment";
 import { useDispatch } from "react-redux";
-import { Dispatch, RootState } from "../../../stores";
+import { Dispatch } from "../../../stores";
 import { addBillPaymentQuery, useBillPaymentMasterDataListQuery } from "../hooks";
 dayjs.extend(customParseFormat);
 const disabledDate: RangePickerProps["disabledDate"] = (current) => {
     // Can not select days before today and today
     return current && current < dayjs().startOf("day");
 };
-const disabledDateBirth: RangePickerProps["disabledDate"] = (current) => {
-    // Can not select days before today and today
-    return current && current > dayjs().endOf("day");
-};
 interface ComponentCreateProps {
     isOpen: boolean;
     callBack: (isOpen: boolean, saved: boolean) => void;
 }
-let blocklst: any[] = [];
 const { confirm } = Modal;
 
 const createPaymentModal = (props: ComponentCreateProps) => {

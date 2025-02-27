@@ -4,7 +4,7 @@ import { Select, Table, Tag } from "antd";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import { deleteResidentId } from "../service/api/PaymentServiceAPI";
 import { Row, Col, DatePicker, Input, Button, Modal } from "antd";
-import type { DatePickerProps } from "antd";
+import type { DatePickerProps, TabsProps } from "antd";
 import dayjs from "dayjs";
 import { DataType, conditionPage, selectListType } from "../../../stores/interfaces/Payment";
 
@@ -48,24 +48,40 @@ const OutDateList: Array<selectListType> = [
     },
 ];
 const PaymentDashboard = () => {
-    const { data: BillPaymentMasterDataList } = useBillPaymentMasterDataListQuery();
-    const { loading, tableData, total } = useSelector((state: RootState) => state.resident);
     const { accessibility } = useSelector((state: RootState) => state.common);
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    // setting pagination Option
     const pageSizeOptions = [10, 20, 60, 100];
-    let params: conditionPage = {
-        perPage: pageSizeOptions[0],
-        curPage: currentPage,
-        verifyByJuristic: true,
-        reject: false,
-        isActive: true,
+    const [BillTypeSelectLists, setBillTypeSelectLists] = useState<selectListType[]>([
+        {
+            label: "All",
+            value: "",
+        },
+    ]);
+    const { data: BillPaymentMasterDataList, isSuccess } = useBillPaymentMasterDataListQuery();
+    const [CurrentPage, setCurrentPage] = useState<number>(1);
+    const [SearchData, setSearchData] = useState<string | undefined>(undefined);
+    const [PerPage, setPerPage] = useState<number>(pageSizeOptions[0]);
+    const [StartBillMonthly, setStartBillMonthly] = useState<string | undefined>(dayjs().format("YYYY-MM"));
+    const [EndBillMonthly, setEndBillMonthly] = useState<string | undefined>("2025-12");
+    const [ByBillStatusId, setByBillStatusId] = useState<string | undefined>(undefined);
+    const [ByBillTypeId, setByBillTypeId] = useState<string | undefined>(undefined);
+    const [ByOutDate, setByOutDate] = useState<boolean | undefined>(undefined);
+    // setting pagination Option
+    const params: conditionPage = {
+        perPage: PerPage,
+        curPage: CurrentPage,
+        search: SearchData,
+        startBillMonthly: StartBillMonthly,
+        endBillMonthly: EndBillMonthly,
+        byBillStatusId: ByBillStatusId,
+        byBillTypeId: ByBillTypeId,
+        byOutDate: ByOutDate,
     };
-    const { data, isLoading } = useBillPaymentListQuery(params);
+    const [paramsData, setParamsData] = useState<conditionPage>(params);
+    const { data, isLoading, refetch } = useBillPaymentListQuery(params);
     const PaginationConfig = {
         defaultPageSize: pageSizeOptions[0],
         pageSizeOptions: pageSizeOptions,
-        current: currentPage,
+        current: CurrentPage,
         showSizeChanger: false,
         total: data?.total,
     };
@@ -76,7 +92,6 @@ const PaymentDashboard = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalCreate, setIsModalCreate] = useState(false);
     const [isModalOpenInfo, setIsModalOpenInfo] = useState(false);
-    const [paramsData, setParamsData] = useState<conditionPage>(params);
     const dispatch = useDispatch<Dispatch>();
     const { RangePicker } = DatePicker;
     const customFormat: DatePickerProps["format"] = (value) => `Month : ${value.format(dateFormat)}`;
@@ -88,27 +103,40 @@ const PaymentDashboard = () => {
     };
     useEffect(() => {
         (async function () {
-            await setParamsData(params);
-            await dispatch.resident.getTableData(paramsData);
+            if (BillPaymentMasterDataList?.dataBillTypeSelectLists) {
+                console.log(BillPaymentMasterDataList?.dataBillTypeSelectLists);
+
+                setBillTypeSelectLists([
+                    {
+                        label: "All",
+                        value: "",
+                    },
+
+                    ...BillPaymentMasterDataList.dataBillTypeSelectLists,
+                ]);
+            }
+            await refetch();
         })();
-    }, [rerender]);
+    }, [CurrentPage, SearchData, ByOutDate, ByBillTypeId, isSuccess, StartBillMonthly]);
 
     const onChangeTable: TableProps<DataType>["onChange"] = async (pagination: any, filters, sorter: any, extra) => {
-        params = paramsData;
         params.sort = sorter?.order;
         params.sortBy = sorter?.field;
         params.curPage = pagination?.current ? pagination?.current : PaginationConfig.current;
         params.perPage = pagination?.pageSize ? pagination?.pageSize : PaginationConfig.defaultPageSize;
-        await setParamsData(params);
-        await setCurrentPage(params.curPage);
-        await dispatch.resident.getTableData(paramsData);
+        setParamsData(params);
+        setCurrentPage(params.curPage);
+        setPerPage(params.perPage);
     };
 
     const onSearch = async (value: string) => {
-        params = paramsData;
+        console.log("onSearch:", value);
+
+        // params = paramsData;
         params.search = value;
-        await setParamsData(params);
-        await dispatch.resident.getTableData(paramsData);
+
+        // await dispatch.resident.getTableData(paramsData);
+        setSearchData(value);
     };
 
     const columns: ColumnsType<DataType> = [
@@ -134,9 +162,6 @@ const PaymentDashboard = () => {
             title: "unitNo",
             dataIndex: "unitNo",
             align: "center",
-            sorter: {
-                compare: (a, b) => a.unitNo.localeCompare(b.unitNo),
-            },
         },
         {
             title: "billType",
@@ -232,7 +257,6 @@ const PaymentDashboard = () => {
             title: "Confirm action",
             content: "Are you sure you want to delete resident’s information?",
             icon: null,
-            // content: "Some descriptions",
             okText: "Yes",
             okType: "danger",
             cancelText: "Cancel",
@@ -259,17 +283,18 @@ const PaymentDashboard = () => {
         });
     };
 
-    const handleDate = async (e: any) => {
-        params = paramsData;
+    const handleMonth = async (e: any) => {
         if (e) {
-            params.startDate = dayjs(e[0]).startOf("month").format("YYYY-MM");
-            params.endDate = dayjs(e[1]).endOf("month").format("YYYY-MM");
+            params.startBillMonthly = dayjs(e[0]).startOf("month").format("YYYY-MM");
+            params.endBillMonthly = dayjs(e[1]).endOf("month").format("YYYY-MM");
         } else {
-            params.startDate = undefined;
-            params.endDate = undefined;
+            params.startBillMonthly = undefined;
+            params.endBillMonthly = undefined;
         }
-        await setParamsData(params);
-        await dispatch.resident.getTableData(paramsData);
+        setParamsData(params);
+        setStartBillMonthly(params.startBillMonthly);
+        setEndBillMonthly(params.endBillMonthly);
+        // await dispatch.resident.getTableData(paramsData);
     };
 
     return (
@@ -277,16 +302,41 @@ const PaymentDashboard = () => {
             <Header title="Payment Dashboard" />
             <Row style={{ marginTop: 15, marginBottom: 15 }}>
                 <Col span={6}>
-                    <RangePicker onChange={handleDate} style={{ width: "95%" }} picker="month" format={customFormat} />
+                    <RangePicker onChange={handleMonth} style={{ width: "95%" }} picker="month" format={customFormat} />
                 </Col>
-                <Col span={6}>
+                {/* <Col span={6}>
                     <RangePicker onChange={handleDate} style={{ width: "95%" }} format={customFormat} />
+                </Col> */}
+                <Col span={4}>
+                    <Select
+                        defaultValue="All"
+                        style={{ width: "100%" }}
+                        onChange={(value: string) => {
+                            setByBillTypeId(value);
+                        }}
+                        options={BillTypeSelectLists}
+                    />
                 </Col>
                 <Col span={4}>
-                    <Select defaultValue="All" style={{ width: "100%" }} options={BillPaymentMasterDataList?.dataBillTypeSelectLists} />
-                </Col>
-                <Col span={4}>
-                    <Select defaultValue={[OutDateList]} style={{ width: "100%" }} options={OutDateList} />
+                    <Select
+                        defaultValue={OutDateList[0].label}
+                        onChange={(value: string) => {
+                            switch (value) {
+                                case "OutDate":
+                                    setByOutDate(true);
+                                    break;
+                                case "Current":
+                                    setByOutDate(false);
+                                    break;
+
+                                default:
+                                    setByOutDate(undefined);
+                                    break;
+                            }
+                        }}
+                        style={{ width: "100%" }}
+                        options={OutDateList}
+                    />
                 </Col>
                 <Col span={6} style={{ display: "flex", justifyContent: "flex-start" }}>
                     <Search placeholder="Search by first name" allowClear onSearch={onSearch} className="searchBox" style={{ width: 300 }} />
