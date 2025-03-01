@@ -12,6 +12,7 @@ export interface addPayment {
 export interface DataType {
     key: string;
     unitNo: string;
+    roomAddress: string;
     billType: string;
     billStatus: string;
     amount: string;

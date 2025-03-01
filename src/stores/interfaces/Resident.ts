@@ -40,6 +40,7 @@ export interface DataType {
   email: string;
   role: string;
   unitNo: string;
+  roomAddress:string;
   iuNumber: string;
   contact: string;
   birthDate: string | null

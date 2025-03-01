@@ -60,7 +60,7 @@ const ReservationList = () => {
       align: "center",
     },
     {
-      title: "Room address",
+      title: "Unit No.",
       dataIndex: "unit",
       key: "unit",
       align: "center",
@@ -328,7 +328,7 @@ const ReservationList = () => {
             picker="month"
           />
           <SearchBox
-            placeholderText="Search by Room address"
+            placeholderText="Search by Unit No."
             className="reservedSearchBox"
             onSearch={onSearch}
           />

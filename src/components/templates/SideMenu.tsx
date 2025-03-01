@@ -24,10 +24,11 @@ import {
   PersonalFolderIcon,
   PublicFolderIcon,
   VisitorManagementLogIcon,
-  ResidentManagementIcon,
-  UserManagementIcon,
   ResidentsInformationIcon,
   ResidentsSignupIcon,
+  PaymentIcon,
+  ParcelIcon,
+  SummaryIcon,
 } from "../../assets/icons/Icons";
 
 //icon svg
@@ -169,26 +170,35 @@ const NewSideMenu = () => {
                   </Row>
                 </Link>
               </Menu.Item>
-              <SubMenu
+              {/* <SubMenu
                 key="Monitoring"
-                // icon={<img src={MONITORING_ICON} alt="Monitoring" />}
+                icon={
+                  <SummaryIcon
+                    color={iconMenuColorSelector("Monitoring")}
+                    className="sideMenuIcon"
+                  />
+                }
                 title="Monitoring (Summary)"
                 // disabled={true}
                 // style={{ display: "none" }}
-              >
-                <Menu.Item
-                  key={`${main_link}/summary`}
-                  // icon={<img src={SUMARY_ICON} alt="Summary" />}
-                >
-                  <Link to={`${main_link}/summary`}>Summary</Link>
-                </Menu.Item>
-                <Menu.Item
+              > */}
+              <Menu.Item
+                key={`${main_link}/summary`}
+                icon={
+                  <SummaryIcon
+                    color={iconMenuColorSelector("summary")}
+                    className="sideMenuIcon"
+                  />
+                }>
+                <Link to={`${main_link}/summary`}>Summary</Link>
+              </Menu.Item>
+              {/* <Menu.Item
                   key={`${main_link}/event-view`}
                   // icon={<img src={EVENT_VIEW_ICON} alt="Event view" />}
                 >
                   <Link to={`${main_link}/event-view`}>Event view</Link>
-                </Menu.Item>
-              </SubMenu>
+                </Menu.Item> */}
+              {/* </SubMenu> */}
               <div className={"group-name"}>Facilities management</div>
               <SubMenu
                 key="facilities"
@@ -340,6 +350,12 @@ const NewSideMenu = () => {
                 </Link>
               </Menu.Item>
               <Menu.Item
+                icon={
+                  <ParcelIcon
+                    color={iconMenuColorSelector("payment-dashboard")}
+                    className="sideMenuIcon"
+                  />
+                }
                 key={`${main_link}payment-dashboard`}
                 // icon={<img src={DELIVERY_LOGS_ICON} alt="Delivery logs" />}
               >

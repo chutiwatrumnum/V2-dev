@@ -86,72 +86,109 @@ const createPaymentModal = (props: ComponentCreateProps) => {
     };
 
     return (
-        <>
-            <Modal
-                title="Create Bill Payment"
-                width={1200}
-                centered
-                open={props?.isOpen}
-                onCancel={handleCancel}
-                footer={[
-                    <Button shape="round" key="submit" type="primary" style={{ paddingLeft: 30, paddingRight: 30 }} onClick={form.submit}>
-                        Add
-                    </Button>,
-                ]}
-            >
-                <Form form={form} layout="vertical" name="basic" labelCol={{ span: 22 }} wrapperCol={{ span: 22 }} style={{ width: "100%", paddingTop: 10 }} initialValues={{ remember: true }} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
-                    <Row>
-                        <Col span={8}>
-                            <Form.Item name="unitId" label="Address" rules={[{ required: true, message: "Address" }]}>
-                                <Select options={data?.dataUnitSelectLists} placeholder="Please select address." />
-                            </Form.Item>
-                        </Col>
+      <>
+        <Modal
+          title="Create Bill Payment"
+          width={900}
+          centered
+          open={props?.isOpen}
+          onCancel={handleCancel}
+          footer={[
+            <Button
+              shape="round"
+              key="submit"
+              type="primary"
+              style={{ paddingLeft: 30, paddingRight: 30 }}
+              onClick={form.submit}>
+              Add
+            </Button>,
+          ]}>
+          <Form
+            form={form}
+            layout="vertical"
+            name="basic"
+            labelCol={{ span: 22 }}
+            wrapperCol={{ span: 22 }}
+            style={{ width: "100%", paddingTop: 10 }}
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off">
+            <Row>
+              <Col span={8}>
+                <Form.Item
+                  name="unitId"
+                  label="Unit No."
+                  rules={[{ required: true, message: "Address" }]}>
+                  <Select
+                    options={data?.dataUnitSelectLists}
+                    placeholder="Please select address."
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  rules={[{ required: true, message: "Monthly" }]}
+                  name="monthly"
+                  label="Monthly">
+                  <DatePicker.RangePicker
+                    picker="month"
+                    style={{ width: "92%" }}
+                    disabledDate={disabledDate}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item
+                  rules={[{ required: true, message: "dueDate" }]}
+                  name="dueDate"
+                  label="Due date">
+                  <DatePicker.RangePicker
+                    style={{ width: "92%" }}
+                    disabledDate={disabledDate}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Divider style={{ borderColor: "#b58d54" }}></Divider>
+            <Row>
+              <Col span={24}>
+                <Typography.Title level={5} style={{ margin: 0 }}>
+                  Payment Amount
+                </Typography.Title>
+                <Row>
+                  <Col span={12}>
+                    <Form.Item
+                      name="billTypeId"
+                      label="Type"
+                      rules={[{ required: true, message: "Type" }]}>
+                      <Select
+                        options={data?.dataBillTypeSelectLists}
+                        placeholder="Please select type"
+                      />
+                    </Form.Item>
+                  </Col>
 
-                        <Col span={8}>
-                            <Form.Item rules={[{ required: true, message: "Monthly" }]} name="monthly" label="Monthly">
-                                <DatePicker.RangePicker picker="month" style={{ width: "92%" }} disabledDate={disabledDate} />
-                            </Form.Item>
-                        </Col>
-                        <Col span={8}>
-                            <Form.Item rules={[{ required: true, message: "dueDate" }]} name="dueDate" label="Due date">
-                                <DatePicker.RangePicker style={{ width: "92%" }} disabledDate={disabledDate} />
-                            </Form.Item>
-                        </Col>
-                    </Row>
-                    <Divider style={{ borderColor: "#7cb305" }}></Divider>
-                    <Row>
-                        <Col span={24}>
-                            <Typography.Title level={4} style={{ margin: 0 }}>
-                                Payment Amount
-                            </Typography.Title>
-                            <Row>
-                                <Col span={12}>
-                                    <Form.Item name="billTypeId" label="Type" rules={[{ required: true, message: "Type" }]}>
-                                        <Select options={data?.dataBillTypeSelectLists} placeholder="Please select type" />
-                                    </Form.Item>
-                                </Col>
-
-                                <Col span={12}>
-                                    <Form.Item
-                                        label="Amount"
-                                        name="amount"
-                                        rules={[
-                                            { required: true, message: "amount" },
-                                            {
-                                                pattern: new RegExp(/^\d+(\.\d{1,2})?$/),
-                                                message: "float 2 position only",
-                                            },
-                                        ]}
-                                    >
-                                        <Input placeholder="Please input amount" suffix="Bath" />
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Row>
-                </Form>
-            </Modal>
-        </>
+                  <Col span={12}>
+                    <Form.Item
+                      label="Amount"
+                      name="amount"
+                      rules={[
+                        { required: true, message: "amount" },
+                        {
+                          pattern: new RegExp(/^\d+(\.\d{1,2})?$/),
+                          message: "float 2 position only",
+                        },
+                      ]}>
+                      <Input placeholder="Please input amount" suffix="Bath" />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Form>
+        </Modal>
+      </>
     );
 };
 

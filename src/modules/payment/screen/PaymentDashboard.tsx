@@ -14,13 +14,14 @@ import InfoResidentInformation from "../components/InfoResidentInformation";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../../stores";
 import { useBillPaymentListQuery, useBillPaymentMasterDataListQuery } from "../hooks";
+import "../styles/payment.css";
 const { confirm } = Modal;
 const tagColorSelector = (status: string) => {
     switch (status) {
         case "Pending":
-            return "red";
-        case "Repairing":
             return "orange";
+        case "Repairing":
+            return "yellow";
         case "Success":
             return "green";
         case "Water Bill":
@@ -30,7 +31,7 @@ const tagColorSelector = (status: string) => {
         case "Maintenance Fee":
             return "default";
         default:
-            return "black";
+            return "red";
     }
 };
 const OutDateList: Array<selectListType> = [
@@ -66,8 +67,8 @@ const PaymentDashboard = () => {
     const [CurrentPage, setCurrentPage] = useState<number>(1);
     const [SearchData, setSearchData] = useState<string | undefined>(undefined);
     const [PerPage, setPerPage] = useState<number>(pageSizeOptions[0]);
-    const [StartBillMonthly, setStartBillMonthly] = useState<string | undefined>(dayjs().format("YYYY-MM"));
-    const [EndBillMonthly, setEndBillMonthly] = useState<string | undefined>("2025-12");
+    const [StartBillMonthly, setStartBillMonthly] = useState<string | undefined>(undefined);
+    const [EndBillMonthly, setEndBillMonthly] = useState<string | undefined>(undefined);
     const [ByBillStatusId, setByBillStatusId] = useState<string | undefined>(undefined);
     const [ByBillTypeId, setByBillTypeId] = useState<string | undefined>(undefined);
     const [ByOutDate, setByOutDate] = useState<boolean | undefined>(undefined);
@@ -151,111 +152,111 @@ const PaymentDashboard = () => {
     };
 
     const columns: ColumnsType<DataType> = [
-        // {
-        //   title: "Delete",
-        //   dataIndex: "delete",
-        //   align: "center",
-        //   render: (_, record) => (
-        //     <>
-        //       <Button
-        //         shape="round"
-        //         value={record.key}
-        //         type="text"
-        //         icon={<DeleteOutlined />}
-        //         onClick={showDeleteConfirm}
-        //         disabled={
-        //           !accessibility?.menu_resident_information.allowDelete
-        //         }></Button>
-        //     </>
-        //   ),
-        // },
-        {
-            title: "unitNo",
-            dataIndex: "unitNo",
-            align: "center",
-        },
-        {
-            title: "billType",
-            dataIndex: "billType",
-            align: "center",
-            render: (_, { billType }) => (
-                <>
-                    <Tag color={tagColorSelector(billType)}>{billType}</Tag>
-                </>
-            ),
-        },
-        {
-            title: "billStatus",
-            dataIndex: "billStatus",
-            align: "center",
-            render: (_, { billStatus }) => (
-                <>
-                    <Tag color={tagColorSelector(billStatus)}>{billStatus}</Tag>
-                </>
-            ),
-        },
-        {
-            title: "amount",
-            dataIndex: "amount",
-            align: "right",
-        },
-        {
-            title: "startMonthly",
-            dataIndex: "startMonthly",
-            align: "center",
-        },
-        {
-            title: "endMonthly",
-            dataIndex: "endMonthly",
-            align: "center",
-        },
-        {
-            title: "createdAt",
-            dataIndex: "createdAt",
-            align: "center",
-        },
-        {
-            title: "createdBy",
-            dataIndex: "createdBy",
-            align: "center",
-        },
-        // {
-        //     title: "Edit",
-        //     dataIndex: "edit",
-        //     align: "center",
-        //     key: "edit",
-        //     width: "10%",
-        //     render: (_, record) => (
-        //         <>
-        //             <Row>
-        //                 <Col span={12}>
-        //                     <Button
-        //                         shape="round"
-        //                         value={record.key}
-        //                         type="text"
-        //                         icon={<InfoCircleOutlined />}
-        //                         onClick={async () => {
-        //                             await setDataInfo(record);
-        //                             await setIsModalOpenInfo(true);
-        //                         }}
-        //                     />
-        //                 </Col>
-        //                 <Col span={12}>
-        //                     <Button
-        //                         shape="round"
-        //                         value={record.key}
-        //                         onClick={async () => {
-        //                             await editButton(record);
-        //                         }}
-        //                         type="text"
-        //                         icon={<EditOutlined />}
-        //                         disabled={!accessibility?.menu_resident_information.allowEdit}
-        //                     />
-        //                 </Col>
-        //             </Row>
-        //         </>
-        //     ),
-        // },
+      // {
+      //   title: "Delete",
+      //   dataIndex: "delete",
+      //   align: "center",
+      //   render: (_, record) => (
+      //     <>
+      //       <Button
+      //         shape="round"
+      //         value={record.key}
+      //         type="text"
+      //         icon={<DeleteOutlined />}
+      //         onClick={showDeleteConfirm}
+      //         disabled={
+      //           !accessibility?.menu_resident_information.allowDelete
+      //         }></Button>
+      //     </>
+      //   ),
+      // },
+      {
+        title: "Unit no",
+        dataIndex: "unitNo",
+        align: "center",
+      },
+      {
+        title: "Bill type",
+        dataIndex: "billType",
+        align: "center",
+        render: (_, { billType }) => (
+          <>
+            <Tag>{billType}</Tag>
+          </>
+        ),
+      },
+      {
+        title: "Bill status",
+        dataIndex: "billStatus",
+        align: "center",
+        render: (_, { billStatus }) => (
+          <>
+            <Tag color={tagColorSelector(billStatus)}>{billStatus}</Tag>
+          </>
+        ),
+      },
+      {
+        title: "Amount",
+        dataIndex: "amount",
+        align: "center",
+      },
+      {
+        title: "Start monthly",
+        dataIndex: "startMonthly",
+        align: "center",
+      },
+      {
+        title: "End monthly",
+        dataIndex: "endMonthly",
+        align: "center",
+      },
+      {
+        title: "Created At",
+        dataIndex: "createdAt",
+        align: "center",
+      },
+      {
+        title: "Created by",
+        dataIndex: "createdBy",
+        align: "center",
+      },
+      // {
+      //     title: "Edit",
+      //     dataIndex: "edit",
+      //     align: "center",
+      //     key: "edit",
+      //     width: "10%",
+      //     render: (_, record) => (
+      //         <>
+      //             <Row>
+      //                 <Col span={12}>
+      //                     <Button
+      //                         shape="round"
+      //                         value={record.key}
+      //                         type="text"
+      //                         icon={<InfoCircleOutlined />}
+      //                         onClick={async () => {
+      //                             await setDataInfo(record);
+      //                             await setIsModalOpenInfo(true);
+      //                         }}
+      //                     />
+      //                 </Col>
+      //                 <Col span={12}>
+      //                     <Button
+      //                         shape="round"
+      //                         value={record.key}
+      //                         onClick={async () => {
+      //                             await editButton(record);
+      //                         }}
+      //                         type="text"
+      //                         icon={<EditOutlined />}
+      //                         disabled={!accessibility?.menu_resident_information.allowEdit}
+      //                     />
+      //                 </Col>
+      //             </Row>
+      //         </>
+      //     ),
+      // },
     ];
 
     const editButton = async (data: DataType) => {
@@ -307,26 +308,34 @@ const PaymentDashboard = () => {
     };
 
     return (
-        <>
-            <Header title="Payment Dashboard" />
-            <Row style={{ marginTop: 15, marginBottom: 15 }}>
-                <Col span={6}>
-                    <RangePicker onChange={handleMonth} style={{ width: "95%" }} picker="month" format={customFormat} />
-                </Col>
-                {/* <Col span={6}>
+      <>
+        <Header title="Payment Dashboard" />
+        <div className="paymentTopActionGroup"></div>
+        <div
+          className="paymentTopActionLeftGroup"
+          style={{ marginTop: 15, marginBottom: 15 }}>
+          <Col span={6}>
+            <RangePicker
+              onChange={handleMonth}
+              style={{ width: "95%" }}
+              picker="month"
+              format={customFormat}
+            />
+          </Col>
+          {/* <Col span={6}>
                     <RangePicker onChange={handleDate} style={{ width: "95%" }} format={customFormat} />
                 </Col> */}
-                <Col span={4}>
-                    <Select
-                        defaultValue="All"
-                        style={{ width: "100%" }}
-                        onChange={(value: string) => {
-                            setByBillTypeId(value);
-                        }}
-                        options={BillTypeSelectLists}
-                    />
-                </Col>
-                <Col span={4}>
+          <Col span={4}>
+            <Select
+              defaultValue="All"
+              style={{ width: "100%" }}
+              onChange={(value: string) => {
+                setByBillTypeId(value);
+              }}
+              options={BillTypeSelectLists}
+            />
+          </Col>
+          {/* <Col span={4}>
                     <Select
                         defaultValue={OutDateList[0].label}
                         onChange={(value: string) => {
@@ -346,58 +355,76 @@ const PaymentDashboard = () => {
                         style={{ width: "100%" }}
                         options={OutDateList}
                     />
-                </Col>
-                <Col span={6} style={{ display: "flex", justifyContent: "flex-start" }}>
-                    <Search placeholder="Search by first name" allowClear onSearch={onSearch} className="searchBox" style={{ width: 300 }} />
-                </Col>
-                <Col span={2} style={{ display: "flex", justifyContent: "flex-end" }}>
-                    <Button
-                        shape="round"
-                        type="primary"
-                        onClick={async () => {
-                            await setIsModalCreate(true);
-                        }}
-                        disabled={!accessibility?.menu_resident_information.allowEdit}
-                    >
-                        Add new
-                    </Button>
-                    <CreatePaymentModal
-                        callBack={async (isOpen: boolean, created: boolean) => {
-                            await setIsModalCreate(isOpen);
-                            if (created) {
-                                await setRerender(!rerender);
-                            }
-                        }}
-                        isOpen={isModalCreate}
-                    />
-                </Col>
-            </Row>
-            {BillPaymentMasterDataList?.dataBillPaymentStatusLists ? (
-                <Tabs
-                    defaultActiveKey=""
-                    items={BillPaymentStatusLists}
-                    onChange={async (key: string) => {
-                        setByBillStatusId(key);
-                    }}
-                />
-            ) : null}
-            <Row>
-                <Col span={24}>
-                    <Table columns={columns} pagination={PaginationConfig} dataSource={data?.dataBillPaymentList} loading={isLoading} onChange={onChangeTable} scroll={scroll} />
-                </Col>
-            </Row>
-            <InfoResidentInformation callBack={async (isOpen: boolean) => await setIsModalOpenInfo(isOpen)} isOpen={isModalOpenInfo} resident={dataInfo} />
-            <EditPaymentDashboard
-                callBack={async (isOpen: boolean, saved: boolean) => {
-                    await setIsModalOpen(isOpen);
-                    if (saved) {
-                        await setRerender(!rerender);
-                    }
-                }}
-                isOpen={isModalOpen}
-                resident={dataEdit}
+                </Col> */}
+          <Col
+            span={6}
+            style={{ display: "flex", justifyContent: "flex-start" }}>
+            <Search
+              placeholder="Search by Unit"
+              allowClear
+              onSearch={onSearch}
+              className="searchBox"
+              style={{ width: 300 }}
             />
-        </>
+          </Col>
+          <Col span={2} style={{ display: "flex", justifyContent: "flex-end" }}>
+            <Button
+              shape="round"
+              type="primary"
+              onClick={async () => {
+                await setIsModalCreate(true);
+              }}
+              disabled={!accessibility?.menu_resident_information.allowEdit}>
+              Add new
+            </Button>
+            <CreatePaymentModal
+              callBack={async (isOpen: boolean, created: boolean) => {
+                await setIsModalCreate(isOpen);
+                if (created) {
+                  await setRerender(!rerender);
+                }
+              }}
+              isOpen={isModalCreate}
+            />
+          </Col>
+        </div>
+        {BillPaymentMasterDataList?.dataBillPaymentStatusLists ? (
+          <Tabs
+            defaultActiveKey=""
+            items={BillPaymentStatusLists}
+            onChange={async (key: string) => {
+              setByBillStatusId(key);
+            }}
+          />
+        ) : null}
+        <Row>
+          <Col span={24}>
+            <Table
+              columns={columns}
+              pagination={PaginationConfig}
+              dataSource={data?.dataBillPaymentList}
+              loading={isLoading}
+              onChange={onChangeTable}
+              scroll={scroll}
+            />
+          </Col>
+        </Row>
+        <InfoResidentInformation
+          callBack={async (isOpen: boolean) => await setIsModalOpenInfo(isOpen)}
+          isOpen={isModalOpenInfo}
+          resident={dataInfo}
+        />
+        <EditPaymentDashboard
+          callBack={async (isOpen: boolean, saved: boolean) => {
+            await setIsModalOpen(isOpen);
+            if (saved) {
+              await setRerender(!rerender);
+            }
+          }}
+          isOpen={isModalOpen}
+          resident={dataEdit}
+        />
+      </>
     );
 };
 

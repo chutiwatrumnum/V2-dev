@@ -225,7 +225,7 @@ const ReservedCreateModal = ({
             </div>
             <div className="reservedModalColumn">
               <Form.Item<ReservedFormDataType>
-                label="Room address"
+                label="Unit No."
                 name="unitId"
                 rules={requiredRule}
               >
