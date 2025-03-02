@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { conditionPage, DataType, selectListType, TabsListType } from "../../../stores/interfaces/Payment";
+import { billPaymentDashboardDataType, conditionPage, DataType, filterBillPaymentDashboard, selectListType, TabsListType } from "../../../stores/interfaces/Payment";
 import dayjs from "dayjs";
 
 export const useBillPaymentMasterDataListQuery = () => {
@@ -100,6 +100,56 @@ export const useBillPaymentListQuery = (payloadQuery: conditionPage) => {
             });
             return { dataBillPaymentList: dataBillPaymentList, total: data.total };
         },
+    });
+    return { ...query };
+};
+
+export const useBillPaymentChartListQuery = () => {
+    const getBillPaymentChartListQuery = async () => {
+        const { data } = await axios.get("/bill-payment/dashboard/chart");
+        console.log("data:", data);
+
+        return data.data;
+    };
+    const query = useQuery({
+        queryKey: ["BillPaymentChartList"],
+        queryFn: () => getBillPaymentChartListQuery(),
+        retry: false,
+    });
+    return { ...query };
+};
+
+export const useBillPaymentDashboardListQuery = (payloadQuery: filterBillPaymentDashboard) => {
+    const getBillPaymentDashboardListQuery = async (payload: filterBillPaymentDashboard) => {
+        const params = {
+            startMonth: payload.startMonth,
+            endMonth: payload.endMonth,
+        };
+        const { data } = await axios.get("/bill-payment/dashboard/dashboard-payment-list", { params });
+        console.log("getBillPaymentDashboardListQuery:", data.data);
+        return data.data;
+    };
+    const query = useQuery({
+        queryKey: ["BillPaymentDashboardList"],
+        queryFn: () => getBillPaymentDashboardListQuery(payloadQuery),
+        select(data) {
+            console.log("data:", data);
+
+            const dataBillPaymentDashboardList = data.map((items: any) => {
+                const data: billPaymentDashboardDataType = {
+                    date: items.date,
+                    receivedAmount: items.receivedAmount ? items.receivedAmount.toLocaleString("en") : "0",
+                    totalBill: items.totalBill ? items.totalBill.toLocaleString("en") : "0",
+                    electricityBillAmount: items.electricityBillAmount ? items.electricityBillAmount.toLocaleString("en") : "0",
+                    waterBillAmount: items.waterBillAmount ? items.waterBillAmount.toLocaleString("en") : "0",
+                    maintenanceFeeAmount: items.maintenanceFeeAmount ? items.maintenanceFeeAmount.toLocaleString("en") : "0",
+                };
+                return data;
+            });
+
+            return { dataBillPaymentDashboardList: dataBillPaymentDashboardList };
+        },
+        retry: false,
     });
     return { ...query };
 };

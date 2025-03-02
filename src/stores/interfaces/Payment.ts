@@ -69,3 +69,26 @@ export interface TabsListType {
     label: string;
     key: string;
 }
+
+export interface BillGroupByYearly {
+    month: string;
+    total: number;
+}
+export interface filterBillPaymentDashboard {
+    startMonth: string|null;
+    endMonth: string|null;
+}
+export interface billPaymentDashboardDataType {
+    date:                  string;
+    receivedAmount:        string;
+    totalBill:             string;
+    electricityBillAmount: string;
+    waterBillAmount:       string;
+    maintenanceFeeAmount:  string;
+}
+export interface paymentStatusMonthly {
+    statusNameCode:string
+    status:string;
+    total:number;
+
+}

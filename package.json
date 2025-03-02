@@ -10,6 +10,7 @@
     "deploy-dev": "firebase deploy -P sg-verticus-web"
   },
   "dependencies": {
+    "@ant-design/charts": "^2.2.6",
     "@ant-design/plots": "^2.3.3",
     "@rematch/core": "^2.2.0",
     "@tanstack/react-query": "^5.66.7",

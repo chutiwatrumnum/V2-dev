@@ -50,6 +50,7 @@ import ResetLandingScreen from "./modules/main/ResetLandingScreen";
 // components
 import SuccessModal from "./components/common/SuccessModal";
 import ConfirmModal from "./components/common/ConfirmModal";
+import PaymentChart from "./modules/payment/screen/paymentSummary";
 
 function App() {
     const dispatch = useDispatch<Dispatch>();
@@ -120,6 +121,7 @@ function App() {
                         <Route path="announcement" element={<AnnouncementMain />} />
                         <Route index path="resident-information" element={<ResidentInformation />} />
                         <Route index path="payment-dashboard" element={<PaymentDashboard />} />
+                        <Route index path="payment-chart" element={<PaymentChart />} />
                         <Route path="resident-sign-up" element={<ResidentSignUp />} />
                         <Route path="public-folder" element={<PublicFolder />} />
                         <Route path="personal-folder" element={<PersonalFolder />} />
