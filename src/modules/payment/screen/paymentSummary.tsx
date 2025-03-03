@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../stores";
 import { ColumnsType } from "antd/es/table";
 import { billPaymentDashboardDataType } from "../../../stores/interfaces/Payment";
-import { PaymentPieChart } from "../components/paymentchart";
+import { PaymentColumnChart, PaymentPieChart } from "../components/paymentchart";
 const scroll: { x?: number | string } = {
     x: "100vw",
 };
@@ -81,7 +81,7 @@ const paymentChart: React.FC = () => {
                     <PaymentPieChart data={data?.billGroupByYearly} color={colorPieChartStatusMonth} />
                 </Col>
                 <Col span={12}>
-                    <PaymentPieChart data={data?.billGroupByYearly} color={colorPieChartStatusMonth} />
+                    <PaymentColumnChart data={data?.billGroupByYearly} color={colorPieChartStatusMonth} />
                 </Col>
             </Row>
             <div className="paymentTopActionGroup"></div>
