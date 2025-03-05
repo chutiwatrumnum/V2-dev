@@ -12,14 +12,14 @@ const { Text, Title } = Typography;
 const ResetLandingScreen = () => {
   return (
     <Col className="containerSignIn">
-      <Space direction="vertical" size={0} style={{ alignItems: "center" }}>
+      <Space direction="vertical" size={0} style={{ alignItems: "center",marginBottom:30 }}>
         <img src={LOGO} alt="logo" className="logo" />
       </Space>
       <Col style={{ justifyContent: "center", marginTop: 30 }}>
         <Title level={3}>
-          <span style={{ color: "#fff" }}>Password changed!</span>
+          <span style={{ color: "#b58d54",paddingTop:20 }}>Password changed!</span>
         </Title>
-        <Text className="textColor">
+        <Text style={{ color: "#fff" }} className="textColor">
           Your password has been changed successfully.
         </Text>
       </Col>

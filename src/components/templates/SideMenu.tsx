@@ -361,7 +361,7 @@ const NewSideMenu = () => {
               >
                 <Link to={`${main_link}/payment-dashboard`}>Payment</Link>
               </Menu.Item>
-              <Menu.Item
+              {/* <Menu.Item
                 icon={
                   <ParcelIcon
                     color={iconMenuColorSelector("payment-dashboard")}
@@ -371,7 +371,7 @@ const NewSideMenu = () => {
                 key={`${main_link}payment-chart`}
               >
                 <Link to={`${main_link}/payment-chart`}>PaymentSummaryDashboard</Link>
-              </Menu.Item>
+              </Menu.Item> */}
               <Menu.Item
                 key={`${main_link}16`}
                 // icon={<img src={DELIVERY_LOGS_ICON} alt="Delivery logs" />}

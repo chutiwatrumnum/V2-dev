@@ -90,5 +90,4 @@ export interface paymentStatusMonthly {
     statusNameCode:string
     status:string;
     total:number;
-
 }

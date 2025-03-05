@@ -86,9 +86,11 @@ const ResetPassword = () => {
       </div>
       <Col className="column forgotPasswordTitle">
         <Title level={3}>
-          <span className="textColor">Forgot your password?</span>
+          <span style={{ color: "#b58d54" }} className="textColor">
+            Forgot your password?
+          </span>
         </Title>
-        <Text className="textColor">
+        <Text style={{ color: "white" }} className="textColor">
           Enter a new password below to change your password
         </Text>
       </Col>
@@ -102,14 +104,22 @@ const ResetPassword = () => {
         onFinishFailed={onFinishFailed}
         autoComplete="off">
         <Form.Item
-          label={<Text className="textColor bold">New password</Text>}
+          label={
+            <Text style={{ color: "white" }} className="textColor bold">
+              New password
+            </Text>
+          }
           name="password"
           rules={resetPasswordRule}>
           <Input.Password placeholder="Input new password" size="large" />
         </Form.Item>
 
         <Form.Item
-          label={<Text className="textColor bold">Re-enter new password</Text>}
+          label={
+            <Text style={{ color: "white" }} className="textColor bold">
+              Re-enter new password
+            </Text>
+          }
           name="confirmPassword"
           rules={[
             ...resetPasswordRule,

@@ -189,7 +189,7 @@ const FormTemplate = ({
     <>
       <Modal
         title={title}
-        width={1200}
+        width={900}
         centered
         open={visible}
         onCancel={clear}

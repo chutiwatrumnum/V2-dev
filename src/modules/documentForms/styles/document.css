@@ -36,5 +36,6 @@
 
 .document .ant-breadcrumb-separator{
     font-size:25px;
+    color: #000;
     color: var(--primary-color);
     }

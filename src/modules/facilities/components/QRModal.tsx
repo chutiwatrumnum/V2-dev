@@ -4,7 +4,7 @@ import QRCode from "qrcode.react";
 import { useRef } from "react";
 import { exportComponentAsJPEG } from "react-component-export-image";
 import { ReservedRowListDataType } from "../../../stores/interfaces/Facilities";
-import QR_LOGO from "../../../assets/images/QRLogo.png";
+import QR_LOGO from "../../../assets/images/logo.png";
 import LOGO from "../../../assets/images/mainLogo.svg";
 import SuccessModal from "../../../components/common/SuccessModal";
 import dayjs from "dayjs";
@@ -47,12 +47,12 @@ export default function QrModal({
             <QRCode
               value={data?.qrCode ?? "Something went wrong"}
               size={200}
-              imageSettings={{
-                src: QR_LOGO,
-                height: 50,
-                width: 50,
-                excavate: false,
-              }}
+              // imageSettings={{
+              //   src: QR_LOGO,
+              //   height: 50,
+              //   width: 50,
+              //   excavate: false,
+              // }}
             />
           </div>
           <div style={{ paddingLeft: 30, marginTop: 20 }}>

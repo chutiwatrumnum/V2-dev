@@ -101,18 +101,16 @@
 /* antd modal */
 .ant-modal-confirm-confirm {
   width: 40% !important;
-  max-width: 900px;
+  max-width: 400px;
 }
 
 .ant-modal-confirm-confirm .ant-modal-body {
-  display: flex;
   height: 150px;
-  justify-content: center;
-  align-items: center;
 }
 
 .ant-modal-confirm-body-wrapper {
   text-align: center;
+   padding-top: 20px;
 }
 
 .ant-modal-confirm-btns {
