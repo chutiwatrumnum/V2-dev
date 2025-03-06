@@ -151,7 +151,7 @@ export const useBillPaymentMasterCurrenyTypeListQuery = () => {
     const getBillPaymentMasterCurrenyTypeListQuery = async () => {
         const { data } = await axios.get("/master/currencies");
 
-        return data.result;
+        return data.result.reverse();;
     };
     const query = useQuery({
         queryKey: ["BillPaymentCurrencyTypeList"],
