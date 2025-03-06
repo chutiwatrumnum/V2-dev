@@ -1,2 +1,2 @@
-export { useBillPaymentMasterDataListQuery,useBillPaymentListQuery,useBillPaymentChartListQuery,useBillPaymentDashboardListQuery } from './paymentQuery'
+export { useBillPaymentMasterDataListQuery,useBillPaymentListQuery,useBillPaymentChartListQuery,useBillPaymentMasterCurrenyTypeListQuery,useBillPaymentDashboardListQuery } from './paymentQuery'
 export { addBillPaymentQuery } from './paymentMutation'

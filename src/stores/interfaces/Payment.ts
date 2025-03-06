@@ -7,12 +7,12 @@ export interface addPayment {
     endMonthly: string;
     billTypeId: number;
     amount: number;
+    currency:string;
 }
 
 export interface DataType {
     key: string;
     unitNo: string;
-    roomAddress: string;
     billType: string;
     billStatus: string;
     amount: string;
@@ -90,4 +90,12 @@ export interface paymentStatusMonthly {
     statusNameCode:string
     status:string;
     total:number;
+}
+
+export interface currencyType {
+    id: number;
+    code: string;
+    name: string;
+    symbol: string;
+    active: boolean;
 }

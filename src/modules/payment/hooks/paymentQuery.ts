@@ -6,7 +6,6 @@ import dayjs from "dayjs";
 export const useBillPaymentMasterDataListQuery = () => {
     const getBillPaymentMasterDataListQuery = async () => {
         const { data } = await axios.get("/bill-payment/master-data");
-
         return data.data;
     };
     const query = useQuery({
@@ -76,6 +75,7 @@ export const useBillPaymentListQuery = (payloadQuery: conditionPage) => {
             params.sortBy = payload.sortBy;
         }
         const { data } = await axios.get("/bill-payment/dashboard/list", { params });
+console.log("data:",data.data);
 
         return data.data;
     };
@@ -90,7 +90,7 @@ export const useBillPaymentListQuery = (payloadQuery: conditionPage) => {
                     unitNo: items.unit.unitNo,
                     billType: items.billType.nameEn,
                     billStatus: items.billStatus.nameEn,
-                    amount: items.amount.toLocaleString("en"),
+                    amount: `${items.amount.toLocaleString("en")} ${items.currency}`,
                     startMonthly: items.startMonthly,
                     endMonthly: items.endMonthly,
                     createdAt: dayjs(items.createdAt).format("DD-MM-YYYY"),
@@ -149,6 +149,21 @@ export const useBillPaymentDashboardListQuery = (payloadQuery: filterBillPayment
 
             return { dataBillPaymentDashboardList: dataBillPaymentDashboardList };
         },
+        retry: false,
+    });
+    return { ...query };
+};
+
+export const useBillPaymentMasterCurrenyTypeListQuery = () => {
+    const getBillPaymentMasterCurrenyTypeListQuery = async () => {
+        const { data } = await axios.get("/master/currencies");
+        // console.log("getBillPaymentMasterCurrenyTypeListQuery data:", data.result);
+
+        return data.result;
+    };
+    const query = useQuery({
+        queryKey: ["BillPaymentChartList"],
+        queryFn: () => getBillPaymentMasterCurrenyTypeListQuery(),
         retry: false,
     });
     return { ...query };
