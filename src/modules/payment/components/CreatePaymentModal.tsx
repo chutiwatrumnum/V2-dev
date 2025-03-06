@@ -73,16 +73,13 @@ const createPaymentModal = (props: ComponentCreateProps) => {
           endMonthly: dayjs(values.monthly[1]).format("YYYY-MM"),
           billTypeId: Number(values.billTypeId),
           amount: Number(values.amount),
-          currency: values.currenry
+          currency: values.currency,
         };
       
         if (values.dueDate) {
           request.startDue = dayjs(values.dueDate[0]).format("YYYY-MM-DD");
           request.endDue = dayjs(values.dueDate[1]).format("YYYY-MM-DD");
         }
-          console.log("request", request);
-
-          return;
         try {
           await mutationAddBillPayment.mutateAsync(request);
           dispatch.common.updateSuccessModalState({

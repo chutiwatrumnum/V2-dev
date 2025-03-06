@@ -47,8 +47,6 @@ export const useBillPaymentMasterDataListQuery = () => {
 };
 export const useBillPaymentListQuery = (payloadQuery: conditionPage) => {
     const getBillPaymentListQuery = async (payload: conditionPage) => {
-        console.log("payload:", payload);
-        //curPage=1&perPage=10&startBillMonthly=2025-01&endBillMonthly=2025-12
         const params: any = {
             curPage: payload.curPage,
             perPage: payload.perPage,
@@ -75,7 +73,6 @@ export const useBillPaymentListQuery = (payloadQuery: conditionPage) => {
             params.sortBy = payload.sortBy;
         }
         const { data } = await axios.get("/bill-payment/dashboard/list", { params });
-console.log("data:",data.data);
 
         return data.data;
     };
@@ -107,7 +104,6 @@ console.log("data:",data.data);
 export const useBillPaymentChartListQuery = () => {
     const getBillPaymentChartListQuery = async () => {
         const { data } = await axios.get("/bill-payment/dashboard/chart");
-        console.log("data:", data);
 
         return data.data;
     };
@@ -126,15 +122,12 @@ export const useBillPaymentDashboardListQuery = (payloadQuery: filterBillPayment
             endMonth: payload.endMonth,
         };
         const { data } = await axios.get("/bill-payment/dashboard/dashboard-payment-list", { params });
-        console.log("getBillPaymentDashboardListQuery:", data.data);
         return data.data;
     };
     const query = useQuery({
         queryKey: ["BillPaymentDashboardList"],
         queryFn: () => getBillPaymentDashboardListQuery(payloadQuery),
         select(data) {
-            console.log("data:", data);
-
             const dataBillPaymentDashboardList = data.map((items: any) => {
                 const data: billPaymentDashboardDataType = {
                     date: items.date,
@@ -157,13 +150,13 @@ export const useBillPaymentDashboardListQuery = (payloadQuery: filterBillPayment
 export const useBillPaymentMasterCurrenyTypeListQuery = () => {
     const getBillPaymentMasterCurrenyTypeListQuery = async () => {
         const { data } = await axios.get("/master/currencies");
-        // console.log("getBillPaymentMasterCurrenyTypeListQuery data:", data.result);
 
         return data.result;
     };
     const query = useQuery({
-        queryKey: ["BillPaymentChartList"],
+        queryKey: ["BillPaymentCurrencyTypeList"],
         queryFn: () => getBillPaymentMasterCurrenyTypeListQuery(),
+
         retry: false,
     });
     return { ...query };
