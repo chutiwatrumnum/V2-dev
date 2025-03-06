@@ -86,6 +86,7 @@ const createPaymentModal = (props: ComponentCreateProps) => {
             open: true,
             text: "Successfully bill payment",
           });
+          form.resetFields();
           props.callBack(!props?.isOpen, true);
         } catch (error: any) {
           dispatch.common.updateSuccessModalState({
