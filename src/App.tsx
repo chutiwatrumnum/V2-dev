@@ -36,7 +36,7 @@ import EventJoinLogs from "./modules/eventLogs/screen/EventJoinLogs";
 import EventView from "./modules/monitoring/screen/EventView";
 import Summary from "./modules/monitoring/screen/Summary";
 
-// import PeopleCounting from "./modules/facilities/screen/PeopleCounting";
+import PeopleCounting from "./modules/peopleCounting/screens/PeopleCountingMain";
 
 // unauthorize routes
 import SignInScreen from "./modules/main/SignInScreen";
@@ -128,7 +128,7 @@ function App() {
                         <Route path="event-logs" element={<EventLogs />} />
                         <Route path="event-joining-logs" element={<EventJoinLogs />} />
                         <Route path="event-view" element={<EventView />} />
-                        {/* <Route path="people-counting" element={<PeopleCounting />} /> */}
+                        <Route path="people-counting" element={<PeopleCounting />} />
                     </Route>
                     <Route path="*" element={<Navigate to="/auth" />} />
                     {/* <Route path="tv-podcast" element={<TVSlideShow />} /> */}

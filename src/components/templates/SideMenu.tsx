@@ -29,6 +29,7 @@ import {
   PaymentIcon,
   ParcelIcon,
   SummaryIcon,
+  PeopleCountingIcon,
 } from "../../assets/icons/Icons";
 
 //icon svg
@@ -164,7 +165,7 @@ const NewSideMenu = () => {
                           ? `${userData?.firstName} ${
                               userData?.middleName ? userData?.middleName : ""
                             } ${userData?.lastName}`
-                          : "Verticus Management"}
+                          : "Admin Management"}
                       </div>
                     </Col>
                   </Row>
@@ -360,6 +361,16 @@ const NewSideMenu = () => {
                 // icon={<img src={DELIVERY_LOGS_ICON} alt="Delivery logs" />}
               >
                 <Link to={`${main_link}/payment-dashboard`}>Payment</Link>
+              </Menu.Item>
+              <Menu.Item
+                key={`${main_link}/people-counting`}
+                icon={
+                  <PeopleCountingIcon
+                    color={iconMenuColorSelector("peopleCounting")}
+                    className="sideMenuIcon"
+                  />
+                }>
+                <Link to={`${main_link}/people-counting`}>People counting</Link>
               </Menu.Item>
               {/* <Menu.Item
                 icon={

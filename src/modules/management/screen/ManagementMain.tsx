@@ -227,7 +227,7 @@ const ManagementMain = () => {
 
   return (
     <>
-      <Header title="Verticus Management" />
+      <Header title="Admin Management" />
       <Row style={{ marginTop: 15, marginBottom: 15 }}>
         <Col
           span={20}

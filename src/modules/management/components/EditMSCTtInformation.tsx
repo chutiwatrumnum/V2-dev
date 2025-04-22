@@ -189,10 +189,10 @@ const EditMSCTtInformation = (props: EditMSCTComponentProps) => {
                 <Input placeholder="Input email" />
               </Form.Item>
               <Form.Item
-                label="Contact No."
+                label="Contact no."
                 name="contact"
                 rules={[
-                  { max: 10, message: "max 10 charecter" },
+                  { max: 15, message: "max 15 charecter" },
                   { pattern: new RegExp(/^[0-9]*$/), message: "digit only" },
                   { required: true, message: "Please fill in required field" },
                 ]}>

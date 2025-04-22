@@ -10,6 +10,7 @@ import { document } from "./DocumentFormsModel";
 import { eventLog } from "./eventLogs";
 import { deliveryLogs } from "./DeliveryLogsModel";
 import { summary } from "./SummaryModel";
+import { peopleCounting } from "./PeopleCounting";
 export interface RootModel extends Models<RootModel> {
   userAuth: typeof userAuth;
   announcement: typeof announcement;
@@ -22,6 +23,7 @@ export interface RootModel extends Models<RootModel> {
   eventLog: typeof eventLog;
   deliveryLogs: typeof deliveryLogs;
   summary: typeof summary;
+  peopleCounting: typeof peopleCounting;
 }
 export const models: RootModel = {
   userAuth,
@@ -35,4 +37,5 @@ export const models: RootModel = {
   eventLog,
   deliveryLogs,
   summary,
+  peopleCounting
 };

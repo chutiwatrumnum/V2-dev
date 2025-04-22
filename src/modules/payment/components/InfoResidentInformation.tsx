@@ -88,7 +88,7 @@ const InfoResidentInformation = (props: InfoResidentInformationProps) => {
         </Row>
         <Row style={rowStyle}>
           <Col span={14} style={{ fontWeight: 700 }}>
-            {"Contact"}
+            {"Contact no."}
           </Col>
           <Col span={10} style={{ fontWeight: 700 }}>
             {"Birthday (Op) "}
