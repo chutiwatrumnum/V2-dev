@@ -12,6 +12,12 @@ import {
   IChangeLockedById,
 } from "../../../../stores/interfaces/EventLog";
 import dayjs from "dayjs";
+
+/**
+ * Get list of event join logs
+ * @param params Filter and pagination parameters
+ * @returns Processed event join logs data with status
+ */
 const getDataEventJoinLogList = async (params: conditionPage) => {
   let url: string = `events/referral/list?`;
   const resultparams = await paramsdata(params);
@@ -25,7 +31,9 @@ const getDataEventJoinLogList = async (params: conditionPage) => {
     if (result.status === statusSuccess) {
       const AllDataEventLogs = result.data.result.rows;
       let data: dataEventJoinLogsType[] = [];
-      AllDataEventLogs.map((e: any, i: number) => {
+
+      // Using map with direct push for better readability while maintaining original logic
+      AllDataEventLogs.forEach((e: any) => {
         let dataEventLogs: dataEventJoinLogsType = {
           key: e?.id,
           eventName: e?.eventName,
@@ -46,11 +54,27 @@ const getDataEventJoinLogList = async (params: conditionPage) => {
     } else {
       console.warn("status code:", result.status);
       console.warn("data error:", result.data);
+      return {
+        total: 0,
+        status: false,
+        datavalue: [],
+      };
     }
   } catch (err) {
     console.error("err:", err);
+    return {
+      total: 0,
+      status: false,
+      datavalue: [],
+    };
   }
 };
+
+/**
+ * Get list of event logs
+ * @param params Filter and pagination parameters
+ * @returns Processed event logs data with status
+ */
 const getDataEventLogList = async (params: conditionPage) => {
   let url: string = `events/list?`;
   const resultparams = await paramsdata(params);
@@ -66,14 +90,21 @@ const getDataEventLogList = async (params: conditionPage) => {
     if (result.status === statusSuccess) {
       const AllDataEventLogs = result.data.result.rows;
       let data: dataEventLogsType[] = [];
-      AllDataEventLogs.map((e: any, i: number) => {
+
+      // Using forEach for better readability
+      AllDataEventLogs.forEach((e: any) => {
+        // Helper function to format name
+        const formatName = (user: any) => {
+          if (!user) return "";
+          return `${user.firstName || ""} ${user.middleName || ""} ${user.lastName || ""}`.trim();
+        };
+
         let dataEventLogs: dataEventLogsType = {
           key: e?.id,
           title: e?.title,
           description: e?.description,
           status:
-            dayjs(e?.date, "YYYY-MM-DD").diff(dayjs().format("YYYY-MM-DD")) >
-              -1
+            dayjs(e?.date, "YYYY-MM-DD").diff(dayjs().format("YYYY-MM-DD")) > -1
               ? "Published"
               : "Unpublished",
           limitPeople: e?.limitPeople,
@@ -82,7 +113,7 @@ const getDataEventLogList = async (params: conditionPage) => {
           startTime: e?.startTime,
           endTime: e?.endTime,
           visitorRegister: e?.isAllowVisitor,
-          createBy: `${e?.createdBy?.firstName ? e?.createdBy?.firstName : ""} ${e?.createdBy?.middleName ? e?.createdBy?.middleName : " "} ${e?.createdBy?.lastName ? e?.createdBy?.lastName : ""}`,
+          createBy: formatName(e?.createdBy),
           unitAll: e?.unitAll,
           unitList: e?.unitList,
           imageUrl: e?.imageUrl,
@@ -104,12 +135,27 @@ const getDataEventLogList = async (params: conditionPage) => {
     } else {
       console.warn("status code:", result.status);
       console.warn("data error:", result.data);
+      return {
+        total: 0,
+        status: false,
+        datavalue: [],
+      };
     }
   } catch (err) {
     console.error("err:", err);
+    return {
+      total: 0,
+      status: false,
+      datavalue: [],
+    };
   }
 };
 
+/**
+ * Delete event log by ID
+ * @param id Event log ID
+ * @returns Operation success status
+ */
 const deleteEventLogsById = async (id: string) => {
   try {
     const resultDelete = await axios.delete(`/events/${id}`);
@@ -125,6 +171,11 @@ const deleteEventLogsById = async (id: string) => {
   }
 };
 
+/**
+ * Delete event join by ID
+ * @param id Event join ID
+ * @returns Operation success status
+ */
 const deleteEventJoinById = async (id: string) => {
   try {
     const resultDelete = await axios.delete(`/events/referral/${id}`);
@@ -146,6 +197,11 @@ const deleteEventJoinById = async (id: string) => {
   }
 };
 
+/**
+ * Edit event log
+ * @param req Edit event request data
+ * @returns Operation success status
+ */
 const editEventLogs = async (req: EditEventLogsType) => {
   try {
     const result = await axios.put("/events/update", req);
@@ -155,9 +211,16 @@ const editEventLogs = async (req: EditEventLogsType) => {
       return false;
     }
   } catch (error) {
+    console.error("Error updating event:", error);
     return false;
   }
 };
+
+/**
+ * Add new event log
+ * @param req New event data
+ * @returns Operation success status
+ */
 const addEventLogs = async (req: AddNewEventLogsType) => {
   try {
     const result = await axios.post("/events/create", req);
@@ -167,10 +230,16 @@ const addEventLogs = async (req: AddNewEventLogsType) => {
       return false;
     }
   } catch (error) {
+    console.error("Error creating event:", error);
     return false;
   }
 };
 
+/**
+ * Get event join log details by ID
+ * @param id Event join log ID
+ * @returns Event join log details with status
+ */
 const getDataJoinLogByid = async (id: number) => {
   try {
     const resultDatajoinLogId = await axios.get(
@@ -186,6 +255,11 @@ const getDataJoinLogByid = async (id: number) => {
         status: true,
         data: dataJoinLogId,
       };
+    } else {
+      return {
+        status: false,
+        data: null,
+      };
     }
   } catch (err) {
     console.error(err);
@@ -195,63 +269,97 @@ const getDataJoinLogByid = async (id: number) => {
     };
   }
 };
+
+/**
+ * Change event locked status by ID
+ * @param req Lock status change request
+ * @returns Operation success status
+ */
 const changeLockedById = async (req: IChangeLockedById) => {
   try {
     const result = await axios.put("/events/locked", req);
     if (result.status === statusSuccess) {
       return true;
     } else {
+      console.warn("Failed to change lock status:", result.status);
       return false;
     }
   } catch (error) {
+    console.error("Error changing lock status:", error);
     return false;
   }
 };
 
+/**
+ * Download event logs report
+ */
 const downloadEventLogs = async () => {
-  var now = dayjs();
-  axios({
-    url: `events/events-log/download`, //your url
-    method: "GET",
-    responseType: "blob", // important
-  }).then((response) => {
-    // create file link in browser's memory
-    const href = URL.createObjectURL(response.data);
-    console.log("response.data======", response.data);
-    // create "a" HTML element with href to file & click
-    const link = document.createElement("a");
-    link.href = href;
-    link.setAttribute("download", dayjs(now).format("DD-MM-YYYY")); //or any other extension
-    document.body.appendChild(link);
-    link.click();
+  try {
+    const now = dayjs();
+    const fileName = dayjs(now).format("DD-MM-YYYY");
 
-    // clean up "a" element & remove ObjectURL
-    // document.body.removeChild(link);
-    // URL.revokeObjectURL(href);
-  });
+    axios({
+      url: `events/events-log/download`,
+      method: "GET",
+      responseType: "blob",
+    }).then((response) => {
+      // Create file link in browser's memory
+      const href = URL.createObjectURL(response.data);
+      console.log("response.data======", response.data);
+
+      // Create "a" HTML element with href to file & click
+      const link = document.createElement("a");
+      link.href = href;
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+
+      // Optional cleanup
+      setTimeout(() => {
+        document.body.removeChild(link);
+        URL.revokeObjectURL(href);
+      }, 100);
+    });
+  } catch (error) {
+    console.error("Error downloading event logs:", error);
+  }
 };
 
+/**
+ * Download event join logs report
+ */
 const downloadEventJoinLogs = async () => {
-  var now = dayjs();
-  axios({
-    url: `events/events-joining/download`, //your url
-    method: "GET",
-    responseType: "blob", // important
-  }).then((response) => {
-    // create file link in browser's memory
-    const href = URL.createObjectURL(response.data);
-    console.log("response.data======", response.data);
-    // create "a" HTML element with href to file & click
-    const link = document.createElement("a");
-    link.href = href;
-    link.setAttribute("download", dayjs(now).format("DD-MM-YYYY")); //or any other extension
-    document.body.appendChild(link);
-    link.click();
-    // clean up "a" element & remove ObjectURL
-    // document.body.removeChild(link);
-    // URL.revokeObjectURL(href);
-  });
+  try {
+    const now = dayjs();
+    const fileName = dayjs(now).format("DD-MM-YYYY");
+
+    axios({
+      url: `events/events-joining/download`,
+      method: "GET",
+      responseType: "blob",
+    }).then((response) => {
+      // Create file link in browser's memory
+      const href = URL.createObjectURL(response.data);
+      console.log("response.data======", response.data);
+
+      // Create "a" HTML element with href to file & click
+      const link = document.createElement("a");
+      link.href = href;
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+
+      // Optional cleanup
+      setTimeout(() => {
+        document.body.removeChild(link);
+        URL.revokeObjectURL(href);
+      }, 100);
+    });
+  } catch (error) {
+    console.error("Error downloading event join logs:", error);
+  }
 };
+
 export {
   getDataEventJoinLogList,
   getDataEventLogList,

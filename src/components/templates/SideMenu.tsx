@@ -235,6 +235,16 @@ const NewSideMenu = () => {
                   </Link>
                 </Menu.Item>
               </SubMenu>
+              <Menu.Item
+                key={`${main_link}/people-counting`}
+                icon={
+                  <PeopleCountingIcon
+                    color={iconMenuColorSelector("peopleCounting")}
+                    className="sideMenuIcon"
+                  />
+                }>
+                <Link to={`${main_link}/people-counting`}>People counting</Link>
+              </Menu.Item>
               <div className={"group-name"}>Notice</div>
               <Menu.Item
                 onClick={() => setOpenKeys([])}
@@ -361,16 +371,6 @@ const NewSideMenu = () => {
                 // icon={<img src={DELIVERY_LOGS_ICON} alt="Delivery logs" />}
               >
                 <Link to={`${main_link}/payment-dashboard`}>Payment</Link>
-              </Menu.Item>
-              <Menu.Item
-                key={`${main_link}/people-counting`}
-                icon={
-                  <PeopleCountingIcon
-                    color={iconMenuColorSelector("peopleCounting")}
-                    className="sideMenuIcon"
-                  />
-                }>
-                <Link to={`${main_link}/people-counting`}>People counting</Link>
               </Menu.Item>
               {/* <Menu.Item
                 icon={
