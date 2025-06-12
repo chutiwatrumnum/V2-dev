@@ -44,6 +44,10 @@ import RecoveryScreen from "./modules/main/RecoveryScreen";
 import ResetPassword from "./modules/main/ResetPassword";
 import ResetLandingScreen from "./modules/main/ResetLandingScreen";
 
+import ServiceDashboard from "./modules/serviceCenter/screens/ServiceDashboard";
+import ServiceCenterLists from "./modules/serviceCenter/screens/ServiceCenterLists";
+// import ServiceChat from "./modules/serviceCenter/screens/ServiceChat";
+
 // tv slide show
 // import TVSlideShow from "./modules/tv/screens/TVSlideShow";
 
@@ -84,59 +88,83 @@ function App() {
     }, [isAuth]);
 
     return (
-        <BrowserRouter>
-            {loading ? (
-                <div
-                    style={{
-                        display: "flex",
-                        flex: 1,
-                        height: "100vh",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        textAlign: "center",
-                    }}
-                >
-                    <Spin size="large" />
-                    {/* <p style={{ marginTop: 10 }}>Loading...</p> */}
-                </div>
-            ) : (
-                <Routes>
-                    {/* unauthorized_route */}
-                    <Route element={<UnauthorizedLayout />}>
-                        <Route index path="/auth" element={<SignInScreen />} />
-                        <Route index path="/recovery" element={<RecoveryScreen />} />
-                        <Route index path="/forgot-password/:token" element={<ResetPassword />} />
-                        <Route index path="/landing-screen" element={<ResetLandingScreen />} />
-                    </Route>
-                    {/* authorized_route */}
-                    <Route path="dashboard" element={<AuthorizedLayout />}>
-                        <Route index path="summary" element={<Summary />} />
-                        <Route path="management" element={<ManagementMain />} />
+      <BrowserRouter>
+        {loading ? (
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              height: "100vh",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+            }}>
+            <Spin size="large" />
+            {/* <p style={{ marginTop: 10 }}>Loading...</p> */}
+          </div>
+        ) : (
+          <Routes>
+            {/* unauthorized_route */}
+            <Route element={<UnauthorizedLayout />}>
+              <Route index path="/auth" element={<SignInScreen />} />
+              <Route index path="/recovery" element={<RecoveryScreen />} />
+              <Route
+                index
+                path="/forgot-password/:token"
+                element={<ResetPassword />}
+              />
+              <Route
+                index
+                path="/landing-screen"
+                element={<ResetLandingScreen />}
+              />
+            </Route>
+            {/* authorized_route */}
+            <Route path="dashboard" element={<AuthorizedLayout />}>
+              <Route index path="summary" element={<Summary />} />
+              <Route path="management" element={<ManagementMain />} />
 
-                        {/* Facility */}
-                        <Route path="reservedFacilities" element={<ReservedFacilities />} />
-                        <Route path="reservationList" element={<ReservationList />} />
-                        <Route path="visitor-management-log" element={<VisitorManagementLog />} />
-                        <Route path="announcement" element={<AnnouncementMain />} />
-                        <Route index path="resident-information" element={<ResidentInformation />} />
-                        <Route index path="payment-dashboard" element={<PaymentDashboard />} />
-                        <Route index path="payment-chart" element={<PaymentChart />} />
-                        <Route path="resident-sign-up" element={<ResidentSignUp />} />
-                        <Route path="public-folder" element={<PublicFolder />} />
-                        <Route path="personal-folder" element={<PersonalFolder />} />
-                        <Route path="event-logs" element={<EventLogs />} />
-                        <Route path="event-joining-logs" element={<EventJoinLogs />} />
-                        <Route path="event-view" element={<EventView />} />
-                        <Route path="people-counting" element={<PeopleCounting />} />
-                    </Route>
-                    <Route path="*" element={<Navigate to="/auth" />} />
-                    {/* <Route path="tv-podcast" element={<TVSlideShow />} /> */}
-                </Routes>
-            )}
-            <SuccessModal />
-            <ConfirmModal />
-        </BrowserRouter>
+              {/* Facility */}
+              <Route
+                path="reservedFacilities"
+                element={<ReservedFacilities />}
+              />
+              <Route path="reservationList" element={<ReservationList />} />
+              <Route
+                path="visitor-management-log"
+                element={<VisitorManagementLog />}
+              />
+              <Route path="announcement" element={<AnnouncementMain />} />
+              <Route
+                index
+                path="resident-information"
+                element={<ResidentInformation />}
+              />
+              <Route
+                index
+                path="payment-dashboard"
+                element={<PaymentDashboard />}
+              />
+              <Route index path="payment-chart" element={<PaymentChart />} />
+              <Route path="resident-sign-up" element={<ResidentSignUp />} />
+              <Route path="public-folder" element={<PublicFolder />} />
+              <Route path="personal-folder" element={<PersonalFolder />} />
+              <Route path="event-logs" element={<EventLogs />} />
+              <Route path="event-joining-logs" element={<EventJoinLogs />} />
+              <Route path="event-view" element={<EventView />} />
+              <Route path="people-counting" element={<PeopleCounting />} />
+            </Route>
+            <Route path="serviceDashboard" element={<ServiceDashboard />} />
+            <Route path="serviceCenterLists" element={<ServiceCenterLists />} />
+            {/* <Route path="serviceChat" element={<ServiceChat />} /> */}
+            <Route path="*" element={<Navigate to="/auth" />} />
+            {/* <Route path="tv-podcast" element={<TVSlideShow />} /> */}
+          </Routes>
+        )}
+        <SuccessModal />
+        <ConfirmModal />
+      </BrowserRouter>
     );
 }
 export default App;

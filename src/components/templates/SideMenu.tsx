@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { Dispatch } from "../../stores";
 import { useSelector } from "react-redux";
 import { RootState } from "../../stores";
+// import { socket } from "../../configs/socket";
 
 import { whiteLabel } from "../../configs/theme";
 import ConfirmModal from "../../components/common/ConfirmModalMenu";
@@ -30,6 +31,10 @@ import {
   ParcelIcon,
   SummaryIcon,
   PeopleCountingIcon,
+  ServiceCenterIcon,
+  ServiceCenterDashboardIcon,
+  ServiceCenterListIcon,
+  ChatIcon,
 } from "../../assets/icons/Icons";
 
 //icon svg
@@ -171,18 +176,6 @@ const NewSideMenu = () => {
                   </Row>
                 </Link>
               </Menu.Item>
-              {/* <SubMenu
-                key="Monitoring"
-                icon={
-                  <SummaryIcon
-                    color={iconMenuColorSelector("Monitoring")}
-                    className="sideMenuIcon"
-                  />
-                }
-                title="Monitoring (Summary)"
-                // disabled={true}
-                // style={{ display: "none" }}
-              > */}
               <Menu.Item
                 key={`${main_link}/summary`}
                 icon={
@@ -193,13 +186,6 @@ const NewSideMenu = () => {
                 }>
                 <Link to={`${main_link}/summary`}>Summary</Link>
               </Menu.Item>
-              {/* <Menu.Item
-                  key={`${main_link}/event-view`}
-                  // icon={<img src={EVENT_VIEW_ICON} alt="Event view" />}
-                >
-                  <Link to={`${main_link}/event-view`}>Event view</Link>
-                </Menu.Item> */}
-              {/* </SubMenu> */}
               <div className={"group-name"}>Facilities management</div>
               <SubMenu
                 key="facilities"
@@ -235,6 +221,24 @@ const NewSideMenu = () => {
                   </Link>
                 </Menu.Item>
               </SubMenu>
+
+              <Menu.Item
+                key={`${main_link}/live-chat`}
+                icon={
+                  <ChatIcon
+                    color={iconMenuColorSelector("live-chat")}
+                    className="sideMenuIcon"
+                  />
+                }>
+                <Link
+                  to={`${main_link}/live-chat`}
+                  onClick={() => {
+                    socket.connect();
+                  }}>
+                  Chat Room
+                </Link>
+              </Menu.Item>
+
               <Menu.Item
                 key={`${main_link}/people-counting`}
                 icon={
@@ -372,17 +376,6 @@ const NewSideMenu = () => {
               >
                 <Link to={`${main_link}/payment-dashboard`}>Payment</Link>
               </Menu.Item>
-              {/* <Menu.Item
-                icon={
-                  <ParcelIcon
-                    color={iconMenuColorSelector("payment-dashboard")}
-                    className="sideMenuIcon"
-                  />
-                }
-                key={`${main_link}payment-chart`}
-              >
-                <Link to={`${main_link}/payment-chart`}>PaymentSummaryDashboard</Link>
-              </Menu.Item> */}
               <Menu.Item
                 key={`${main_link}16`}
                 // icon={<img src={DELIVERY_LOGS_ICON} alt="Delivery logs" />}
@@ -390,6 +383,51 @@ const NewSideMenu = () => {
                 style={{ display: "none" }}>
                 <Link to={`${main_link}/delivery-logs`}>Delivery logs</Link>
               </Menu.Item>
+              <SubMenu
+                key="seviceCenter"
+                icon={
+                  <ServiceCenterIcon
+                    color={iconMenuColorSelector("serviceDashboard")}
+                    className="sideMenuIcon"
+                  />
+                }
+                title="Service Center">
+                {/* <Menu.Item
+                  key={`${main_link}/serviceDashboard`}
+                  icon={
+                    <ServiceCenterDashboardIcon
+                      color={iconSubMenuColorSelector("serviceDashboard")}
+                      className="sideMenuIcon"
+                    />
+                  }
+                >
+                  <Link to={`${main_link}/serviceDashboard`}>
+                    Service Center Dashboard
+                  </Link>
+                </Menu.Item> */}
+                <Menu.Item
+                  key={`${main_link}/ServiceCenterLists`}
+                  icon={
+                    <ServiceCenterListIcon
+                      color={iconSubMenuColorSelector("ServiceCenterLists")}
+                      className="sideMenuIcon"
+                    />
+                  }>
+                  <Link to={`${main_link}/serviceCenterLists`}>
+                    Service Center Lists
+                  </Link>
+                </Menu.Item>
+                <Menu.Item
+                  key={`${main_link}/ServiceChat`}
+                  icon={
+                    <ChatIcon
+                      color={iconSubMenuColorSelector("ServiceChat")}
+                      className="sideMenuIcon"
+                    />
+                  }>
+                  <Link to={`${main_link}/ServiceChat`}>Messages</Link>
+                </Menu.Item>
+              </SubMenu>
             </Menu>
           </div>
           <div>
