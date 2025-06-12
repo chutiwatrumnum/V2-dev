@@ -9,14 +9,14 @@ import { whiteLabel } from "../../../configs/theme";
 
 interface ChatListType {
   item: ChatListDataType;
-  activeIndex: number;
+  activeUserID: string;
   index: number;
   onUserListSelected: (item: ChatListDataType, index: number) => void;
 }
 
 const ChatList = ({
   item,
-  activeIndex,
+  activeUserID,
   index,
   onUserListSelected,
 }: ChatListType) => {
@@ -47,7 +47,9 @@ const ChatList = ({
     <>
       {item ? (
         <Col
-          className={`userContainer ${activeIndex === index ? "active" : ""}`}
+          className={`userContainer ${
+            activeUserID === item.userId ? "active" : ""
+          }`}
           onClick={() => {
             onUserListSelected(item, index);
           }}
@@ -83,7 +85,7 @@ const ChatList = ({
             </Col>
             <Col className="textInUserContainer" span={16}>
               <p className="ellipsisText">
-                <b>{`${item.firstName} ${item.lastName} (${item.roomAddress})`}</b>
+                <b>{`${item?.firstName} ${item?.lastName} (${item?.roomAddress})`}</b>
               </p>
               <span className="ellipsisText">
                 {lastTextSelector(item.type, item)}
@@ -91,7 +93,9 @@ const ChatList = ({
             </Col>
             <Col className="timeShowUserContainer" span={3}>
               <span>{dayjs(item.createdAt).format("HH:mm")}</span>
-              {item.seen ? null : <Badge color={whiteLabel.dangerColor} />}
+              {item.juristicSeen ? null : (
+                <Badge color={whiteLabel.dangerColor} />
+              )}
             </Col>
           </Row>
         </Col>

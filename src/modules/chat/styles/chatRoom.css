@@ -71,11 +71,12 @@
       flex: 1;
       margin: 0 12px;
       text-align: center;
+      color: var(--primary-color)
     }
 
     .horizontal-line {
       flex: 1;
-      border-bottom: 1px solid var(--black-color);
+      border-bottom: 1px solid var(--white-color);
       margin: 0.5rem 0;
     }
   }

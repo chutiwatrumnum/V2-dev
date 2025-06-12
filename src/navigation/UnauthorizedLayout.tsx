@@ -3,6 +3,9 @@ import { Navigate, useLocation, useOutlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../stores";
 import { Col, Row } from "antd";
+
+import COVER_IMAGE from "../assets/images/coverImage.png";
+
 // style
 import "./styles/unAuthorizedLayout.css";
 
@@ -12,17 +15,8 @@ const UnauthorizedLayout = () => {
   const userAuth = useSelector((state: RootState) => state.userAuth);
   const location = useLocation();
   const outlet = useOutlet();
-  const { width } = useWindowDimensions();
 
-  if (userAuth.isAuth) {
-    return (
-      <Navigate
-        to={from.includes("dashboard") ? from : "/dashboard/managementMain"}
-        state={{ from: location }}
-        replace
-      />
-    );
-  }
+  const { width } = useWindowDimensions();
 
   //Responsive helper login views functions
   function getWindowDimensions() {
@@ -50,8 +44,23 @@ const UnauthorizedLayout = () => {
     return windowDimensions;
   }
 
+  if (userAuth.isAuth) {
+    return (
+      <Navigate
+        to={from.includes("dashboard") ? from : "/dashboard/summary"}
+        state={{ from: location }}
+        replace
+      />
+    );
+  }
+
   return (
     <Row className="container">
+      {width < 1024 ? null : (
+        <Col className="imageContainer">
+          <img src={COVER_IMAGE} alt="cover" className="coverImage" />
+        </Col>
+      )}
       <Col className="contentContainer">{outlet}</Col>
     </Row>
   );

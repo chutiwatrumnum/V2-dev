@@ -22,19 +22,25 @@ import { StatCardProps } from "../../../stores/interfaces/ServiceCenter";
 import dayjs from "dayjs";
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
-import Header from "../../../components/templates/Header";
+import Header from "../../../components/common/Header";
+import {
+  ServiceCenterPending,
+  ServiceCenterTotal,
+  ServiceCenterRepairing,
+} from "../../../assets/icons/Icons";
+import "../styles/ServiceCenterLists.css";
 const colorCard:string[]=[
   '#1890ff',
   '#ff4d4f',
   '#faad14',
   '#52c41a'
 ]
-const iconCard:React.ReactNode[]=[
-  <ClockCircleOutlined style={{ fontSize: 24 }} />,
-  <ClockCircleOutlined style={{ fontSize: 24 }} />,
-  <ToolOutlined style={{ fontSize: 24 }} />,
-<CheckCircleOutlined style={{ fontSize: 24 }} />
-]
+const iconCard: React.ReactNode[] = [
+  <ServiceCenterTotal />,
+  <ServiceCenterPending />,
+  <ServiceCenterRepairing/>,
+  <CheckCircleOutlined style={{ fontSize: 24 }} />,
+];
 const colorPieChartStatusMonth:string[]=[
   '#c50001' ,'#feb009','#00a526'
 ]
@@ -50,8 +56,8 @@ const ServiceDashboard = () => {
 
   const [dateRange, setDateRange] = useState(null);
 
-  const StatCard = ({ title, value, icon, color }:StatCardProps) => (
-    <Card>
+  const StatCard = ({ title, value, icon, color }: StatCardProps) => (
+    <Card className="stat-card-shadow">
       <Row align="middle" justify="space-between">
         <Col>
           <Statistic
@@ -81,8 +87,7 @@ const ServiceDashboard = () => {
   return (
     <>
       <Header title="Service Center Lists" />
-      <div
-        style={{minHeight: "100vh" }}>
+      <div style={{ minHeight: "100vh", marginTop: "20px" }}>
         {/* Stats Cards */}
         <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
           {data?.cardStatus?.length! > 0
@@ -103,7 +108,9 @@ const ServiceDashboard = () => {
 
         {/* Filter Section */}
         <div style={{ marginBottom: 24 }}>
-          <Title level={4} style={{ marginBottom: 16 }}>
+          <Title
+            level={4}
+            className="FixingTitle">
             Fixing Management Month:
           </Title>
           {/* <Space size="middle">
@@ -127,9 +134,9 @@ const ServiceDashboard = () => {
         </div>
 
         {/* Charts */}
-        <Row gutter={[16, 16]}>
+        <Row gutter={[16, 16]} style={{ marginBottom: 20 }}>
           <Col span={12}>
-            <Card title="Monthly service status">
+            <Card title="Monthly service status" className="stat-card-shadow">
               {/* <div
               style={{
                 height: 300,
@@ -150,7 +157,7 @@ const ServiceDashboard = () => {
             </Card>
           </Col>
           <Col span={12}>
-            <Card title="Monthly service type">
+            <Card title="Monthly service type" className="stat-card-shadow">
               {/* <div
               style={{
                 height: 300,

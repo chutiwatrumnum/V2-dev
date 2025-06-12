@@ -48,8 +48,12 @@
   flex: 1;
   font-weight: var(--font-normal);
   font-size: var(--font-size-6xl);
-  color: var(--menuBgActive-color);
+  color: var(--primary-color);
   margin-bottom: 30px;
+}
+.titleHeaderBorder {
+  margin-top: 40px;
+  border-bottom:2px solid var(--primary-color); 
 }
 
 .ant-picker-clear svg {

@@ -71,6 +71,7 @@
       flex: 1;
       margin: 0 12px;
       text-align: center;
+      color: var(--primary-color)
     }
 
     .horizontal-line {

@@ -11,31 +11,11 @@ export const chat = createModel<RootModel>()({
   reducers: {
     updateSortByData: (state, payload) => ({
       ...state,
-      sortBy: payload,
+      chatListSortBy: payload,
     }),
     updateCurPageChatData: (state, payload) => ({
       ...state,
       curPageChatData: payload,
     }),
   },
-  effects: (dispatch) => ({
-    // async getChatData() {
-    //   await axios
-    //     .get("/chat/dashboard/chat-list")
-    //     .then((res) => {
-    //       // console.log("SUCCESS => ", res.data.result);
-    //       dispatch.chat.updateChatListData(res.data.result);
-    //     })
-    //     .catch((err) => {
-    //       console.error(err);
-    //     });
-    // },
-    // async postMessageByJuristic(payload: SendChatDataType) {
-    //   const res = await axios.post(`/chat/dashboard/send-message`, payload);
-    //   if (res.status >= 400) {
-    //     console.error(res.data.message);
-    //     return;
-    //   }
-    // },
-  }),
 });

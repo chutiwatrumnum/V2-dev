@@ -190,7 +190,7 @@ export const facilities = createModel<RootModel>()({
     async getReservedCreateDataList() {
       try {
         const unit = await axios.get(`facilities/dashboard/unit`);
-        const userData = await axios.get(`team-management/profile`);
+        const userData = await axios.get(`mcst/profile`);
 
         if (unit.data.statusCode >= 400 && userData.data.statusCode >= 400) {
           console.error(unit);

@@ -2,9 +2,9 @@ import { MinusCircleOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Modal, Row, TimePicker } from "antd";
 import { useEffect, useState } from "react";
 import { requiredRule } from "../../../configs/inputRule";
-import UploadImageGroup from "../../../components/group/UploadImageGroup";
+import UploadImageGroup from "../../../components/groups/UploadImageGroupFacility";
 import SmallActionButton from "../../../components/common/SmallActionButton";
-import ConfirmModal from "../../../components/common/ConfirmModal";
+import ConfirmModal from "../../../components/common/ConfirmModalMenu";
 
 import { ReservationListDataType } from "../../../stores/interfaces/Facilities";
 import dayjs from "dayjs";

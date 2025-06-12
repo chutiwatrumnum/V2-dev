@@ -1,78 +1,35 @@
-import { Col, Space, Typography, Form, Input, Checkbox } from "antd";
-import { Link } from "react-router-dom";
-import MediumButton from "../../components/common/MediumButton";
-import { requiredRule } from "../../configs/inputRule";
-import { useEffect, useState } from "react";
+import { Col, Space, Button, Typography, Form, Input } from "antd";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "../../stores";
-import { UserSignInIcon, LockIcon } from "../../assets/icons/Icons";
-import { whiteLabel } from "../../configs/theme";
 import { LoginPayloadType } from "../../stores/interfaces/User";
+import { Link } from "react-router-dom";
 
-import LOGO from "../../assets/images/mainLogo.svg";
-
-import type { CheckboxChangeEvent } from "antd/es/checkbox";
+import LOGO from "../../assets/images/logo.svg";
+import LOGIN_EMAIL_ICON from "../../assets/icons/Login_email.svg";
+import LOGIN_PASSWORD_ICON from "../../assets/icons/Login_password.svg";
 
 import "./styles/signIn.css";
-import { encryptStorage } from "../../utils/encryptStorage";
 
 const { Text } = Typography;
 
 const SignInScreen = () => {
   const dispatch = useDispatch<Dispatch>();
-  const [form] = Form.useForm();
-  const [rememberChecked, setRememberChecked] = useState<boolean>(false);
 
-  useEffect(() => {
-    (async function () {
-      const statusRemember = await encryptStorage.getItem("statusRemember");
-      if (statusRemember) {
-        await setRememberChecked(statusRemember);
-        const email = await encryptStorage.getItem("email");
-
-        await form.setFieldsValue({
-          username: email ? email : undefined,
-        });
-      }
-    })();
-  }, []);
-
-  const onFinish = async (values: LoginPayloadType) => {
-    if (rememberChecked) {
-      await encryptStorage.setItem("email", values.username);
-    } else {
-      await encryptStorage.removeItem("email");
-      await encryptStorage.removeItem("statusRemember");
-    }
-    await dispatch.userAuth.loginEffects(values);
+  const onFinish = (values: LoginPayloadType) => {
+    dispatch.userAuth.loginEffects(values);
   };
 
   const onFinishFailed = (errorInfo: object) => {
     console.log("Failed:", errorInfo);
   };
 
-  const onRememberChange = async (e: CheckboxChangeEvent) => {
-    console.log(`checked = ${e.target.checked}`);
-    if (e.target.checked) {
-      await encryptStorage.setItem("statusRemember", e.target.checked);
-    } else {
-      await encryptStorage.removeItem("statusRemember");
-    }
-    await setRememberChecked(e.target.checked);
-  };
-
   return (
     <Col className="containerSignIn">
-      <Space
-        direction="vertical"
-        size={0}
-        style={{ alignItems: "center", paddingBottom: 60 }}>
+      <Space direction="vertical" size={0} style={{ alignItems: "center" }}>
         <img src={LOGO} alt="logo" className="logo" />
-        {/* <Text className="text-title">Powered By ARTANI</Text> */}
       </Space>
       <Form
         name="basic"
-        form={form}
         className="formSignIn"
         layout="vertical"
         initialValues={{ remember: true }}
@@ -80,40 +37,40 @@ const SignInScreen = () => {
         onFinishFailed={onFinishFailed}
         autoComplete="off">
         <Form.Item
-          label={<Text className="textColor">Email</Text>}
+          label={
+            <Text style={{ color: "white" }} className="textColor">
+              Email
+            </Text>
+          }
           name="username"
-          rules={requiredRule}>
-          <Input
-            prefix={<UserSignInIcon color={whiteLabel.grayColor} />}
-            size="large"
-          />
+          required={true}>
+          <Input placeholder="Input email address" size="large" />
         </Form.Item>
 
         <Form.Item
-          label={<Text className="textColor">Password</Text>}
+          label={
+            <Text style={{ color: "white" }} className="textColor bold">
+              Password
+            </Text>
+          }
           name="password"
-          rules={requiredRule}>
-          <Input.Password
-            prefix={<LockIcon color={whiteLabel.grayColor} />}
-            size="large"
-          />
+          required={true}>
+          <Input.Password placeholder="Input password" size="large" />
         </Form.Item>
 
-        <div className="forgotRememberContainer">
-          <Checkbox
-            className="textColor"
-            checked={rememberChecked ? rememberChecked : false}
-            onChange={onRememberChange}>
-            Remember me
-          </Checkbox>
-
-          <Link to={"/recovery"} className="forgotPassword">
-            Forgot Password?
-          </Link>
-        </div>
+        <Link to={"/recovery"} className="forgotPassword">
+          <span>Forgot password?</span>
+        </Link>
 
         <Form.Item className="txtCenter">
-          <MediumButton className="loginBtn" message="Login" form={form} />
+          <Button
+            shape="round"
+            className="loginBtn"
+            type="primary"
+            htmlType="submit"
+            size="large">
+            <span className="bold">Login</span>
+          </Button>
         </Form.Item>
       </Form>
     </Col>

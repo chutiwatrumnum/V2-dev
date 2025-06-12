@@ -32,7 +32,7 @@ import fallbackImg from "../../../assets/images/noImg.jpeg";
 
 import "../styles/serviceChat.css";
 import "../styles/serviceChatControl.css";
-import ServiceCenterChatManage from './ServiceCenterChatManage'
+import ServiceCenterChatManage from "./ServiceCenterChatManage";
 const ServiceChatBoxContainer = ({
   chatData,
 }: {
@@ -63,7 +63,7 @@ const ServiceChatBoxContainer = ({
     data: chatDataById,
     isLoading: isChatDataByIDLoading,
     refetch: updateChatData,
-  } = getServiceChatDataByIDQuery(chatData?.serviceId.toString() ?? "");
+  } = getServiceChatDataByIDQuery({ id: chatData?.serviceId.toString() ?? "" });
 
   const { data: moreServiceChatData, refetch: loadMoreServiceChatData } =
     getMoreServiceChatDataByIDQuery({
@@ -509,7 +509,7 @@ const ServiceChatBoxContainer = ({
               />
             </ChatContainer>
             <Sidebar position="right">
-          <ServiceCenterChatManage chatData={chatData}/>
+              <ServiceCenterChatManage chatData={chatData} />
             </Sidebar>
           </MainContainer>
           <Row style={{ padding: "4px 0 12px" }}>

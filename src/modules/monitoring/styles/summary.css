@@ -1,0 +1,47 @@
+.rowSummaryContainer {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-content: center;
+  box-sizing: border-box;
+  margin-top: 20px;
+}
+
+.summaryCardContainer {
+  border-radius: 10px;
+  box-shadow: 5px 15px 27px 0px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.summaryCardHeader {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  background-color: #d3d3d3;
+  height: 35px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding-left: 15px;
+}
+
+.summaryCardContent {
+  padding: 10px;
+  box-sizing: border-box;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.yearTxt {
+  text-align: right;
+}
+
+.arrowBtn {
+  color: #4e4e4e;
+  background-color: #efeded;
+  border-radius: 5px;
+  padding: 4px;
+  font-size: 24px;
+  line-height: 24px;
+}

@@ -17,14 +17,15 @@ const getServiceChatList = async ({
 >): Promise<ServiceChatListDataType> => {
   const [_key, sortBy, status] = queryKey;
   let url = `/service-center-chat/dashboard/chat-list`;
-  if (sortBy) {
+  if (sortBy === "time") {
     url += `?sortBy=${sortBy}`;
+  } else {
+    url += `?sortBy=${sortBy}&sort=ASC`;
   }
-  if (status) {
+  if (status !== "all") {
     url += `&status=${status}`;
   }
   const res = await axios.get(url);
-  //   console.log(res.data.result);
 
   return res.data.result;
 };
@@ -79,11 +80,12 @@ export const getServiceChatListQuery = (payload: {
   });
 };
 
-export const getServiceChatDataByIDQuery = (
-  payload: string
-): UseQueryResult<ServiceChatDataType[] | null> => {
+export const getServiceChatDataByIDQuery = (payload: {
+  id: string;
+}): UseQueryResult<ServiceChatDataType[] | null> => {
+  const { id } = payload;
   return useQuery({
-    queryKey: ["serviceChatDataByID", payload],
+    queryKey: ["serviceChatDataByID", id],
     queryFn: getServiceChatDataByID,
   });
 };

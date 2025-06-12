@@ -3,20 +3,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../../stores";
 // import { whiteLabel } from "../../../configs/theme";
 import { socket } from "../../../configs/socket";
-import { getUnitQuery } from "../../../utils/queries";
 
 import {
   getServiceChatListQuery,
   getOptionsChatListQuery,
 } from "../../../utils/queries/serviceQueries";
-
-import Header from "../../../components/templates/Header";
+import { useQueryClient } from "@tanstack/react-query";
+import { useLocation } from "react-router-dom";
+import Header from "../../../components/common/Header";
 import ServiceChatBoxContainer from "../components/ServiceChatBoxContainer";
 import ServiceChatList from "../components/ServiceChatList";
 import { AdjustmentIcon } from "../../../assets/icons/Icons";
 import { Row, Col, Dropdown, Button, Menu, Spin, Select, Tabs } from "antd";
 
-import { ServiceChatListDataType } from "../../../utils/interfaces/serviceInterface";
+import {
+  ServiceChatListDataType,
+  ServiceChatDataType,
+} from "../../../utils/interfaces/serviceInterface";
 import type { TabsProps } from "antd";
 
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
@@ -25,10 +28,12 @@ import "../styles/serviceChat.css";
 const ServiceChat = () => {
   // Variables
   const dispatch = useDispatch<Dispatch>();
+  const queryClient = useQueryClient();
   const { chatListSortBy } = useSelector((state: RootState) => state.chat);
   const { status } = useSelector((state: RootState) => state.serviceCenter);
-  const [activeIndex, setActiveIndex] = useState(-1);
+  const [activeServiceId, setActiveServiceId] = useState(-1);
   const [currentChat, setCurrentChat] = useState();
+  const [currentServiceId, setCurrentServiceId] = useState("");
   // const [chatListSortBy, setChatListSortBy] = useState("time");
 
   // API
@@ -48,42 +53,42 @@ const ServiceChat = () => {
 
   const handleServiceSelected = async (value: string, option: any) => {
     // console.log(value);
-    console.log(option);
+    // console.log(option);
     let payload = {
       serviceId: option.serviceId,
       serviceType: option.serviceType,
       roomAddress: option.roomAddress,
       userId: option.userId,
     };
+    setActiveServiceId(option.serviceId);
     onServiceSelected(payload);
   };
 
   const handleMenuClick = (e: any) => {
     dispatch.chat.updateSortByData(e.key);
-    // setChatListSortBy(e.key);
   };
 
   const onServiceSelected = (item: any) => {
     setCurrentChat(item);
   };
 
-  const onUserListSelected = async (
+  const onServiceListSelected = async (
     item: ServiceChatListDataType,
     index: number
   ) => {
     let seenData = serviceChatListData;
-    // console.log(item);
 
+    setCurrentServiceId(item.serviceId.toString());
     onServiceSelected(item);
-    setActiveIndex(index);
-    if (seenData) seenData[index].seen = true;
+    setActiveServiceId(item.serviceId);
+    if (seenData) seenData[index].juristicSeen = true;
   };
 
   const onTabsChange = (key: string) => {
     let payload = undefined;
     switch (key) {
       case "all":
-        payload = undefined;
+        payload = "all";
         break;
       case "pending":
         payload = "pending";
@@ -100,6 +105,10 @@ const ServiceChat = () => {
     }
 
     dispatch.serviceCenter.updateStatusData(payload);
+  };
+
+  const onChatIncoming = async () => {
+    await refetchServiceChatList();
   };
 
   const menu = (
@@ -130,11 +139,29 @@ const ServiceChat = () => {
 
   // Actions
   useEffect(() => {
+    socket.connect();
     socket.on("connect", () => {
-      console.log("Socket.IO Connection Opened");
+      // console.log("Socket.IO Connection Opened");
     });
-    socket.on("chat-list", () => {
+    socket.on("service-center-chat-list", () => {
       refetchServiceChatList();
+    });
+    socket.on(`service-center-chat-service-id-${currentServiceId}`, (cmd) => {
+      if (cmd.cmd === "new_message") {
+        onChatIncoming();
+      } else if (cmd.cmd === "seen") {
+        queryClient.setQueryData(
+          ["serviceChatDataByID", currentServiceId],
+          (oldData: ServiceChatDataType[]) => {
+            const seenMessages = oldData.map((item) =>
+              item.seen === false ? { ...item, seen: true } : item
+            );
+            return seenMessages;
+          }
+        );
+        console.log("Seen");
+      }
+      // chatContainerRef.current?.handleIncomingChat();
     });
     socket.on("connect_error", (error) => {
       console.error("Connection Error:", error);
@@ -149,7 +176,11 @@ const ServiceChat = () => {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [currentServiceId]);
+
+  useEffect(() => {
+    dispatch.chat.updateSortByData("time");
+  }, [location.pathname]);
 
   return (
     <>
@@ -172,7 +203,9 @@ const ServiceChat = () => {
                   }}
                   loading={isChatListOptionsLoading}
                   filterOption={(input, option) =>
-                    (option?.roomAddress ?? "").includes(input)
+                    (option?.label.toUpperCase() ?? "").includes(
+                      input.toUpperCase()
+                    )
                   }
                   showSearch
                 />
@@ -199,10 +232,10 @@ const ServiceChat = () => {
                 return (
                   <ServiceChatList
                     key={index}
-                    activeIndex={activeIndex}
+                    activeServiceId={activeServiceId}
                     index={index}
                     item={item}
-                    onUserListSelected={onUserListSelected}
+                    onServiceListSelected={onServiceListSelected}
                   />
                 );
               })

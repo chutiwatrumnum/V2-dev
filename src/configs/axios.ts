@@ -3,8 +3,6 @@ import { encryptStorage } from "../utils/encryptStorage";
 import { API_URL } from "./configs";
 import { NavigateFunction } from "react-router-dom";
 import { Dispatch } from "../stores";
-import FailedModal from "../components/common/FailedModal";
-
 axios.defaults.baseURL = API_URL;
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -52,7 +50,11 @@ export const setupAxiosInterceptors = (navigate: NavigateFunction, dispatch: Dis
                         }
                     } catch (error: any) {
                         console.log("refesh token error :: ", error);
-                        FailedModal("Token expried Please login again.");
+                        dispatch.common.updateSuccessModalState({
+                            open: true,
+                            status: "error",
+                            text: "Token expired Please login again.",
+                        });
                         setTimeout(() => {
                             encryptStorage.clear();
                             dispatch.userAuth.updateAuthState(false);

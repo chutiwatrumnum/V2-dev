@@ -1,0 +1,17 @@
+.infoModalContentContainer+.infoModalContentContainer {
+    margin-top: 50px;
+}
+
+.rightTxtInfoModal {
+    padding-left: 10px;
+}
+
+.infoModalContentContainer .timeInfoModalContainer {
+    padding-right: 20%;
+}
+
+.noteInfoModalContainer {
+    padding: 15px 15px 30px 15px;
+    border-radius: 10px;
+    background: #F0F0F0;
+}

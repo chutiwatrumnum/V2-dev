@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../../stores";
 import { whiteLabel } from "../../../configs/theme";
 
-import { Row, Button, Col } from "antd";
-import Header from "../../../components/templates/Header";
+import { Row, Button, Col, Spin, Empty } from "antd";
+import Header from "../../../components/common/Header";
 import PeopleCountingEditModal from "../components/PeopleCountingEditModal";
 import { EditIcon, PeopleStatusIcon } from "../../../assets/icons/Icons";
-import ConfirmModal from "../../../components/common/ConfirmModal";
-import SuccessModal from "../../../components/common/SuccessModal";
+import ConfirmModal from "../../../components/common/ConfirmModal2";
+import SuccessModal from "../../../components/common/SuccessModal2";
 import FailedModal from "../../../components/common/FailedModal";
 
 import {
@@ -28,10 +28,13 @@ const PeopleCountingMain = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [editData, setEditData] = useState<PeopleCountingDataType>();
   const [refresh, setRefresh] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // functions
   const fetchData = async () => {
+    setLoading(true);
     await dispatch.peopleCounting.getPeopleCountingData();
+    setLoading(false);
   };
 
   const onEdit = (data: PeopleCountingDataType) => {
@@ -40,12 +43,12 @@ const PeopleCountingMain = () => {
   };
 
   const onEditOk = async (payload: PeopleCountingFormDataType) => {
-    // console.log(payload);
     ConfirmModal({
       title: "Are you sure you want to edit this?",
       okMessage: "Yes",
       cancelMessage: "Cancel",
       onOk: async () => {
+        setLoading(true);
         const edit = await dispatch.peopleCounting.editPeopleCountingData(
           payload
         );
@@ -53,7 +56,10 @@ const PeopleCountingMain = () => {
           SuccessModal("Successfully edited");
           setIsEditModalOpen(false);
           setRefresh(!refresh);
+        } else {
+          FailedModal("Failed to edit data");
         }
+        setLoading(false);
       },
       onCancel: () => {
         console.log("cancelled");
@@ -93,29 +99,35 @@ const PeopleCountingMain = () => {
   // components
   const RoomCard = ({ data }: { data: PeopleCountingDataType }) => {
     return (
-      <Col lg={{ span: 8 }} xs={{ span: 24 }} className="cardContainer_PPC">
+      <Col xs={24} sm={12} md={8} lg={8} xl={8} className="cardContainer_PPC">
         <div className="imageContainer_PPC">
-          <img className="cardImage_PPC" src={data.facility.imageUrl} />
+          <img
+            className="cardImage_PPC"
+            src={data.facility.imageUrl}
+            alt={data.facility.name}
+            loading="lazy"
+          />
         </div>
         <div className="cardDetailContainer_PPC">
           <Row
             justify="space-between"
             align="middle"
-            className="cardDetailTop_PPC"
-          >
-            <span className="cardTitle_PPC">{data.facility.name}</span>
+            className="cardDetailTop_PPC">
+            <span className="cardTitle_PPC" title={data.facility.name}>
+              {data.facility.name}
+            </span>
             <Button
               type="text"
               icon={<EditIcon />}
               onClick={() => onEdit(data)}
+              aria-label="Edit"
             />
           </Row>
           <Row
             justify="center"
             align="middle"
             className="cardStatusBoxContainer_PPC"
-            style={{ backgroundColor: statusColorSelector(data.status) }}
-          >
+            style={{ backgroundColor: statusColorSelector(data.status) }}>
             <PeopleStatusIcon
               color={whiteLabel.whiteColor}
               className="cardStatusIcon_PPC"
@@ -136,12 +148,23 @@ const PeopleCountingMain = () => {
 
   return (
     <>
-      <Header title="People counting" />
-      <Row gutter={[30, 30]} style={{ justifyContent: "space-between" }}>
-        {data.map((item) => {
-          return <RoomCard data={item} />;
-        })}
-      </Row>
+      <Header title="People Counting" />
+      {loading ? (
+        <div style={{ textAlign: "center", padding: "40px 0" }}>
+          <Spin size="large" />
+        </div>
+      ) : data.length > 0 ? (
+        <Row gutter={[16, 16]}>
+          {data.map((item, index) => (
+            <RoomCard key={item.id || index} data={item} />
+          ))}
+        </Row>
+      ) : (
+        <Empty
+          description="No people counting data available"
+          style={{ margin: "40px 0" }}
+        />
+      )}
       <PeopleCountingEditModal
         isEditModalOpen={isEditModalOpen}
         onOk={onEditOk}

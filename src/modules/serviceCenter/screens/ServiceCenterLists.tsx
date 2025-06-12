@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button, Row, Pagination, Tag, Col, Tabs, Select } from "antd";
 import DatePicker from "../../../components/common/DatePicker";
-import Header from "../../../components/templates/Header";
+import Header from "../../../components/common/Header";
 import SearchBox from "../../../components/common/SearchBox";
 import ServiceCenterTable from "../components/ServiceCenterTable";
 import ServiceCenterEditModal from "../components/ServiceCenterEditModal";
@@ -140,12 +140,6 @@ const ServiceCenterLists = () => {
 
     const columns: ColumnsType<ServiceCenterDataType> = [
         {
-            title: "No.",
-            dataIndex: "id",
-            key: "id",
-            align: "center",
-        },
-        {
             title: "Name-Surname",
             dataIndex: "fullname",
             key: "fullname",
@@ -228,7 +222,6 @@ const ServiceCenterLists = () => {
             },
         },
     ];
-
     // Actions
     useEffect(() => {
         fetchData();
@@ -255,15 +248,15 @@ const ServiceCenterLists = () => {
             <SearchBox
               className="serviceCenterSearchBox"
               onSearch={onSearch}
-              placeholderText="Search by title"
+              placeholderText="Search by Issue"
             />
           </div>
-          <MediumActionButton
+          {/* <MediumActionButton
             disabled={true}
             message="Export"
             onClick={() => {}}
             className="createServiceCenterBtn"
-          />
+          /> */}
         </div>
 
         {selectList ? (
@@ -282,7 +275,7 @@ const ServiceCenterLists = () => {
           data={dataServiceCenterList?.data}
         />
         <Row
-          className="announceBottomActionContainer"
+          className="serviceCenterBottomActionContainer"
           justify="end"
           align="middle">
           <Pagination

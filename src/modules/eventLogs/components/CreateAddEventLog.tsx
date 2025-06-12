@@ -13,7 +13,7 @@ import {
   InputNumber,
   Select,
 } from "antd";
-import UploadImageGroup from "../../../components/group/UploadImageGroup";
+import UploadImageGroup from "../../../components/groups/UploadImageGroup";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { addEventLogs } from "../service/api/EventLogsServiceAPI";
 import { useDispatch } from "react-redux";
@@ -22,14 +22,14 @@ import type { RangePickerProps } from "antd/es/date-picker";
 dayjs.extend(customParseFormat);
 import "../styles/eventLogs.css";
 import { AddNewEventLogsType } from "../../../stores/interfaces/EventLog";
-import SuccessModal from "../../../components/common/SuccessModal";
-import FailedModal from "../../../components/common/FailedModal";
-import ConfirmModal from "../../../components/common/ConfirmModal";
-import SendToGroup from "../../../components/group/SendToGroup";
+import SendToGroup from "../../../components/groups/SendToGroup";
 interface ComponentCreateProps {
   isOpen: boolean;
   callBack: (isOpen: boolean, saved: boolean) => void;
 }
+
+const { confirm } = Modal;
+
 const CreateAddEventLog = (props: ComponentCreateProps) => {
   const [Payable, setPayable] = useState<boolean>(false);
   const [Allowvisitorregistration, setAllowvisitorregistration] =
@@ -75,11 +75,17 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
   //from
   const [form] = Form.useForm();
   const onFinish = async (values: any) => {
-    ConfirmModal({
-      title: "Are you sure you want to add new event?",
-      okMessage: "Yes",
-      cancelMessage: "Cancel",
-      onOk: async () => {
+    confirm({
+      title: "Confirm action",
+      icon: null,
+      content: "Are you sure you want to add new event?",
+      okText: "Yes",
+      className: "confirmStyle",
+      okType: "primary",
+      cancelText: "Cancel",
+      centered: true,
+
+      async onOk() {
         const dataEventLog: AddNewEventLogsType = {
           title: values?.title,
           description: values?.description,
@@ -105,14 +111,23 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
         }
         const resultCreated = await addEventLogs(dataEventLog);
         if (resultCreated) {
-          SuccessModal("Successfully added");
-          resetValue();
-          props.callBack(!props?.isOpen, true);
+          dispatch.common.updateSuccessModalState({
+            open: true,
+            text: "Successfully added",
+          });
+          await resetValue();
+          await props.callBack(!props?.isOpen, true);
         } else {
-          FailedModal("Failed upload");
+          dispatch.common.updateSuccessModalState({
+            open: true,
+            status: "error",
+            text: "Failed upload",
+          });
         }
       },
-      onCancel: () => console.log("Cancel"),
+      onCancel() {
+        console.log("Cancel");
+      },
     });
   };
 
@@ -183,8 +198,8 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
                 ]}>
                 <Input.TextArea
                   placeholder="Input announcement body"
-                  maxLength={2000}
-                  rows={13}
+                  maxLength={1000}
+                  rows={6}
                   showCount
                 />
               </Form.Item>
@@ -203,8 +218,8 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
                     ]}>
                     <DatePicker
                       disabledDate={disabledDate}
+                      className="fullWidth"
                       format="YYYY-MM-DD"
-                      style={{ width: "92%" }}
                     />
                   </Form.Item>
                 </Col>
@@ -231,7 +246,7 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
                       },
                     ]}>
                     <InputNumber
-                      style={{ width: "92%" }}
+                      className="fullWidth"
                       placeholder="select maximum number"
                     />
                   </Form.Item>
@@ -271,7 +286,7 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
                         },
                       ]}>
                       <InputNumber
-                        style={{ width: "92%" }}
+                        className="fullWidth"
                         placeholder="input number"
                       />
                     </Form.Item>
@@ -318,7 +333,6 @@ const CreateAddEventLog = (props: ComponentCreateProps) => {
                   },
                 ]}>
                 <Select
-                  style={{ width: "92%" }}
                   placeholder="Select receiver"
                   onSelect={onSendToChange}
                   options={[

@@ -181,7 +181,7 @@ const ServiceCenterEditModal = ({ isEditModalOpen, onOk, onCancel, data, onRefre
                             <Form.Item<ServiceCenterDataType> label="Action Date" name="actionDate" rules={!disableColumn.actionDate ? requiredRule : undefined}>
                                 <DatePicker disabled={disableColumn.actionDate} style={{ width: "100%" }} size="large" />
                             </Form.Item>
-                            <ServiceImageGallery title="Pending" maximum={3} disabledUpload={true} oldFileList={imagePendingList} imageStatusId={Number(currentStatus.value!)} serviceId={data?.id!!} />
+                            <ServiceImageGallery title="Pending" maximum={1} disabledUpload={true} oldFileList={imagePendingList} imageStatusId={Number(currentStatus.value!)} serviceId={data?.id!!} />
 
                             <ServiceImageGallery title="Repairing" maximum={3} disabledUpload={currentStatus.label === "Repairing" ? false : true} oldFileList={imageRepairingList} imageStatusId={Number(currentStatus.value!)} serviceId={data?.id!!} />
 

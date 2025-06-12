@@ -20,7 +20,7 @@ export interface DataType {
   joiningDate: string;
   blockNo: string;
   unitNo: string;
-  roomAddress:string;
+  roomAddress: string;
   status: string;
   createdAt: string;
   startEndTime: string;
@@ -188,6 +188,7 @@ export interface ReservedDataPayloadType {
   curPage: number;
   perPage: number;
   date?: string;
+  search?: string;
 }
 
 export interface ReservedUnitDataType {

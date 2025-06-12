@@ -9,17 +9,18 @@ import { whiteLabel } from "../../../configs/theme";
 
 interface ServiceChatListType {
   item: ServiceChatListDataType;
-  activeIndex: number;
+  activeServiceId: number;
   index: number;
-  onUserListSelected: (item: ServiceChatListDataType, index: number) => void;
+  onServiceListSelected: (item: ServiceChatListDataType, index: number) => void;
 }
 
 const ServiceChatList = ({
   item,
-  activeIndex,
+  activeServiceId,
   index,
-  onUserListSelected,
+  onServiceListSelected,
 }: ServiceChatListType) => {
+  // Functions
   const lastTextSelector = (
     type: "text" | "file" | "image",
     value: ServiceChatListDataType
@@ -47,9 +48,11 @@ const ServiceChatList = ({
     <>
       {item ? (
         <Col
-          className={`userContainer ${activeIndex === index ? "active" : ""}`}
+          className={`userContainer ${
+            activeServiceId === item.serviceId ? "active" : ""
+          }`}
           onClick={() => {
-            onUserListSelected(item, index);
+            onServiceListSelected(item, index);
           }}
         >
           <Row>
@@ -91,7 +94,9 @@ const ServiceChatList = ({
             </Col>
             <Col className="timeShowUserContainer" span={3}>
               <span>{dayjs(item.createdAt).format("HH:mm")}</span>
-              {item.seen ? null : <Badge color={whiteLabel.dangerColor} />}
+              {item.juristicSeen ? null : (
+                <Badge color={whiteLabel.dangerColor} />
+              )}
             </Col>
           </Row>
         </Col>

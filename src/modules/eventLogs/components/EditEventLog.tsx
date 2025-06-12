@@ -13,8 +13,8 @@ import {
   InputNumber,
   Select,
 } from "antd";
-// import SendToGroup from "../../../components/groups/SendToGroup";
-import UploadImageGroup from "../../../components/group/UploadImageGroup";
+import SendToGroup from "../../../components/groups/SendToGroup";
+import UploadImageGroup from "../../../components/groups/UploadImageGroup";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { editEventLogs } from "../service/api/EventLogsServiceAPI";
 import { useDispatch } from "react-redux";
@@ -22,10 +22,6 @@ import { Dispatch } from "../../../stores";
 dayjs.extend(customParseFormat);
 import "../styles/eventLogs.css";
 import { EditEventLogsType } from "../../../stores/interfaces/EventLog";
-import SendToGroup from "../../../components/group/SendToGroup";
-import SuccessModal from "../../../components/common/SuccessModal";
-import FailedModal from "../../../components/common/FailedModal";
-import ConfirmModal from "../../../components/common/ConfirmModal";
 interface EditEventLogProps {
   eventLogs: any;
   isOpen: boolean;
@@ -120,15 +116,24 @@ const EditEventLog = (props: EditEventLogProps) => {
     }
     if (dataEventLog.isMaxBookingPerUnit) {
       dataEventLog.maxBookingPerUnit = values?.maxBookingPerUnit;
-    } 
+    }
+    // console.log("editEventLogs:",dataEventLog);
+    // return
     const resultEdit = await editEventLogs(dataEventLog);
     if (resultEdit) {
-          SuccessModal("Successfully saved");
+      dispatch.common.updateSuccessModalState({
+        open: true,
+        text: "Successfully saved",
+      });
       await resetValue();
-      props.callBack(!props?.isOpen, true);
-        } else {
-          FailedModal("Failed edited");
-        }
+      await props.callBack(!props?.isOpen, true);
+    } else {
+      dispatch.common.updateSuccessModalState({
+        open: true,
+        status: "error",
+        text: "Failed edited",
+      });
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -211,7 +216,7 @@ const EditEventLog = (props: EditEventLogProps) => {
                 <Input.TextArea
                   placeholder="Input announcement body"
                   maxLength={2000}
-                  rows={13}
+                  rows={6}
                   showCount
                 />
               </Form.Item>
@@ -228,7 +233,7 @@ const EditEventLog = (props: EditEventLogProps) => {
                         message: "This field is required !",
                       },
                     ]}>
-                    <DatePicker style={{ width: "92%" }} format="YYYY-MM-DD" />
+                    <DatePicker className="fullWidth" format="YYYY-MM-DD" />
                   </Form.Item>
                 </Col>
                 <Col span={24}>
@@ -254,7 +259,7 @@ const EditEventLog = (props: EditEventLogProps) => {
                       },
                     ]}>
                     <InputNumber
-                      style={{ width: "92%" }}
+                      className="fullWidth"
                       placeholder="select maximum number"
                     />
                   </Form.Item>
@@ -295,7 +300,7 @@ const EditEventLog = (props: EditEventLogProps) => {
                         },
                       ]}>
                       <InputNumber
-                        style={{ width: "92%" }}
+                        className="fullWidth"
                         placeholder="input number"
                       />
                     </Form.Item>
@@ -342,7 +347,6 @@ const EditEventLog = (props: EditEventLogProps) => {
                   },
                 ]}>
                 <Select
-                  style={{ width: "92%" }}
                   placeholder="Select receiver"
                   onSelect={onSendToChange}
                   options={[

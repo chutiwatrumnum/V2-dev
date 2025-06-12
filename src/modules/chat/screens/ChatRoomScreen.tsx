@@ -5,7 +5,7 @@ import {
   ChatListDataType,
   ChatDataType,
 } from "../../../stores/interfaces/Chat";
-import { whiteLabel } from "../../../configs/theme";
+// import { whiteLabel } from "../../../configs/theme";
 import { socket } from "../../../configs/socket";
 import {
   getChatListQuery,
@@ -14,8 +14,9 @@ import {
   getChatDataByIDQuery,
 } from "../../../utils/queries";
 import { useQueryClient } from "@tanstack/react-query";
+import { useLocation } from "react-router-dom";
 
-import Header from "../../../components/templates/Header";
+import Header from "../../../components/common/Header";
 import ChatBoxContainer from "../components/ChatBoxContainer";
 import ChatList from "../components/ChatList";
 import { AdjustmentIcon } from "../../../assets/icons/Icons";
@@ -24,17 +25,12 @@ import { Row, Col, Dropdown, Button, Menu, Spin, Select } from "antd";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import "../styles/chatRoom.css";
 
-interface ChatBoxContainerRef {
-  handleIncomingChat: () => void;
-}
-
 const ChatRoom = () => {
   // Variables
   const dispatch = useDispatch<Dispatch>();
-  const chatContainerRef = useRef<ChatBoxContainerRef>(null);
   const queryClient = useQueryClient();
   const { chatListSortBy } = useSelector((state: RootState) => state.chat);
-  const [activeIndex, setActiveIndex] = useState(-1);
+  const [activeUserID, setActiveUserID] = useState("");
   const [currentChat, setCurrentChat] = useState<ChatListDataType>();
   const [currentChatUserID, setCurrentChatUserID] = useState("");
   // const [chatListSortBy, setChatListSortBy] = useState("time");
@@ -78,17 +74,20 @@ const ChatRoom = () => {
     }
   };
 
-  const onUserSelectByUnit = (value: string, option: any) => {
-    // console.log(option);
+  const onUserSelectByUnit = (userId: string, option: any) => {
+    console.log(userId);
+    console.log(option);
+
     let payload = {
-      userId: option.id,
+      userId: userId,
       firstName: option.firstName,
       lastName: option.lastName,
       roomAddress: roomAddressSelect,
     };
-    setUserSelectValue(value);
+    setCurrentChatUserID(userId);
+    setUserSelectValue(userId);
     onUserSelected(payload);
-    setActiveIndex(0);
+    setActiveUserID(userId);
   };
 
   const handleMenuClick = (e: any) => {
@@ -102,15 +101,20 @@ const ChatRoom = () => {
 
   const onUserListSelected = async (item: ChatListDataType, index: number) => {
     let seenData = chatListData;
-
+    cleanSelectedMenu();
     setCurrentChatUserID(item.userId);
     onUserSelected(item);
-    setActiveIndex(index);
-    if (seenData) seenData[index].seen = true;
+    setActiveUserID(item.userId);
+    if (seenData) seenData[index].juristicSeen = true;
   };
 
   const onChatIncoming = async () => {
     await updateChatData();
+  };
+
+  const cleanSelectedMenu = () => {
+    setRoomAddressSelect(undefined);
+    setUserSelectValue("");
   };
 
   const menu = (
@@ -142,9 +146,7 @@ const ChatRoom = () => {
             return seenMessages;
           }
         );
-        console.log("Seen");
       }
-      // chatContainerRef.current?.handleIncomingChat();
     });
     socket.on("connect_error", (error) => {
       console.error("Connection Error:", error);
@@ -160,6 +162,10 @@ const ChatRoom = () => {
       socket.disconnect();
     };
   }, [currentChatUserID]);
+
+  useEffect(() => {
+    dispatch.chat.updateSortByData("time");
+  }, [location.pathname]);
 
   return (
     <>
@@ -216,7 +222,7 @@ const ChatRoom = () => {
                 return (
                   <ChatList
                     key={index}
-                    activeIndex={activeIndex}
+                    activeUserID={activeUserID}
                     index={index}
                     item={item}
                     onUserListSelected={onUserListSelected}
@@ -233,7 +239,7 @@ const ChatRoom = () => {
         </Col>
         <Col span={16} style={{ height: "100%" }}>
           <div style={{ position: "relative", height: "100%" }}>
-            <ChatBoxContainer chatData={currentChat} ref={chatContainerRef} />
+            <ChatBoxContainer chatData={currentChat} />
           </div>
         </Col>
       </Row>

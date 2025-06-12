@@ -1,0 +1,11 @@
+.confirmModal .ant-modal-footer {
+  text-align: center;
+}
+
+.confirmModalContent {
+  padding-bottom: 25px;
+}
+
+.successModalController {
+  z-index: 9999;
+}

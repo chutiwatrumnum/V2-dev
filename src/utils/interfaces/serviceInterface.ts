@@ -21,6 +21,7 @@ export interface ServiceChatListDataType {
   roomAddress: string;
   serviceId: number;
   imageProfile: string;
+  juristicSeen: boolean;
 }
 
 export interface ServiceChatDataType {

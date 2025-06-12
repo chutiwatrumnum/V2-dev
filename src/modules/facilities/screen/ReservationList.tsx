@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Button, Row, Pagination, Tabs, DatePicker } from "antd";
-import Header from "../../../components/templates/Header";
+import { Button, Row, Pagination, Tabs, DatePicker, Col } from "antd";
+import Header from "../../../components/common/Header";
 import MediumActionButton from "../../../components/common/MediumActionButton";
 import ReservedFacilitiesTable from "../components/ReservedFacilitiesTable";
 import { TrashIcon, QRCodeIcon } from "../../../assets/icons/Icons";
@@ -8,9 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../../stores";
 import QRModal from "../components/QRModal";
 import CreateReservedModal from "../components/CreateReservedModal";
-import SuccessModal from "../../../components/common/SuccessModal";
-import FailedModal from "../../../components/common/FailedModal";
-import ConfirmModal from "../../../components/common/ConfirmModal";
+import ConfirmModal from "../../../components/common/ConfirmModalMenu";
 import SearchBox from "../../../components/common/SearchBox";
 
 import type {
@@ -42,11 +40,11 @@ const ReservationList = () => {
         return (
           <>
             <Button
-              disabled={
-                accessibility?.team_facility_management.allowDelete
-                  ? false
-                  : true
-              }
+              // disabled={
+              //   accessibility?.team_facility_management.allowDelete
+              //     ? false
+              //     : true
+              // }
               onClick={() => showDeleteConfirm(record)}
               type="text"
               icon={<TrashIcon />}
@@ -62,7 +60,7 @@ const ReservationList = () => {
       align: "center",
     },
     {
-      title: "Room address",
+      title: "Unit No.",
       dataIndex: "unit",
       key: "unit",
       align: "center",
@@ -118,9 +116,9 @@ const ReservationList = () => {
         return (
           <>
             <Button
-              disabled={
-                accessibility?.team_facility_management.allowView ? false : true
-              }
+              // disabled={
+              //   accessibility?.team_facility_management.allowView ? false : true
+              // }
               type="text"
               icon={<QRCodeIcon />}
               onClick={() => onQRClick(record)}
@@ -146,7 +144,6 @@ const ReservationList = () => {
 
   // functions
   const onSearch = (value: string) => {
-    console.log(value);
     setSearch(value);
   };
 
@@ -218,9 +215,17 @@ const ReservationList = () => {
       onOk: async () => {
         const result = await dispatch.facilities.deleteReserved([value.id]);
         if (result) {
-          SuccessModal("Successfully Deleted");
+          dispatch.common.updateSuccessModalState({
+            open: true,
+            text: "Successfully Deleted",
+          });
         } else {
-          FailedModal("Something went wrong");
+          
+          dispatch.common.updateSuccessModalState({
+            open: true,
+            status: "error",
+            text: "Something went wrong",
+          });
         }
         onRefresh();
       },
@@ -323,19 +328,24 @@ const ReservationList = () => {
             picker="month"
           />
           <SearchBox
-            placeholderText="Search by Room address"
+            placeholderText="Search by Unit No."
             className="reservedSearchBox"
             onSearch={onSearch}
           />
         </div>
-        <MediumActionButton
-          disabled={
-            accessibility?.team_facility_management.allowAdd ? false : true
-          }
+        {/* <MediumActionButton
+          // disabled={
+          //   accessibility?.team_facility_management.allowAdd ? false : true
+          // }
           message="+ Create reservation"
           onClick={onCreate}
           className="createReserved"
-        />
+        /> */}
+        <Col span={4} style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button shape="round" type="primary" onClick={onCreate}>
+            + Create reservation
+          </Button>
+        </Col>
       </div>
       <Tabs defaultActiveKey="0" items={items} onChange={onTabsChange} />
       <ReservedFacilitiesTable
@@ -345,8 +355,7 @@ const ReservationList = () => {
       <Row
         className="reservedBottomActionContainer"
         justify="end"
-        align="middle"
-      >
+        align="middle">
         <Pagination
           defaultCurrent={1}
           pageSize={perPage}

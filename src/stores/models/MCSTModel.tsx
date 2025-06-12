@@ -1,7 +1,7 @@
-import{ createModel } from "@rematch/core";
+import { createModel } from "@rematch/core";
 import { MSCTType, conditionPage } from "../interfaces/Management";
 import { RootModel } from "./index";
-import { getDataManagement } from "../../modules/management/service/api/ManagementServiceAPI";
+import { getdataManagement } from "../../modules/management/service/api/MCSTServiceAPI";
 export const MCST = createModel<RootModel>()({
   state: {
     tableData: [],
@@ -30,7 +30,8 @@ export const MCST = createModel<RootModel>()({
   effects: (dispatch) => ({
     async getTableData(payload: conditionPage) {
       dispatch.MCST.updateloadingDataState(true);
-      const data: any = await getDataManagement(payload);
+      const data: any = await getdataManagement(payload);
+      console.log(data);
       if (data?.status) {
         dispatch.MCST.updateTableDataState(data.data);
         dispatch.MCST.updatetotalgDataState(data.total);

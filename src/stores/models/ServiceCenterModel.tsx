@@ -5,7 +5,7 @@ import { RootModel } from "./index";
 
 export const serviceCenter = createModel<RootModel>()({
   state: {
-    status: undefined,
+    status: "all",
   } as ServiceCenterModelDataType,
   reducers: {
     updateStatusData: (state, payload) => ({

@@ -8,7 +8,7 @@ import {
   ChatDataParams,
   ChatListDataType,
   ChatDataType,
-} from "./queriesInterface";
+} from "../stores/interfaces/Chat";
 
 // API
 // Chat
@@ -19,10 +19,14 @@ const getChatList = async ({
 >): Promise<ChatListDataType> => {
   const [_key, { sortBy }] = queryKey;
   let url = `/chat/dashboard/chat-list`;
-  if (sortBy) {
+  if (sortBy === "time") {
     url += `?sortBy=${sortBy}`;
+  } else {
+    url += `?sortBy=${sortBy}&sort=ASC`;
   }
   const res = await axios.get(url);
+  console.log("CHAT LIST : ", res.data.result);
+
   return res.data.result;
 };
 
@@ -57,7 +61,7 @@ const getNameByUnitID = async ({
   const [_key, id] = queryKey;
   if (!id) return null;
   const res = await axios.get(`/chat/dashboard/user-by-unit?unitId=${id}`);
-  // console.log(res.data.data);
+  console.log(res.data.data);
 
   return res.data.data;
 };

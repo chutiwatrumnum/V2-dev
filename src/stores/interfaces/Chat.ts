@@ -18,7 +18,8 @@ export interface ChatListDataType {
   roomAddress: string;
   imageProfile: string;
   userId: string;
-  serviceId: number;
+  juristicSeen: boolean;
+  // serviceId: number;
 }
 
 export interface ChatDataType {
@@ -37,4 +38,9 @@ export interface SendChatDataType {
   value: string;
   userId: string;
   fileName?: string;
+}
+
+// Chat Interface
+export interface ChatDataParams {
+  sortBy?: string;
 }

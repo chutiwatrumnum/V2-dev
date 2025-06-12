@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../../components/templates/Header";
+import Header from "../../../components/common/Header";
 import { Table } from "antd";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import {
@@ -7,9 +7,13 @@ import {
   deleteEventLogsById,
   downloadEventLogs,
 } from "../service/api/EventLogsServiceAPI";
-import { Row, Col, Input, Button, Switch } from "antd";
+import { Row, Col, DatePicker, Input, Button, Modal, Switch } from "antd";
 import type { DatePickerProps } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  VerticalAlignBottomOutlined,
+} from "@ant-design/icons";
 import dayjs from "dayjs";
 import CreateAddEventLog from "../components/CreateAddEventLog";
 import EditEventLog from "../components/EditEventLog";
@@ -20,13 +24,7 @@ import {
   conditionPage,
   IChangeLockedById,
 } from "../../../stores/interfaces/EventLog";
-import SuccessModal from "../../../components/common/SuccessModal";
-import FailedModal from "../../../components/common/FailedModal";
-import ConfirmModal from "../../../components/common/ConfirmModal";
-import MediumActionButton from "../../../components/common/MediumActionButton";
-import SearchBox from "../../../components/common/SearchBox";
-import DatePicker from "../../../components/common/DatePicker";
-
+const { confirm } = Modal;
 const EventLogs = () => {
   const { loading, tableDataEventLog, total } = useSelector(
     (state: RootState) => state.eventLog
@@ -51,6 +49,7 @@ const EventLogs = () => {
   const [isModalCreate, setIsModalCreate] = useState(false);
   const [paramsData, setParamsData] = useState<conditionPage>(params);
   const dispatch = useDispatch<Dispatch>();
+  const { RangePicker } = DatePicker;
   const customFormat: DatePickerProps["format"] = (value) =>
     `Month : ${value.format(dateFormat)}`;
   const dateFormat = "MMMM,YYYY";
@@ -79,14 +78,14 @@ const EventLogs = () => {
     params.perPage = pagination?.pageSize
       ? pagination?.pageSize
       : PaginationConfig.defaultPageSize;
-    setParamsData(params);
-    setCurrentPage(params.curPage);
+    await setParamsData(params);
+    await setCurrentPage(params.curPage);
     await dispatch.eventLog.getTableDataEventLogs(paramsData);
   };
   const onSearch = async (value: string) => {
     params = paramsData;
     params.search = value;
-    setParamsData(params);
+    await setParamsData(params);
     await dispatch.eventLog.getTableDataEventLogs(paramsData);
   };
   const columns: ColumnsType<dataEventLogsType> = [
@@ -254,20 +253,33 @@ const EventLogs = () => {
   };
 
   const showDeleteConfirm = ({ currentTarget }: any) => {
-    ConfirmModal({
-      title: "Are you sure you want to delete this?",
-      okMessage: "Yes",
-      cancelMessage: "Cancel",
-      onOk: async () => {
+    confirm({
+      title: "Confirm action",
+      icon: null,
+      content: "Are you sure you want to delete event logs?",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "Cancel",
+      centered: true,
+      async onOk() {
         const statusDeleted = await deleteEventLogsById(currentTarget.value);
         if (statusDeleted) {
-          SuccessModal("Successfully Deleted");
+          dispatch.common.updateSuccessModalState({
+            open: true,
+            text: "Successfully deleted",
+          });
+          await setRerender(!rerender);
         } else {
-          FailedModal("Something went wrong");
+          dispatch.common.updateSuccessModalState({
+            open: true,
+            status: "error",
+            text: "Failed deleted",
+          });
         }
-        setRerender(!rerender);
       },
-      onCancel: () => console.log("Cancel"),
+      onCancel() {
+        console.log("Cancel");
+      },
     });
   };
 
@@ -293,79 +305,117 @@ const EventLogs = () => {
     if (record.locked) {
       message = "Are you sure you want to unlock this?";
     }
-    ConfirmModal({
-      title: message,
-      okMessage: "Yes",
-      cancelMessage: "Cancel",
-      onOk: async () => {
+    confirm({
+      title: "Confirm action",
+      icon: null,
+      content: message,
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "Cancel",
+      centered: true,
+      async onOk() {
         const statusDeleted = await changeLockedById(data);
         if (statusDeleted) {
-          SuccessModal("Successfully locked");
+          dispatch.common.updateSuccessModalState({
+            open: true,
+            text: "Successfully locked",
+          });
         } else {
-          FailedModal("Failed locked");
+          dispatch.common.updateSuccessModalState({
+            open: true,
+            status: "error",
+            text: "Failed locked",
+          });
         }
         setRerender(!rerender);
       },
-      onCancel: () => console.log("Cancel"),
+      onCancel() {
+        console.log("Cancel");
+      },
     });
   };
 
   const exportEventLogs = () => {
-    ConfirmModal({
-      title: "Are you sure you want to export this file?",
-      okMessage: "Yes",
-      cancelMessage: "Cancel",
-      onOk: async () => {
+    confirm({
+      title: "Confirm action",
+      icon: null,
+      content: "Are you sure you want to export this file?",
+      okText: "Yes",
+      okType: "primary",
+      cancelText: "Cancel",
+      centered: true,
+      async onOk() {
         const statusSuccess = await downloadEventLogs();
         // if (statusSuccess) {
-        //   SuccessModal("Successfully locked");
+        //   dispatch.common.updateSuccessModalState({
+        //     open: true,
+        //     text: "Successfully deleted",
+        //   });
+        //   await initdata(paramsAPI);
         // } else {
-        //   FailedModal("Failed locked");
+        //   dispatch.common.updateSuccessModalState({
+        //     open: true,
+        //     status: "error",
+        //     text: "Failed deleted",
+        //   });
         // }
-        setRerender(!rerender);
       },
-      onCancel: () => console.log("Cancel"),
+      onCancel() {
+        console.log("Cancel");
+      },
     });
   };
 
   return (
     <>
       <Header title="Event logs" />
-      <div className="eventTopActionGroup">
-        <div className="eventTopActionLeftGroup">
-          <DatePicker
-            className="eventDatePicker"
+      <Row style={{ marginTop: 15, marginBottom: 15 }}>
+        <Col span={10}>
+          <RangePicker
             onChange={handleDate}
+            style={{ width: "95%" }}
             picker="month"
+            format={customFormat}
           />
-          <SearchBox
-            className="eventSearchBox"
+        </Col>
+        <Col
+          span={10}
+          style={{ display: "flex", justifyContent: "flex-start" }}>
+          <Search
+            placeholder="Search by title"
+            allowClear
             onSearch={onSearch}
-            placeholderText="Search by title"
+            className="searchBox"
+            style={{ width: 300 }}
           />
-        </div>
-        <MediumActionButton
-          message="Export"
-          onClick={exportEventLogs}
-          className="createEventBtn"
-        />
-        <MediumActionButton
-          message="Add new"
-          onClick={async () => {
-            setIsModalCreate(true);
-          }}
-          className="createEventBtn"
-        />
-        <CreateAddEventLog
-          callBack={async (isOpen: boolean, created: boolean) => {
-            setIsModalCreate(isOpen);
-            if (created) {
-              setRerender(!rerender);
-            }
-          }}
-          isOpen={isModalCreate}
-        />
-      </div>
+        </Col>
+
+        <Col span={4} style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button
+            type="primary"
+            style={{ marginRight: 10 }}
+            onClick={exportEventLogs}>
+            Export
+          </Button>
+
+          <Button
+            type="primary"
+            onClick={async () => {
+              await setIsModalCreate(true);
+            }}>
+            Add new
+          </Button>
+          <CreateAddEventLog
+            callBack={async (isOpen: boolean, created: boolean) => {
+              await setIsModalCreate(isOpen);
+              if (created) {
+                await setRerender(!rerender);
+              }
+            }}
+            isOpen={isModalCreate}
+          />
+        </Col>
+      </Row>
       <Row>
         <Col span={24}>
           <Table

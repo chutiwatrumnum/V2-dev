@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 import FormModal from "../../../components/common/FormModal";
 import SmallButton from "../../../components/common/SmallButton";
 import SuccessModal from "../../../components/common/SuccessModal";
-import ConfirmModal from "../../../components/common/ConfirmModal";
+import ConfirmModal from "../../../components/common/ConfirmModalMenu";
 
 import {
   ReservedFormDataType,
@@ -166,7 +166,10 @@ const ReservedCreateModal = ({
               if (post < 400) {
                 clear();
                 onRefresh();
-                SuccessModal("Successfully Create reservation");
+                dispatch.common.updateSuccessModalState({
+                  open: true,
+                  text: "Successfully Create reservation",
+                });
               }
             },
           });
@@ -222,7 +225,7 @@ const ReservedCreateModal = ({
             </div>
             <div className="reservedModalColumn">
               <Form.Item<ReservedFormDataType>
-                label="Room address"
+                label="Unit No."
                 name="unitId"
                 rules={requiredRule}
               >

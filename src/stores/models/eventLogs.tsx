@@ -1,7 +1,10 @@
 import { createModel } from "@rematch/core";
 import { eventLogType, conditionPage } from "../interfaces/EventLog";
 import { RootModel } from "./index";
-import { getDataEventJoinLogList,getDataEventLogList } from "../../modules/eventLogs/service/api/EventLogsServiceAPI";
+import {
+  getDataEventJoinLogList,
+  getDataEventLogList,
+} from "../../modules/eventLogs/service/api/EventLogsServiceAPI";
 const filterDataInit: conditionPage = {
   perPage: 0,
   curPage: 0,
@@ -42,7 +45,7 @@ export const eventLog = createModel<RootModel>()({
       dispatch.eventLog.updateloadingDataState(true);
       const data: any = await getDataEventJoinLogList(payload);
       if (data?.status) {
-        dispatch.eventLog.updateChildDataVisitorState(data.childdata)
+        dispatch.eventLog.updateChildDataVisitorState(data.childdata);
         dispatch.eventLog.updateTableDataState(data.datavalue);
         dispatch.eventLog.updatetotalgDataState(data.total);
         dispatch.eventLog.updateloadingDataState(false);
@@ -54,7 +57,7 @@ export const eventLog = createModel<RootModel>()({
       dispatch.eventLog.updateloadingDataState(true);
       const data: any = await getDataEventLogList(payload);
       if (data?.status) {
-        dispatch.eventLog.updateChildDataVisitorState(data.childdata)
+        dispatch.eventLog.updateChildDataVisitorState(data.childdata);
         dispatch.eventLog.updateloadingDataEvenLogsState(data.datavalue);
         dispatch.eventLog.updatetotalgDataState(data.total);
         dispatch.eventLog.updateloadingDataState(false);

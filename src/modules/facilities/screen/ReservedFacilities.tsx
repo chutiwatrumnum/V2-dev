@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Row, Col, Typography, Switch, Button } from "antd";
-import Header from "../../../components/templates/Header";
+import Header from "../../../components/common/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../../stores";
 import { whiteLabel } from "../../../configs/theme";
@@ -10,11 +10,8 @@ import {
   EditIcon,
 } from "../../../assets/icons/Icons";
 import NoImg from "../../../assets/images/noImg.jpeg";
-import ConfirmModal from "../../../components/common/ConfirmModal";
+import ConfirmModal from "../../../components/common/ConfirmModalMenu";
 import EditFacilityModal from "../components/EditFacilityModal";
-import SuccessModal from "../../../components/common/SuccessModal";
-import FailedModal from "../../../components/common/FailedModal";
-
 import { ReservationListDataType } from "../../../stores/interfaces/Facilities";
 
 import "../styles/ReserveFacility.css";
@@ -54,7 +51,10 @@ const ReservedFacilities = () => {
   const onLockOk = async (payload: { id: number; lock: boolean }) => {
     const result = await dispatch.facilities.updateLockStatus(payload);
     if (result) {
-      SuccessModal("Successfully change information");
+      dispatch.common.updateSuccessModalState({
+        open: true,
+        text: "Successfully change information",
+      });
     }
     setRefresh(!refresh);
   };
@@ -70,12 +70,18 @@ const ReservedFacilities = () => {
   };
 
   const onEditSave = async (values: ReservationListDataType) => {
-    // console.log(values);
     const result = await dispatch.facilities.updateFacilities(values);
+    dispatch.common.updateSuccessModalState({
+      open: true,
+      text: "Successfully change information",
+    });
     if (result) {
-      SuccessModal("Successfully change information");
     } else {
-      FailedModal("Something went wrong");
+      dispatch.common.updateSuccessModalState({
+        open: true,
+        status: "error",
+        text: "Something went wrong",
+      });
     }
     refreshHandler();
   };
@@ -92,7 +98,7 @@ const ReservedFacilities = () => {
 
   const RoomCard = ({ data }: { data: ReservationListDataType }) => {
     return (
-      <Col md={12} xl={8}>
+      <Col md={12} xl={8} style={{paddingTop:20}}>
         <div className="reservedCardContainer">
           <img className="reservedCardImage" src={data.imageUrl ?? NoImg} />
           <div className="reserveCardDetail">
@@ -128,7 +134,7 @@ const ReservedFacilities = () => {
                 <Row>
                   <Switch
                     disabled={
-                      accessibility?.team_facility_management.allowEdit
+                      accessibility?.menu_facility_log.allowEdit
                         ? false
                         : true
                     }
@@ -167,7 +173,7 @@ const ReservedFacilities = () => {
 
   return (
     <>
-      <Header title="Facilities" />
+      <Header title="Our facilities" />
       <Row gutter={[16, 16]}>
         {data.map((item) => {
           return <RoomCard key={item.id} data={item} />;

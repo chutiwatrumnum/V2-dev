@@ -3,15 +3,14 @@ import {
   residentType,
   conditionPage,
   rejectRequest,
-} from "../interfaces/ResidentInformation";
+} from "../interfaces/Resident";
 import { RootModel } from "./index";
-import { getdataresidentlist } from "../../modules/userManagement/service/api/ResidentServiceAPI";
+import { getdataresidentlist } from "../../modules/residentInformation/service/api/ResidentServiceAPI";
 const filterDataInit: conditionPage = {
   perPage: 0,
   curPage: 0,
   verifyByJuristic: false,
   reject: false,
-  isActive: false,
 };
 export const resident = createModel<RootModel>()({
   state: {
@@ -47,9 +46,8 @@ export const resident = createModel<RootModel>()({
     async getTableData(payload: conditionPage) {
       dispatch.resident.updateloadingDataState(true);
       const data: any = await getdataresidentlist(payload);
-
       if (data?.status) {
-        dispatch.resident.updateTableDataState(data.dataValue);
+        dispatch.resident.updateTableDataState(data.datavlaue);
         dispatch.resident.updatetotalgDataState(data.total);
         dispatch.resident.updateloadingDataState(false);
       } else {

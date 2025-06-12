@@ -1,7 +1,7 @@
 import { io } from "socket.io-client";
 import { encryptStorage } from "../utils/encryptStorage";
 
-const URL = "https://the-marq-7dl59.ondigitalocean.app/chat";
+const URL = "https://v2-backend-service-gtbie.ondigitalocean.app/chat";
 const accessToken = encryptStorage.getItem("accessToken");
 
 export const socket = io(URL, {
