@@ -11,6 +11,8 @@ import { eventLog } from "./eventLogs";
 import { deliveryLogs } from "./DeliveryLogsModel";
 import { summary } from "./SummaryModel";
 import { peopleCounting } from "./PeopleCounting";
+import { serviceCenter } from "./ServiceCenterModel";
+import { chat } from "./ChatModel";
 export interface RootModel extends Models<RootModel> {
   userAuth: typeof userAuth;
   announcement: typeof announcement;
@@ -24,6 +26,8 @@ export interface RootModel extends Models<RootModel> {
   deliveryLogs: typeof deliveryLogs;
   summary: typeof summary;
   peopleCounting: typeof peopleCounting;
+  serviceCenter: typeof serviceCenter;
+  chat: typeof chat;
 }
 export const models: RootModel = {
   userAuth,
@@ -37,5 +41,7 @@ export const models: RootModel = {
   eventLog,
   deliveryLogs,
   summary,
-  peopleCounting
+  peopleCounting,
+  serviceCenter,
+  chat,
 };
