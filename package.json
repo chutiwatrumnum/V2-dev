@@ -12,9 +12,9 @@
   "dependencies": {
     "@ant-design/charts": "^2.2.6",
     "@ant-design/plots": "^2.3.3",
-    "@rematch/core": "^2.2.0",
-    "@chatscope/chat-ui-kit-react": "^2.0.3",
+    "@chatscope/chat-ui-kit-react": "^2.1.1",
     "@chatscope/chat-ui-kit-styles": "^1.4.0",
+    "@rematch/core": "^2.2.0",
     "@tanstack/react-query": "^5.66.7",
     "@testing-library/dom": "^10.4.0",
     "antd": "^5.2.2",

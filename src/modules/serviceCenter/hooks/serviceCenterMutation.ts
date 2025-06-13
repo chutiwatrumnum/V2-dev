@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { DeleteImage, EditDataServiceCenter, UploadImage } from "../../../stores/interfaces/ServiceCenter";
 import FailedModal from "../../../components/common/FailedModal";
-import SuccessModal from "../../../components/common/SuccessModal";
+import SuccessModal from "../../../components/common/SuccessModal2";
 
 export const editServiceCenterQuery = () => {
     const queryClient = useQueryClient();

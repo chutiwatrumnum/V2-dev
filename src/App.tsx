@@ -35,14 +35,13 @@ import EventJoinLogs from "./modules/eventLogs/screen/EventJoinLogs";
 import ServiceDashboard from "./modules/serviceCenter/screens/ServiceDashboard";
 import ServiceCenterLists from "./modules/serviceCenter/screens/ServiceCenterLists";
 import ServiceChat from "./modules/serviceCenter/screens/ServiceChat";
-// import ChatRoomScreen from "./modules/chat/screens/ChatRoomScreen";
+import ChatRoomScreen from "./modules/chat/screens/ChatRoomScreen";
 
 // import DeliveryLogs from "./modules/deliveryLogs/screen/deliveryLogs";
 import EventView from "./modules/monitoring/screen/EventView";
 import Summary from "./modules/monitoring/screen/Summary";
 
 import PeopleCounting from "./modules/peopleCounting/screens/PeopleCountingMain";
-import ChatRoomScreen from "./modules/chat/screens/ChatRoomScreen";
 
 // unauthorize routes
 import SignInScreen from "./modules/main/SignInScreen";
