@@ -1,0 +1,353 @@
+/* Chat Box Container Styles */
+
+.chatBoxContainer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .chatBoxContainer .rightSideContainer {
+    border-radius: 0 16px 16px 0;
+    overflow: hidden;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .chatBoxContainer .chatBoxHeader {
+    height: 60px;
+    background-color: var(--white-color);
+    border-bottom: 1px solid var(--black-color);
+    flex-shrink: 0;
+  }
+  
+  .chatBoxContainer .titleChatName div {
+    font-size: var(--font-size-3xl);
+    background-color: var(--white-color);
+    font-weight: var(--font-semibold);
+  }
+  
+  .chatBoxContainer .emptyContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--white-color);
+    border-radius: 0 16px 16px 0;
+  }
+  
+  /* Message Styles */
+  .chatBoxContainer .message-meta {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    color: #999;
+    text-align: center;
+    justify-content: flex-end;
+    margin: 0 8px;
+    min-width: 60px;
+  }
+  
+  .chatBoxContainer .message-read {
+    font-size: 10px;
+    color: var(--primary-color);
+    font-weight: var(--font-semibold);
+  }
+  
+  .chatBoxContainer .message-time {
+    font-size: 10px;
+    color: #666;
+    margin-top: 2px;
+  }
+  
+  .chatBoxContainer .outgoingMessage {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    padding: 4px 8px;
+    margin-bottom: 8px;
+    animation: messageSlideInRight 0.3s ease-out;
+  }
+  
+  .chatBoxContainer .incomingMessage {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    padding: 4px 8px;
+    margin-bottom: 8px;
+    animation: messageSlideInLeft 0.3s ease-out;
+  }
+  
+  .chatBoxContainer .messageContainer {
+    display: flex;
+    flex-direction: column;
+    max-width: 70%;
+    word-wrap: break-word;
+  }
+  
+  /* File Message Styles */
+  .chatBoxContainer .fileMessage {
+    padding: 12px 16px;
+    background-color: var(--white-color);
+    border-radius: 8px;
+    border: 1px solid var(--gray-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .chatBoxContainer .fileMessage:hover {
+    background-color: var(--lightGray-color);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .chatBoxContainer .fileMessage a {
+    text-decoration: none;
+    color: var(--black-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+  
+  .chatBoxContainer .fileMessage .anticon {
+    color: var(--primary-color);
+    font-size: 16px;
+  }
+  
+  /* Tag Styles */
+  .chatBoxContainer .tagControl {
+    display: inline-flex;
+    padding: 6px 12px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 16px;
+    margin: 4px 4px 4px 0;
+    transition: all 0.3s ease;
+    font-size: 12px;
+    font-weight: var(--font-semibold);
+  }
+  
+  .chatBoxContainer .tagControl:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+  
+  .chatBoxContainer .fileDeleteIcon {
+    height: 16px;
+    width: 16px;
+    margin-left: 8px;
+    transition: transform 0.2s ease;
+  }
+  
+  .chatBoxContainer .tagControl:hover .fileDeleteIcon {
+    transform: rotate(10deg);
+  }
+  
+  /* Loading Spinner */
+  .chatBoxContainer .loadingSpinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background-color: var(--white-color);
+  }
+  
+  /* Message Input Area */
+  .chatBoxContainer .messageInputArea {
+    padding: 8px 16px 16px;
+    background-color: var(--white-color);
+    border-top: 1px solid var(--gray-color);
+    flex-shrink: 0;
+  }
+  
+  /* Message List Styles */
+  .chatBoxContainer .messageListContainer {
+    flex: 1;
+    overflow-y: auto;
+    background-color: var(--white-color);
+    padding: 8px 0;
+  }
+  
+  /* Hidden File Input */
+  .chatBoxContainer .hiddenFileInput {
+    display: none;
+  }
+  
+  /* Error States */
+  .chatBoxContainer .errorTag {
+    background-color: var(--danger-color);
+    color: var(--white-color);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+  
+  .chatBoxContainer .successTag {
+    background-color: var(--success-color);
+    color: var(--white-color);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .chatBoxContainer .titleChatName div {
+      font-size: var(--font-size-2xl);
+    }
+    
+    .chatBoxContainer .messageContainer {
+      max-width: 80%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .chatBoxContainer .titleChatName div {
+      font-size: var(--font-size-xl);
+    }
+    
+    .chatBoxContainer .messageContainer {
+      max-width: 85%;
+    }
+    
+    .chatBoxContainer .message-meta {
+      margin: 0 4px;
+      min-width: 50px;
+    }
+    
+    .chatBoxContainer .fileMessage {
+      padding: 8px 12px;
+    }
+    
+    .chatBoxContainer .messageInputArea {
+      padding: 6px 12px 12px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .chatBoxContainer .outgoingMessage,
+    .chatBoxContainer .incomingMessage {
+      padding: 2px 4px;
+    }
+    
+    .chatBoxContainer .messageContainer {
+      max-width: 90%;
+    }
+    
+    .chatBoxContainer .chatBoxHeader {
+      height: 50px;
+    }
+    
+    .chatBoxContainer .titleChatName div {
+      font-size: var(--font-size-base);
+    }
+  }
+  
+  /* Animations */
+  @keyframes messageSlideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes messageSlideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .chatBoxContainer .messageListContainer {
+    animation: fadeIn 0.5s ease-in;
+  }
+  
+  /* Message Separator Custom Styles */
+  .chatBoxContainer .cs-message-separator {
+    margin: 16px 0;
+    color: var(--primary-color);
+    font-weight: var(--font-semibold);
+  }
+  
+  /* Scroll Styling */
+  .chatBoxContainer .messageListContainer::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .chatBoxContainer .messageListContainer::-webkit-scrollbar-track {
+    background: var(--lightGray-color);
+    border-radius: 3px;
+  }
+  
+  .chatBoxContainer .messageListContainer::-webkit-scrollbar-thumb {
+    background: var(--gray-color);
+    border-radius: 3px;
+  }
+  
+  .chatBoxContainer .messageListContainer::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+  }
+  
+  /* Focus States */
+  .chatBoxContainer .tagControl:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+  
+  /* Hover Effects for Interactive Elements */
+  .chatBoxContainer .fileMessage,
+  .chatBoxContainer .tagControl {
+    user-select: none;
+  }
+  
+  .chatBoxContainer .fileMessage:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Loading States */
+  .chatBoxContainer .messageInputArea.loading {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+  
+  /* Success/Error Feedback */
+  .chatBoxContainer .feedbackContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  
+  .chatBoxContainer .feedbackContainer .ant-tag {
+    margin: 0;
+  }
