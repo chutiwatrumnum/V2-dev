@@ -1,17 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
-  ChatContainer,
-  MessageList,
-  Message,
-  MessageInput,
-  ConversationHeader,
-  MessageSeparator,
-  Sidebar,
-  MainContainer,
-} from "@chatscope/chat-ui-kit-react";
-import { SendServiceChatDataType } from "../../../utils/interfaces/serviceInterface";
-import { DownloadOutlined } from "@ant-design/icons";
+  DownloadOutlined,
+  SendOutlined,
+  PaperClipOutlined,
+} from "@ant-design/icons";
 import { whiteLabel } from "../../../configs/theme";
 import { Empty, Image, Row, Tag, Spin, Button, Avatar, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,27 +17,27 @@ import {
 import {
   ServiceChatListDataType,
   ServiceChatDataType,
+  SendServiceChatDataType,
 } from "../../../utils/interfaces/serviceInterface";
 import { postServiceMessageByJuristicMutation } from "../../../utils/mutationsGroup/serviceCenterMutations";
 import { useQueryClient } from "@tanstack/react-query";
 import fallbackImg from "../../../assets/images/noImg.jpeg";
-
-import "../styles/serviceChat.css";
-import "../styles/serviceChatControl.css";
 import ServiceCenterChatManage from "./ServiceCenterChatManage";
+
+import "../styles/customServiceChatBox.css";
+
 const ServiceChatBoxContainer = ({
   chatData,
 }: {
   chatData?: ServiceChatListDataType;
 }) => {
   // Variables
-  // const getListRef = () =>
-  //   document.querySelector(
-  //     "[data-message-list-container] [data-cs-message-list]"
-  //   );
   const dispatch = useDispatch<Dispatch>();
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const messageListRef = useRef<HTMLDivElement>(null);
+  const messageInputRef = useRef<HTMLTextAreaElement>(null);
+
   const { curPageChatData } = useSelector((state: RootState) => state.chat);
   const [file, setFile] = useState<File | null>(null);
   const [base64, setBase64] = useState<string | null>(null);
@@ -71,186 +63,104 @@ const ServiceChatBoxContainer = ({
       curPage: curPageChatData.toString(),
       shouldFetch: shouldFetch,
     });
+
   const postMessageMutation = postServiceMessageByJuristicMutation();
 
   let lastDate = "";
 
   // Functions
-  const messageDirectionSelector = (direction: boolean | string) => {
-    if (direction) return "outgoing";
-    return "incoming";
+  const scrollToBottom = () => {
+    if (messageListRef.current) {
+      messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+    }
   };
 
-  const messageController = (message: ServiceChatDataType) => {
-    let result = null;
-    // console.log(message);
+  const handleScroll = async () => {
+    if (messageListRef.current) {
+      const { scrollTop } = messageListRef.current;
+      if (scrollTop === 0) {
+        await onYReachStart();
+      }
+    }
+  };
+
+  const renderMessage = (message: ServiceChatDataType) => {
+    const isOwner = message.isMessageOwner;
+    const messageClass = isOwner ? "message-outgoing" : "message-incoming";
+
+    let messageContent = null;
+
     switch (message.type) {
       case "text":
-        result = (
-          <div
-            className={
-              message.isMessageOwner ? "outgoingMessage" : "incomingMessage"
-            }
-          >
-            <div className="avatarInChatBoxContainer">
-              {message.ownerMessage.imageProfile ? (
-                <Avatar
-                  size={32}
-                  src={
-                    <Image
-                      preview={false}
-                      src={message.ownerMessage.imageProfile}
-                      fallback={fallbackImg}
-                    />
-                  }
-                />
-              ) : (
-                <Avatar size={32}>
-                  {message?.ownerMessage.firstName.charAt(0).toUpperCase() ??
-                    "N"}
-                </Avatar>
-              )}
-            </div>
-            <div className="messageContainer">
-              <span style={{ fontSize: 12, fontWeight: 500 }}>
-                {message.ownerMessage.firstName ?? "Undefined"}
-              </span>
-              <Message
-                type="text"
-                model={{
-                  direction: messageDirectionSelector(message.isMessageOwner),
-                  message: message.message,
-                  position: "single",
-                  sentTime: dayjs(message.createdAt).format("HH:mm"),
-                }}
-              />
-            </div>
-            <div className="message-meta">
-              {message.seen && <span className="message-read">Read</span>}
-              <span className="message-time">
-                {dayjs(message.createdAt).format("HH:mm")}
-              </span>
-            </div>
-          </div>
-        );
+        messageContent = <div className="message-text">{message.message}</div>;
         break;
 
       case "image":
-        result = (
-          <div
-            className={
-              message.isMessageOwner ? "outgoingMessage" : "incomingMessage"
-            }
-          >
-            <div className="avatarInChatBoxContainer">
-              {message.ownerMessage.imageProfile ? (
-                <Avatar
-                  size={32}
-                  src={
-                    <Image
-                      preview={false}
-                      src={message.ownerMessage.imageProfile}
-                    />
-                  }
-                />
-              ) : (
-                <Avatar size={32}>
-                  {message?.ownerMessage.firstName?.charAt(0).toUpperCase() ??
-                    "N"}
-                </Avatar>
-              )}
-            </div>
-            <div className="messageContainer">
-              <span style={{ fontSize: 12, fontWeight: 500 }}>
-                {message.ownerMessage.firstName ?? "Undefined"}
-              </span>
-              <Message
-                type="image"
-                model={{
-                  direction: messageDirectionSelector(message.isMessageOwner),
-                  position: "single",
-                  sentTime: dayjs(message.createdAt).format("HH:mm"),
-                }}
-              >
-                {message.uploadUrl ? (
-                  <Message.CustomContent>
-                    <Image
-                      src={message.uploadUrl}
-                      style={{
-                        height: 150,
-                        objectFit: "cover",
-                      }}
-                    />
-                  </Message.CustomContent>
-                ) : (
-                  <Message.TextContent text="Image not found" />
-                )}
-              </Message>
-            </div>
-            <div className="message-meta">
-              {message.seen && <span className="message-read">Read</span>}
-              <span className="message-time">
-                {dayjs(message.createdAt).format("HH:mm")}
-              </span>
-            </div>
+        messageContent = message.uploadUrl ? (
+          <div className="message-image">
+            <Image
+              src={message.uploadUrl}
+              style={{
+                width: "100%",
+                height: "auto",
+                display: "block",
+              }}
+              preview={true}
+            />
           </div>
+        ) : (
+          <div className="message-text">Image not found</div>
         );
         break;
 
       case "file":
-        result = (
-          <div
-            className={
-              message.isMessageOwner ? "outgoingMessage" : "incomingMessage"
-            }
-          >
-            <div className="avatarInChatBoxContainer">
-              {message.ownerMessage.imageProfile ? (
-                <Avatar
-                  size={32}
-                  src={
-                    <Image
-                      preview={false}
-                      src={message.ownerMessage.imageProfile}
-                    />
-                  }
+        messageContent = message.uploadUrl ? (
+          <div className="message-file">
+            <a href={message.uploadUrl} download={message.message}>
+              <div className="file-download">
+                <DownloadOutlined style={{ fontSize: 16 }} />
+                <span style={{ marginLeft: 8 }}>
+                  {message.fileName !== "" ? message.fileName : "PDF File"}
+                </span>
+              </div>
+            </a>
+          </div>
+        ) : (
+          <div className="message-text">File not found</div>
+        );
+        break;
+
+      default:
+        messageContent = <div className="message-text">{message.message}</div>;
+    }
+
+    return (
+      <div key={message.id} className={`service-message ${messageClass}`}>
+        <div className="avatar-container">
+          {message.ownerMessage.imageProfile ? (
+            <Avatar
+              size={32}
+              src={
+                <Image
+                  preview={false}
+                  src={message.ownerMessage.imageProfile}
+                  fallback={fallbackImg}
                 />
-              ) : (
-                <Avatar size={32}>
-                  {message?.ownerMessage.firstName?.charAt(0).toUpperCase() ??
-                    "N"}
-                </Avatar>
-              )}
-            </div>
-            <div className="messageContainer">
-              <span style={{ fontSize: 12, fontWeight: 500 }}>
-                {message.ownerMessage.firstName ?? "Undefined"}
-              </span>
-              <Message
-                type="custom"
-                model={{
-                  direction: messageDirectionSelector(message.isMessageOwner),
-                  position: "single",
-                  sentTime: dayjs(message.createdAt).format("HH:mm"),
-                }}
-              >
-                {message.uploadUrl ? (
-                  <Message.CustomContent>
-                    <a href={message.uploadUrl} download={message.message}>
-                      <div className="fileMessage">
-                        <DownloadOutlined style={{ fontSize: 16 }} />
-                        {"  "}{" "}
-                        {message.fileName !== ""
-                          ? message.fileName
-                          : "PDF File"}
-                      </div>
-                    </a>
-                  </Message.CustomContent>
-                ) : (
-                  <Message.TextContent text="File not found" />
-                )}
-              </Message>
-            </div>
+              }
+            />
+          ) : (
+            <Avatar size={32}>
+              {message?.ownerMessage.firstName?.charAt(0).toUpperCase() ?? "N"}
+            </Avatar>
+          )}
+        </div>
+
+        <div className="message-wrapper">
+          <span className="message-owner">
+            {message.ownerMessage.firstName ?? "Undefined"}
+          </span>
+          <div className="message-content">
+            {messageContent}
             <div className="message-meta">
               {message.seen && <span className="message-read">Read</span>}
               <span className="message-time">
@@ -258,13 +168,21 @@ const ServiceChatBoxContainer = ({
               </span>
             </div>
           </div>
-        );
-        break;
+        </div>
+      </div>
+    );
+  };
 
-      default:
-        break;
-    }
-    return result;
+  const renderDateSeparator = (date: string) => {
+    return (
+      <div className="date-separator">
+        <div className="date-separator-line"></div>
+        <span className="date-separator-text">
+          {dayjs(date).format("DD/MMM/YYYY")}
+        </span>
+        <div className="date-separator-line"></div>
+      </div>
+    );
   };
 
   const resetMessageValue = () => {
@@ -278,23 +196,25 @@ const ServiceChatBoxContainer = ({
     }
   };
 
-  const onSendMessage = async (message: string) => {
+  const onSendMessage = async () => {
+    if (!chatData) return;
+
     let payload: SendServiceChatDataType;
     setIsSending(true);
-    let messagePayload = messageValue.replace(/&nbsp;/g, " ");
-    if (chatData && messagePayload.trim() !== "") {
+
+    const messagePayload = messageValue.replace(/&nbsp;/g, " ").trim();
+
+    if (messagePayload !== "") {
       payload = {
         type: "text",
         value: messagePayload,
         userId: chatData.userId,
         serviceId: chatData.serviceId,
       };
-      // console.log(payload);
-
       await postMessageMutation.mutateAsync(payload);
     }
 
-    if (chatData && base64 && fileType) {
+    if (base64 && fileType) {
       payload = {
         type: fileType,
         value: base64,
@@ -302,19 +222,13 @@ const ServiceChatBoxContainer = ({
         serviceId: chatData.serviceId,
         fileName: file?.name,
       };
-      // console.log(payload);
-
       await postMessageMutation.mutateAsync(payload);
     }
-    // console.log(chatData);
 
     setIsSending(false);
     resetMessageValue();
     updateChatData();
-  };
-
-  const formatDate = (date: string) => {
-    return dayjs(date).format("DD/MMM/YYYY");
+    setTimeout(scrollToBottom, 100);
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -323,16 +237,16 @@ const ServiceChatBoxContainer = ({
     setMessageValue("");
 
     const selectedFile = event.target.files?.[0];
-    // console.log(selectedFile);
 
     if (selectedFile) {
-      const fileSizeLimit = 3 * 1024 * 1024; // 5 MB
+      const fileSizeLimit = 3 * 1024 * 1024; // 3 MB
       const validFileTypes: any = {
         "image/jpeg": "image",
         "image/png": "image",
         "image/webp": "image",
         "application/pdf": "file",
       };
+
       if (!Object.keys(validFileTypes).includes(selectedFile.type)) {
         setError(
           "Invalid file type. Please select a JPG, PNG, WEBP image, or PDF."
@@ -369,8 +283,6 @@ const ServiceChatBoxContainer = ({
   };
 
   const onTypeMessage = (val: string) => {
-    // const replacedVal = val.replace(/&nbsp;/, " ");
-
     if (val.length <= 200) {
       setMessageValue(val);
     } else if (!isChatLimited) {
@@ -382,26 +294,29 @@ const ServiceChatBoxContainer = ({
   const onYReachStart = async () => {
     if (!shouldFetch && !isFirstTime) {
       console.log("no more chat data");
-    }
-    if (isMoreChatLoading) {
-      // console.log("isMoreChatLoading");
       return;
     }
+
+    if (isMoreChatLoading) {
+      return;
+    }
+
     if (isFirstTime) {
       setIsFirstTime(false);
       setShouldFetch(true);
-      // console.log("First Time => false and \nshould fetch => true");
       return;
     }
 
     if (shouldFetch) {
       setIsMoreChatLoading(true);
       await loadMoreServiceChatData();
+
       if (moreServiceChatData?.length === 0) {
         setShouldFetch(false);
         setIsMoreChatLoading(false);
         return;
       }
+
       dispatch.chat.updateCurPageChatData(curPageChatData + 1);
       await queryClient.setQueryData(
         ["serviceChatDataByID", chatData?.serviceId.toString() ?? ""],
@@ -413,125 +328,160 @@ const ServiceChatBoxContainer = ({
     }
   };
 
-  const tagColorSelector = (status: string) => {
-    switch (status) {
-      case "Pending":
-        return "red";
-      case "Repairing":
-        return "orange";
-      case "Success":
-        return "green";
-      default:
-        return "black";
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (canSend()) {
+        onSendMessage();
+      }
     }
+  };
+
+  const canSend = () => {
+    return (
+      (messageValue !== "" && messageValue !== "<br>" && !isSending) ||
+      (base64 !== null && !isSending)
+    );
   };
 
   // Actions
   useEffect(() => {
-    // console.log(chatData);
     resetMessageValue();
     updateChatData();
     dispatch.chat.updateCurPageChatData(2);
     setIsFirstTime(true);
   }, [chatData]);
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatDataById]);
+
   return (
     <>
       {chatData ? (
-        <>
+        <div className="service-chat-main-container">
           <input
             type="file"
             onChange={handleFileChange}
             style={{ display: "none" }}
             ref={fileInputRef}
           />
-          <MainContainer responsive>
-            <ChatContainer className="rightSideContainer">
-              <ConversationHeader className="chatBoxHeader">
-                <ConversationHeader.Content
-                  userName={`${chatData.serviceType} (${chatData.roomAddress})`}
-                  className="titleChatName"
-                />
-              </ConversationHeader>
-              <MessageList
-                loadingMore={isMoreChatLoading}
-                onYReachStart={onYReachStart}
-              >
-                {isChatDataByIDLoading ? (
-                  <div style={{ textAlign: "center", marginTop: "20px" }}>
-                    <Spin />
-                  </div>
-                ) : chatDataById ? (
-                  <>
-                    {chatDataById
-                      .slice()
-                      .reverse()
-                      .map((item, index) => {
-                        const messageDate = dayjs(item.createdAt).format(
-                          "DD/MMM/YYYY"
-                        );
-                        const showSeparator = messageDate !== lastDate;
-                        lastDate = messageDate;
 
-                        return (
-                          <div key={index}>
-                            {showSeparator && (
-                              <MessageSeparator
-                                content={formatDate(item.createdAt)}
-                              />
-                            )}
-                            {messageController(item)}
-                          </div>
-                        );
-                      })}
-                  </>
+          {/* Chat Section */}
+          <div className="service-chat-container">
+            {/* Chat Header */}
+            <div className="chat-header">
+              <div className="chat-header-content">
+                <h3 className="chat-title">
+                  {`${chatData.serviceType} (${chatData.roomAddress})`}
+                </h3>
+              </div>
+            </div>
+
+            {/* Messages List */}
+            <div
+              className="service-message-list"
+              ref={messageListRef}
+              onScroll={handleScroll}>
+              {isMoreChatLoading && (
+                <div className="loading-more">
+                  <Spin size="small" />
+                  <span>Loading more messages...</span>
+                </div>
+              )}
+
+              {isChatDataByIDLoading ? (
+                <div className="loading-container">
+                  <Spin />
+                </div>
+              ) : chatDataById ? (
+                <>
+                  {chatDataById
+                    .slice()
+                    .reverse()
+                    .map((item, index) => {
+                      const messageDate = dayjs(item.createdAt).format(
+                        "DD/MMM/YYYY"
+                      );
+                      const showSeparator = messageDate !== lastDate;
+                      lastDate = messageDate;
+
+                      return (
+                        <div key={index}>
+                          {showSeparator && renderDateSeparator(item.createdAt)}
+                          {renderMessage(item)}
+                        </div>
+                      );
+                    })}
+                </>
+              ) : null}
+            </div>
+
+            {/* File Preview */}
+            {(file || error) && (
+              <Row style={{ padding: "4px 16px" }}>
+                {file ? (
+                  <Tag
+                    className="file-tag"
+                    onClick={() => resetMessageValue()}
+                    color={whiteLabel.successColor}
+                    style={{ cursor: "pointer" }}>
+                    {file.name}
+                    <TrashIcon
+                      color={whiteLabel.whiteColor}
+                      style={{ marginLeft: 4, width: 16, height: 16 }}
+                    />
+                  </Tag>
+                ) : error ? (
+                  <Tag color={whiteLabel.dangerColor}>{error}</Tag>
                 ) : null}
-              </MessageList>
-              <MessageInput
-                onAttachClick={handleButtonClick}
-                onChange={onTypeMessage}
-                onSend={onSendMessage}
-                placeholder="Type message here"
-                value={messageValue}
-                sendDisabled={
-                  (messageValue !== "" &&
-                    messageValue !== "<br>" &&
-                    !isSending) ||
-                  (base64 !== null && !isSending)
-                    ? false
-                    : true
-                }
-                onPaste={(e) => {
-                  e.preventDefault();
-                  const text = e.clipboardData.getData("text/plain");
-                  setMessageValue(text);
-                }}
-              />
-            </ChatContainer>
-            <Sidebar position="right">
-              <ServiceCenterChatManage chatData={chatData} />
-            </Sidebar>
-          </MainContainer>
-          <Row style={{ padding: "4px 0 12px" }}>
-            {file ? (
-              <Tag
-                className="tagControl"
-                onClick={() => resetMessageValue()}
-                color={whiteLabel.successColor}
-              >
-                {file.name}
-                <TrashIcon
-                  color={whiteLabel.whiteColor}
-                  className="fileDeleteIcon"
+              </Row>
+            )}
+
+            {/* Message Input */}
+            <div className="message-input-container">
+              <div className="message-input-wrapper">
+                <Button
+                  type="text"
+                  icon={<PaperClipOutlined />}
+                  onClick={handleButtonClick}
+                  className="attachment-button"
                 />
-              </Tag>
-            ) : error ? (
-              <Tag color={whiteLabel.dangerColor}>{error}</Tag>
-            ) : null}
-          </Row>
-        </>
+
+                <textarea
+                  ref={messageInputRef}
+                  className="message-textarea"
+                  placeholder="Type message here"
+                  value={messageValue}
+                  onChange={(e) => onTypeMessage(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  rows={1}
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    const text = e.clipboardData.getData("text/plain");
+                    setMessageValue(text);
+                  }}
+                />
+
+                <Button
+                  type="primary"
+                  icon={<SendOutlined />}
+                  onClick={onSendMessage}
+                  disabled={!canSend()}
+                  loading={isSending}
+                  className="send-button"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="service-chat-sidebar">
+            <ServiceCenterChatManage chatData={chatData} />
+          </div>
+        </div>
       ) : (
-        <div className="emptyContainer">
+        <div className="empty-container">
           <Empty />
         </div>
       )}

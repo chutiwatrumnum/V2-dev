@@ -183,7 +183,7 @@
     .detailItem {
       width: 100%;
       padding: 20px;
-      background: var(--whiteTrans-color);
+      background: var(--white-color);
     }
   }
 }

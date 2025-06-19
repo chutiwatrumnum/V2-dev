@@ -1,21 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
-  ChatContainer,
-  MessageList,
-  Message,
-  MessageInput,
-  ConversationHeader,
-  MessageSeparator,
-} from "@chatscope/chat-ui-kit-react";
-import {
-  ChatListDataType,
-  ChatDataType,
-  SendChatDataType,
-} from "../../../stores/interfaces/Chat";
-import { DownloadOutlined } from "@ant-design/icons";
+  DownloadOutlined,
+  SendOutlined,
+  PaperClipOutlined,
+} from "@ant-design/icons";
 import { whiteLabel } from "../../../configs/theme";
-import { Empty, Image, Row, Tag, Spin, message } from "antd";
+import { Empty, Image, Row, Tag, Spin, message, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, RootState } from "../../../stores";
 import dayjs from "dayjs";
@@ -26,15 +16,22 @@ import {
 } from "../../../utils/queries";
 import { postMessageByJuristicMutation } from "../../../utils/mutations";
 import { useQueryClient } from "@tanstack/react-query";
+import {
+  ChatListDataType,
+  ChatDataType,
+  SendChatDataType,
+} from "../../../stores/interfaces/Chat";
 
-import "../styles/chatRoom.css";
-import "../styles/chatLibControl.css";
+import "../styles/customChatBox.css";
 
 const ChatBoxContainer = ({ chatData }: { chatData?: ChatListDataType }) => {
   // Variables
   const dispatch = useDispatch<Dispatch>();
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const messageListRef = useRef<HTMLDivElement>(null);
+  const messageInputRef = useRef<HTMLTextAreaElement>(null);
+
   const { curPageChatData } = useSelector((state: RootState) => state.chat);
   const [file, setFile] = useState<File | null>(null);
   const [base64, setBase64] = useState<string | null>(null);
@@ -53,135 +50,109 @@ const ChatBoxContainer = ({ chatData }: { chatData?: ChatListDataType }) => {
     isLoading: isChatDataByIDLoading,
     refetch: updateChatData,
   } = getChatDataByIDQuery({ id: chatData?.userId ?? "" });
+
   const { data: moreChatData, refetch: loadMoreChatData } =
     getMoreChatDataByIDQuery({
       id: chatData?.userId ?? "",
       curPage: curPageChatData.toString(),
       shouldFetch: shouldFetch,
     });
+
   const postMessageMutation = postMessageByJuristicMutation();
 
   let lastDate = "";
 
   // Functions
-  const messageDirectionSelector = (direction: boolean | string) => {
-    if (direction) return "outgoing";
-    return "incoming";
+  const scrollToBottom = () => {
+    if (messageListRef.current) {
+      messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+    }
   };
 
-  const messageController = (message: ChatDataType) => {
-    let result = null;
-    // console.log(message);
+  const handleScroll = async () => {
+    if (messageListRef.current) {
+      const { scrollTop } = messageListRef.current;
+      if (scrollTop === 0) {
+        await onYReachStart();
+      }
+    }
+  };
+
+  const renderMessage = (message: ChatDataType) => {
+    const isOwner = message.isMessageOwner;
+    const messageClass = isOwner ? "message-outgoing" : "message-incoming";
+
+    let messageContent = null;
 
     switch (message.messageType) {
       case "text":
-        result = (
-          <div
-            className={
-              message.isMessageOwner ? "outgoingMessage" : "incomingMessage"
-            }
-          >
-            <Message
-              type="text"
-              model={{
-                direction: messageDirectionSelector(message.isMessageOwner),
-                message: message.message,
-                position: "single",
-                sentTime: dayjs(message.createdAt).format("HH:mm"),
-              }}
-            />
-            <div className="message-meta">
-              {message.seen && <span className="message-read">Read</span>}
-              <span className="message-time">
-                {dayjs(message.createdAt).format("HH:mm")}
-              </span>
-            </div>
-          </div>
-        );
+        messageContent = <div className="message-text">{message.message}</div>;
         break;
 
       case "image":
-        result = (
-          <div
-            className={
-              message.isMessageOwner ? "outgoingMessage" : "incomingMessage"
-            }
-          >
-            <Message
-              type="image"
-              model={{
-                direction: messageDirectionSelector(message.isMessageOwner),
-                position: "single",
-                sentTime: dayjs(message.createdAt).format("HH:mm"),
+        messageContent = message.uploadUrl ? (
+          <div className="message-image">
+            <Image
+              src={message.uploadUrl}
+              style={{
+                width: "100%",
+                height: "auto",
+                display: "block",
               }}
-            >
-              {message.uploadUrl ? (
-                <Message.CustomContent>
-                  <Image
-                    src={message.uploadUrl}
-                    style={{
-                      height: 200,
-                      objectFit: "cover",
-                    }}
-                  />
-                </Message.CustomContent>
-              ) : (
-                <Message.TextContent text="Image not found" />
-              )}
-            </Message>
-            <div className="message-meta">
-              {message.seen && <span className="message-read">Read</span>}
-              <span className="message-time">
-                {dayjs(message.createdAt).format("HH:mm")}
-              </span>
-            </div>
+              preview={true}
+            />
           </div>
+        ) : (
+          <div className="message-text">Image not found</div>
         );
         break;
 
       case "file":
-        result = (
-          <div
-            className={
-              message.isMessageOwner ? "outgoingMessage" : "incomingMessage"
-            }
-          >
-            <Message
-              type="custom"
-              model={{
-                direction: messageDirectionSelector(message.isMessageOwner),
-                position: "single",
-                sentTime: dayjs(message.createdAt).format("HH:mm"),
-              }}
-            >
-              {message.uploadUrl ? (
-                <Message.CustomContent>
-                  <a href={message.uploadUrl} download={message.message}>
-                    <div className="fileMessage">
-                      <DownloadOutlined style={{ fontSize: 16 }} />
-                      {"  "}{" "}
-                      {message.fileName !== "" ? message.fileName : "PDF File"}
-                    </div>
-                  </a>
-                </Message.CustomContent>
-              ) : (
-                <Message.TextContent text="File not found" />
-              )}
-            </Message>
-            <div className="message-meta">
-              {message.seen && <span className="message-read">Read</span>}
-              <span className="message-time">
-                {dayjs(message.createdAt).format("HH:mm")}
-              </span>
-            </div>
+        messageContent = message.uploadUrl ? (
+          <div className="message-file">
+            <a href={message.uploadUrl} download={message.message}>
+              <div className="file-download">
+                <DownloadOutlined style={{ fontSize: 16 }} />
+                <span style={{ marginLeft: 8 }}>
+                  {message.fileName !== "" ? message.fileName : "PDF File"}
+                </span>
+              </div>
+            </a>
           </div>
+        ) : (
+          <div className="message-text">File not found</div>
         );
         break;
 
       default:
-        break;
+        messageContent = <div className="message-text">{message.message}</div>;
     }
-    return result;
+
+    return (
+      <div key={message.messageId} className={`message ${messageClass}`}>
+        <div className="message-content">
+          {messageContent}
+          <div className="message-meta">
+            {message.seen && <span className="message-read">Read</span>}
+            <span className="message-time">
+              {dayjs(message.createdAt).format("HH:mm")}
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderDateSeparator = (date: string) => {
+    return (
+      <div className="date-separator">
+        <div className="date-separator-line"></div>
+        <span className="date-separator-text">
+          {dayjs(date).format("DD/MMM/YYYY")}
+        </span>
+        <div className="date-separator-line"></div>
+      </div>
+    );
   };
 
   const resetMessageValue = () => {
@@ -195,40 +166,37 @@ const ChatBoxContainer = ({ chatData }: { chatData?: ChatListDataType }) => {
     }
   };
 
-  const onSendMessage = async (message: string) => {
+  const onSendMessage = async () => {
+    if (!chatData) return;
+
     let payload: SendChatDataType;
     setIsSending(true);
-    let messagePayload = messageValue.replace(/&nbsp;/g, " ");
-    if (chatData && messagePayload.trim() !== "") {
+
+    const messagePayload = messageValue.replace(/&nbsp;/g, " ").trim();
+
+    if (messagePayload !== "") {
       payload = {
         type: "text",
         value: messagePayload,
         userId: chatData.userId,
       };
-      // console.log(payload);
-
       await postMessageMutation.mutateAsync(payload);
     }
 
-    if (chatData && base64 && fileType) {
+    if (base64 && fileType) {
       payload = {
         type: fileType,
         value: base64,
         userId: chatData.userId,
         fileName: file?.name,
       };
-      // console.log(payload);
-
       await postMessageMutation.mutateAsync(payload);
     }
 
     setIsSending(false);
     resetMessageValue();
     updateChatData();
-  };
-
-  const formatDate = (date: string) => {
-    return dayjs(date).format("DD/MMM/YYYY");
+    setTimeout(scrollToBottom, 100);
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -237,16 +205,16 @@ const ChatBoxContainer = ({ chatData }: { chatData?: ChatListDataType }) => {
     setMessageValue("");
 
     const selectedFile = event.target.files?.[0];
-    // console.log(selectedFile);
 
     if (selectedFile) {
-      const fileSizeLimit = 3 * 1024 * 1024; // 5 MB
+      const fileSizeLimit = 3 * 1024 * 1024; // 3 MB
       const validFileTypes: any = {
         "image/jpeg": "image",
         "image/png": "image",
         "image/webp": "image",
         "application/pdf": "file",
       };
+
       if (!Object.keys(validFileTypes).includes(selectedFile.type)) {
         setError(
           "Invalid file type. Please select a JPG, PNG, WEBP image, or PDF."
@@ -273,7 +241,7 @@ const ChatBoxContainer = ({ chatData }: { chatData?: ChatListDataType }) => {
       setBase64(reader.result as string);
       setMessageValue(" ");
     };
-    reader.onerror = (error) => {
+    reader.onerror = () => {
       setError("Error converting file to base64.");
     };
   };
@@ -294,11 +262,13 @@ const ChatBoxContainer = ({ chatData }: { chatData?: ChatListDataType }) => {
   const onYReachStart = async () => {
     if (!shouldFetch && !isFirstTime) {
       console.log("no more chat data");
-    }
-    if (isMoreChatLoading) {
-      // console.log("isMoreChatLoading");
       return;
     }
+
+    if (isMoreChatLoading) {
+      return;
+    }
+
     if (isFirstTime) {
       setIsFirstTime(false);
       setShouldFetch(true);
@@ -308,11 +278,13 @@ const ChatBoxContainer = ({ chatData }: { chatData?: ChatListDataType }) => {
     if (shouldFetch) {
       setIsMoreChatLoading(true);
       await loadMoreChatData();
+
       if (moreChatData?.length === 0) {
         setShouldFetch(false);
         setIsMoreChatLoading(false);
         return;
       }
+
       dispatch.chat.updateCurPageChatData(curPageChatData + 1);
       await queryClient.setQueryData(
         ["chatDataByID", chatData?.userId],
@@ -324,6 +296,22 @@ const ChatBoxContainer = ({ chatData }: { chatData?: ChatListDataType }) => {
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (canSend()) {
+        onSendMessage();
+      }
+    }
+  };
+
+  const canSend = () => {
+    return (
+      (messageValue !== "" && messageValue !== "<br>" && !isSending) ||
+      (base64 !== null && !isSending)
+    );
+  };
+
   // Actions
   useEffect(() => {
     resetMessageValue();
@@ -332,105 +320,128 @@ const ChatBoxContainer = ({ chatData }: { chatData?: ChatListDataType }) => {
     setIsFirstTime(true);
   }, [chatData]);
 
-  // useImperativeHandle(ref, () => ({
-  //   async handleIncomingChat() {
-  //     console.log("Handle incoming chat in ChatBoxContainer");
-  //     await updateChatData();
-  //   },
-  // }));
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatDataById]);
 
   return (
     <>
       {chatData ? (
-        <>
+        <div className="chat-container">
           <input
             type="file"
             onChange={handleFileChange}
             style={{ display: "none" }}
             ref={fileInputRef}
           />
-          <ChatContainer className="rightSideContainer">
-            <ConversationHeader className="chatBoxHeader">
-              <ConversationHeader.Content
-                userName={`${chatData?.firstName} ${chatData?.lastName} (${chatData?.roomAddress})`}
-                className="titleChatName"
-              />
-            </ConversationHeader>
-            <MessageList
-              loadingMore={isMoreChatLoading}
-              onYReachStart={onYReachStart}
-            >
-              {isChatDataByIDLoading ? (
-                <div style={{ textAlign: "center", marginTop: "20px" }}>
-                  <Spin />
-                </div>
-              ) : chatDataById ? (
-                <>
-                  {chatDataById
-                    .slice()
-                    .reverse()
-                    .map((item, index) => {
-                      const messageDate = dayjs(item.createdAt).format(
-                        "DD/MMM/YYYY"
-                      );
-                      const showSeparator = messageDate !== lastDate;
-                      lastDate = messageDate;
 
-                      return (
-                        <div key={index}>
-                          {showSeparator && (
-                            <MessageSeparator
-                              content={formatDate(item.createdAt)}
-                            />
-                          )}
-                          {messageController(item)}
-                        </div>
-                      );
-                    })}
-                </>
-              ) : null}
-            </MessageList>
-            <MessageInput
-              onAttachClick={handleButtonClick}
-              onChange={onTypeMessage}
-              onSend={onSendMessage}
-              placeholder="Type message here"
-              value={messageValue}
-              sendDisabled={
-                (messageValue !== "" &&
-                  messageValue !== "<br>" &&
-                  !isSending) ||
-                (base64 !== null && !isSending)
-                  ? false
-                  : true
-              }
-              onPaste={(e) => {
-                e.preventDefault();
-                const text = e.clipboardData.getData("text/plain");
-                setMessageValue(text);
-              }}
-            />
-          </ChatContainer>
-          <Row style={{ padding: "4px 0 12px" }}>
-            {file ? (
-              <Tag
-                className="tagControl"
-                onClick={() => resetMessageValue()}
-                color={whiteLabel.successColor}
-              >
-                {file.name}
-                <TrashIcon
-                  color={whiteLabel.whiteColor}
-                  className="fileDeleteIcon"
-                />
-              </Tag>
-            ) : error ? (
-              <Tag color={whiteLabel.dangerColor}>{error}</Tag>
+          {/* Chat Header */}
+          <div className="chat-header">
+            <div className="chat-header-content">
+              <h3 className="chat-title">
+                {`${chatData?.firstName} ${chatData?.lastName} (${chatData?.roomAddress})`}
+              </h3>
+            </div>
+          </div>
+
+          {/* Messages List */}
+          <div
+            className="message-list"
+            ref={messageListRef}
+            onScroll={handleScroll}>
+            {isMoreChatLoading && (
+              <div className="loading-more">
+                <Spin size="small" />
+                <span>Loading more messages...</span>
+              </div>
+            )}
+
+            {isChatDataByIDLoading ? (
+              <div className="loading-container">
+                <Spin />
+              </div>
+            ) : chatDataById ? (
+              <>
+                {chatDataById
+                  .slice()
+                  .reverse()
+                  .map((item, index) => {
+                    const messageDate = dayjs(item.createdAt).format(
+                      "DD/MMM/YYYY"
+                    );
+                    const showSeparator = messageDate !== lastDate;
+                    lastDate = messageDate;
+
+                    return (
+                      <div key={index}>
+                        {showSeparator && renderDateSeparator(item.createdAt)}
+                        {renderMessage(item)}
+                      </div>
+                    );
+                  })}
+              </>
             ) : null}
-          </Row>
-        </>
+          </div>
+
+          {/* File Preview */}
+          {(file || error) && (
+            <Row style={{ padding: "4px 16px" }}>
+              {file ? (
+                <Tag
+                  className="file-tag"
+                  onClick={() => resetMessageValue()}
+                  color={whiteLabel.successColor}
+                  style={{ cursor: "pointer" }}>
+                  {file.name}
+                  <TrashIcon
+                    color={whiteLabel.whiteColor}
+                    style={{ marginLeft: 4, width: 16, height: 16 }}
+                  />
+                </Tag>
+              ) : error ? (
+                <Tag color={whiteLabel.dangerColor}>{error}</Tag>
+              ) : null}
+            </Row>
+          )}
+
+          {/* Message Input */}
+          <div className="message-input-container">
+            <div className="message-input-wrapper">
+              <Button
+                type="text"
+                icon={<PaperClipOutlined />}
+                onClick={handleButtonClick}
+                className="attachment-button"
+              />
+
+              <textarea
+                ref={messageInputRef}
+                className="message-textarea"
+                placeholder="Type message here"
+                value={messageValue}
+                onChange={(e) => onTypeMessage(e.target.value)}
+                onKeyPress={handleKeyPress}
+                rows={1}
+                onPaste={(e) => {
+                  e.preventDefault();
+                  const text = e.clipboardData.getData("text/plain");
+                  setMessageValue(text);
+                }}
+              />
+
+              <Button
+                type="primary"
+                icon={<SendOutlined />}
+                onClick={onSendMessage}
+                disabled={!canSend()}
+                loading={isSending}
+                className="send-button"
+              />
+            </div>
+          </div>
+        </div>
       ) : (
-        <div className="emptyContainer">
+        <div className="empty-container">
           <Empty />
         </div>
       )}
