@@ -1,4 +1,4 @@
-export const MODE = "dev"; // dev, prod
+export const MODE = "prod"; // dev, prod
 
 /*
 0 = DEV

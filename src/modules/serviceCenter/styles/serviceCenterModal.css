@@ -1,0 +1,123 @@
+/* Service Center Edit Modal Styles */
+
+.announceFormModal {
+  width: 90% !important;
+  max-width: 1400px !important;
+}
+
+.announceFormModal .ant-modal-body {
+  padding: 24px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.announceModalColumn {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.announceModalContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.announceModalContainer > .announceModalColumn {
+  flex: 1;
+  padding: 0 10px;
+}
+
+.announceModalContainer > .announceModalColumn:first-child {
+  padding-left: 0;
+}
+
+.announceModalContainer > .announceModalColumn:last-child {
+  padding-right: 0;
+}
+
+/* Form Items */
+.announceModalColumn .ant-form-item {
+  margin-bottom: 16px;
+}
+
+.announceModalColumn .ant-form-item-label > label {
+  font-weight: var(--font-semibold);
+  color: var(--black-color);
+}
+
+/* Save Button */
+.saveButton {
+  align-self: flex-end;
+  margin-top: 20px;
+  min-width: 120px;
+}
+
+/* Image Upload Sections */
+.announceModalColumn .ant-upload-wrapper {
+  margin-bottom: 16px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .announceModalContainer {
+    flex-direction: column;
+  }
+
+  .announceFormModal {
+    width: 95% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .announceFormModal .ant-modal-body {
+    padding: 16px;
+  }
+
+  .announceModalContainer {
+    gap: 12px;
+  }
+
+  .announceModalContainer > .announceModalColumn {
+    padding: 0;
+  }
+}
+
+/* Status specific styling */
+.ant-select-disabled .ant-select-selector {
+  background-color: var(--lightGray-color) !important;
+  cursor: not-allowed;
+}
+
+.ant-picker-disabled {
+  background-color: var(--lightGray-color) !important;
+  cursor: not-allowed;
+}
+
+.ant-input-disabled,
+.ant-input-disabled:hover {
+  background-color: var(--lightGray-color) !important;
+  cursor: not-allowed;
+  color: var(--gray-color);
+}
+
+/* Image Gallery Styles */
+.announceModalColumn > span {
+  display: block;
+  margin-bottom: 8px;
+  font-size: var(--font-size-sm);
+}
+
+.ant-upload-list-picture-card .ant-upload-list-item {
+  border-radius: 8px;
+}
+
+.ant-upload.ant-upload-select-picture-card {
+  border-radius: 8px;
+  border-color: var(--gray-color);
+}
+
+.ant-upload.ant-upload-select-picture-card:hover {
+  border-color: var(--primary-color);
+}
